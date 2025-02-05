@@ -2,6 +2,8 @@ import { iPageAble, Pageable } from './../../interfaces/i-page-able';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { iProduct } from '../../interfaces/i-product';
+import { iCategory } from '../../interfaces/i-category';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-shop-page',
@@ -10,6 +12,9 @@ import { iProduct } from '../../interfaces/i-product';
 })
 export class ShopPageComponent implements OnInit {
   product!: iProduct[];
+  categoryArr!: iCategory[];
+  minPriceArr: number[] = [50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500];
+  maxPriceArr: number[] = [50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500];
 
   // pageable
   pageable!: iPageAble;
@@ -20,10 +25,14 @@ export class ShopPageComponent implements OnInit {
   minPrice?: number;
   maxPrice?: number;
 
-  constructor(private prodSvc: ProductsService) {}
+  constructor(
+    private prodSvc: ProductsService,
+    private categorySvc: CategoryService
+  ) {}
 
   ngOnInit(): void {
     this.onLoad();
+    this.loadCategory();
   }
 
   onLoad(): void {
@@ -64,5 +73,12 @@ export class ShopPageComponent implements OnInit {
   filter() {
     this.currentPage = 0;
     this.onLoad();
+  }
+
+  loadCategory() {
+    this.categorySvc.getAllCategory().subscribe((result) => {
+      this.categoryArr = result;
+      console.log(result);
+    });
   }
 }

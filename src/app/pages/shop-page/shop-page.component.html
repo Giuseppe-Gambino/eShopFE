@@ -20,6 +20,7 @@
 <div class="grid grid-cols-12 gap-4 mt-5">
   <!-- side filtri -->
   <div class="col-span-12 md:col-span-3 hidden sm:block">
+    <h4>Fitra Prodotti</h4>
     <!-- contenitore filtri -->
     <div class="sticky top-12 pt-5">
       <label class="input input-bordered flex items-center gap-2">
@@ -34,7 +35,7 @@
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           fill="currentColor"
-          class="h-4 w-4 opacity-70"
+          class="h-4 w-4 opacity-70 hover:cursor-pointer stroke-white hover:scale-125"
         >
           <path
             fill-rule="evenodd"
@@ -43,12 +44,49 @@
           />
         </svg>
       </label>
+      <!-- input select -->
+      <label class="form-control w-full max-w-xs mt-3">
+        <div class="label">
+          <span class="label-text">Select the category</span>
+        </div>
+        <select [(ngModel)]="category" class="select select-bordered">
+          <option value="" selected>Pick one</option>
+          <option value="{{ cat.name }}" *ngFor="let cat of categoryArr">
+            {{ cat.name }}
+          </option>
+        </select>
+      </label>
+      <!-- price min/max -->
+      <div class="flex">
+        <label class="form-control w-1/2 pe-1 max-w-xs mt-3">
+          <div class="label">
+            <span class="label-text">Min Price:</span>
+          </div>
+          <select [(ngModel)]="minPrice" class="select select-bordered">
+            <option value="" selected>Pick one</option>
+            <option value="{{ price }}" *ngFor="let price of minPriceArr">
+              {{ price }}
+            </option>
+          </select>
+        </label>
+        <label class="form-control w-1/2 ps-1 max-w-xs mt-3">
+          <div class="label">
+            <span class="label-text">Max Price:</span>
+          </div>
+          <select [(ngModel)]="maxPrice" class="select select-bordered">
+            <option value="" selected>Pick one</option>
+            <option value="{{ price }}" *ngFor="let price of maxPriceArr">
+              {{ price }}
+            </option>
+          </select>
+        </label>
+      </div>
     </div>
   </div>
   <!-- contenitore contenuto -->
   <div class="col-span-12 md:col-span-9">
     <!-- contenuto -->
-    <div class="flex flex-wrap gap-5 justify-center">
+    <div class="flex flex-wrap gap-5 sm:ms-5">
       <div
         *ngFor="let item of product"
         class="card card-compact bg-base-100 w-64 h-72 shadow-xl"
@@ -60,7 +98,7 @@
           <h2 class="card-title">{{ item.name }}</h2>
           <p class="truncate">{{ item.description }}</p>
           <div class="card-actions justify-end">
-            <button class="btn btn-primary">Buy Now</button>
+            <button class="btn btn-sm btn-primary">Add to cart</button>
           </div>
         </div>
       </div>
