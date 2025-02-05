@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuestGuard } from './auth/guards/guest.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,12 +14,52 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
-  { path: 'cart', loadChildren: () => import('./pages/cart/cart.module').then(m => m.CartModule) },
-  { path: 'myProfile', loadChildren: () => import('./pages/my-profile/my-profile.module').then(m => m.MyProfileModule) },
-  { path: 'shopPage', loadChildren: () => import('./pages/shop-page/shop-page.module').then(m => m.ShopPageModule) },
-  { path: 'adminPage', loadChildren: () => import('./pages/admin-page/admin-page.module').then(m => m.AdminPageModule) },
-  { path: 'sellerDashboard', loadChildren: () => import('./pages/seller-dashboard/seller-dashboard.module').then(m => m.SellerDashboardModule) },
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('./pages/cart/cart.module').then((m) => m.CartModule),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: 'myProfile',
+    loadChildren: () =>
+      import('./pages/my-profile/my-profile.module').then(
+        (m) => m.MyProfileModule
+      ),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: 'shopPage',
+    loadChildren: () =>
+      import('./pages/shop-page/shop-page.module').then(
+        (m) => m.ShopPageModule
+      ),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: 'adminPage',
+    loadChildren: () =>
+      import('./pages/admin-page/admin-page.module').then(
+        (m) => m.AdminPageModule
+      ),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: 'sellerDashboard',
+    loadChildren: () =>
+      import('./pages/seller-dashboard/seller-dashboard.module').then(
+        (m) => m.SellerDashboardModule
+      ),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
 ];
 
 @NgModule({

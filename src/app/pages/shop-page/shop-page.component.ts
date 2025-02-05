@@ -47,9 +47,6 @@ export class ShopPageComponent implements OnInit {
       .subscribe((result) => {
         this.pageable = result;
         this.product = result.content;
-        console.log(result);
-
-        console.log(this.product);
       });
   }
 
@@ -78,7 +75,6 @@ export class ShopPageComponent implements OnInit {
   loadCategory() {
     this.categorySvc.getAllCategory().subscribe((result) => {
       this.categoryArr = result;
-      console.log(result);
     });
   }
 }

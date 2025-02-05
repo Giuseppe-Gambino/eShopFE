@@ -1,9 +1,10 @@
-<div class="navbar bg-base-100 sticky top-0 z-50">
+<div class="navbar bg-base-100 sticky top-0 z-40">
   <div class="flex-none">
     <a class="btn btn-ghost text-xl">STRIDE</a>
   </div>
+  <!-- navbar -->
   <div class="flex-1 justify-center">
-    <div role="tablist" class="tabs tabs-boxed">
+    <div *ngIf="isLoggedIn" role="tablist" class="tabs tabs-boxed">
       <a
         role="tab"
         routerLink=""
@@ -19,11 +20,7 @@
         class="tab"
         >Products</a
       >
-      <a
-        role="tab"
-        routerLink="/about"
-        routerLinkActive="tab-active"
-        class="tab"
+      <a role="tab" routerLink="/" routerLinkActive="tab-active" class="tab"
         >About Us</a
       >
     </div>
@@ -60,7 +57,8 @@
         />
       </svg>
     </label>
-    <div class="dropdown dropdown-end">
+    <!-- cart -->
+    <div *ngIf="isLoggedIn" class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
         <div class="indicator">
           <svg
@@ -93,7 +91,8 @@
         </div>
       </div>
     </div>
-    <div class="dropdown dropdown-end">
+    <!-- profile -->
+    <div *ngIf="isLoggedIn" class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <img
@@ -113,8 +112,28 @@
           </a>
         </li>
         <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+        <li *ngIf="isLoggedIn"><a (click)="logOut()">Logout</a></li>
       </ul>
     </div>
+  </div>
+  <div
+    role="alert"
+    class="alert alert-info absolute z-50"
+    [ngClass]="{ hidden: !logOutBoo }"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      class="h-6 w-6 shrink-0 stroke-current"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      ></path>
+    </svg>
+    <span>Log out effettuato con successo!.</span>
   </div>
 </div>
