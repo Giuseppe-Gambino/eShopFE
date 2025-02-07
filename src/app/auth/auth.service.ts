@@ -30,7 +30,7 @@ export class AuthService {
     .pipe(map((accessData) => accessData?.user));
 
   constructor(private http: HttpClient, private router: Router) {
-    // this.restoreUser();
+    this.restoreUser();
   }
 
   register(userData: Partial<iUser>) {
@@ -87,17 +87,17 @@ export class AuthService {
     }
   }
 
-  // restoreUser() {
-  //   const userJson: string | null = localStorage.getItem('accessData');
-  //   if (!userJson) return;
+  restoreUser() {
+    const userJson: string | null = localStorage.getItem('accessData');
+    if (!userJson) return;
 
-  //   const accessData: iAccessData = JSON.parse(userJson);
-  //   // Controlla se accessData.token esiste e se il token è scaduto
-  //   if (!accessData.token || this.jwtHelper.isTokenExpired(accessData.token)) {
-  //     localStorage.removeItem('accessData');
-  //     return;
-  //   }
+    const accessData: iAccessData = JSON.parse(userJson);
+    // Controlla se accessData.token esiste e se il token è scaduto
+    if (!accessData.token || this.jwtHelper.isTokenExpired(accessData.token)) {
+      localStorage.removeItem('accessData');
+      return;
+    }
 
-  //   this.authSubject$.next(accessData);
-  // }
+    this.authSubject$.next(accessData);
+  }
 }

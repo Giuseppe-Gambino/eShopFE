@@ -44,8 +44,6 @@ export class ProductsService {
       params = params.set('maxPrice', maxPrice);
     }
 
-    console.log(params.toString());
-
     return this.http.get<iPageAble>(this.productPageUrl, { params });
   }
 

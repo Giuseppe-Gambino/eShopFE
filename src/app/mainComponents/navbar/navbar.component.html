@@ -1,4 +1,6 @@
-<div class="navbar bg-base-100 sticky top-0 z-40">
+<div
+  class="navbar bg-base-100 sticky top-0 z-40 shadow-lg border border-base-200 rounded-2xl mt-2"
+>
   <div class="flex-none">
     <a class="btn btn-ghost text-xl">STRIDE</a>
   </div>
@@ -10,17 +12,21 @@
         routerLink=""
         routerLinkActive="tab-active"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="tab"
+        class="tab mx-1"
         >Home</a
       >
       <a
         role="tab"
         routerLink="/shopPage"
         routerLinkActive="tab-active"
-        class="tab"
+        class="tab mx-1"
         >Products</a
       >
-      <a role="tab" routerLink="/" routerLinkActive="tab-active" class="tab"
+      <a
+        role="tab"
+        routerLink="/"
+        routerLinkActive="tab-active"
+        class="tab mx-1"
         >About Us</a
       >
     </div>
@@ -92,7 +98,7 @@
       </div>
     </div>
     <!-- profile -->
-    <div *ngIf="isLoggedIn" class="dropdown dropdown-end">
+    <div *ngIf="isLoggedIn" class="dropdown dropdown-end pe-3">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <img
