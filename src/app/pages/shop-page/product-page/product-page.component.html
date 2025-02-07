@@ -5,6 +5,7 @@
     <li *ngIf="product">{{ product.name }}</li>
   </ul>
 </div>
+<!-- page start -->
 <div *ngIf="product" class="grid grid-cols-5 grid-rows-4 gap-4">
   <div class="col-span-3 row-span-3 col-start-1 row-start-1">
     <div class="rounded-xl overflow-hidden">
@@ -37,11 +38,30 @@
       <p>{{ product.description }}</p>
     </div>
 
-    <div class="my-4">
-      <h2 class="text-3xl font-semibold">
-        {{ product.price | currency : "EUR" }}
-      </h2>
+    <div class="flex items-center justify-between">
+      <div class="my-4">
+        <h2 class="text-3xl font-semibold">
+          {{ product.price | currency : "EUR" }}
+        </h2>
+      </div>
+
+      <div class="flex items-center border border-gray-300 rounded-lg p-1 w-24">
+        <button
+          class="px-2 py-1 text-gray-600 font-bold hover:text-white"
+          (click)="decrease()"
+        >
+          −
+        </button>
+        <span class="px-3 text-lg">{{ count }}</span>
+        <button
+          class="px-2 py-1 text-gray-600 font-bold hover:text-white"
+          (click)="increase()"
+        >
+          +
+        </button>
+      </div>
     </div>
+
     <button class="btn btn-primary rounded-sm w-full mt-2">Add to cart</button>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { iLoginRequest } from '../../interfaces/i-login-request';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authSvc: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cartSvc: CartService
   ) {}
 
   onSubmit(event: Event) {
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.router.navigate(['/']);
           alert('Login effettuato correttamente');
+          this.cartSvc.initCart();
         },
         (error) => {
           alert('Errore nel login: ' + error.message);

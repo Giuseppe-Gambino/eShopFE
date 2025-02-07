@@ -1,7 +1,8 @@
-import { ICartItem } from './i-cart-item';
+import { iCartItem } from './i-cart-item';
 import { iUser } from './i-user';
-export interface ICart {
+
+export interface iCart {
   id: number;
   user: iUser;
-  orderItem: ICartItem[];
+  cartItems: iCartItem[];
 }

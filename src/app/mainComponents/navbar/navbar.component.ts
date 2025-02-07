@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,11 @@ export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router, private authSvc: AuthService) {}
+  constructor(
+    private router: Router,
+    private authSvc: AuthService,
+    private cartSvc: CartService
+  ) {}
 
   ngOnInit() {
     this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {

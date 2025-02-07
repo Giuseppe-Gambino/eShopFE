@@ -6,18 +6,15 @@ import { CartComponent } from './cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { SuccessComponent } from './success/success.component';
 import { FailedComponent } from './failed/failed.component';
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     CartComponent,
     CheckOutComponent,
     SuccessComponent,
-    FailedComponent
+    FailedComponent,
   ],
-  imports: [
-    CommonModule,
-    CartRoutingModule
-  ]
+  imports: [CommonModule, CartRoutingModule, FormsModule],
 })
-export class CartModule { }
+export class CartModule {}

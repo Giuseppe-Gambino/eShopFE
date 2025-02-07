@@ -17,6 +17,8 @@ export class ProductPageComponent implements OnInit {
   imgPreview!: string;
   reseller!: iUser;
 
+  count: number = 1;
+
   constructor(
     private productSvc: ProductsService,
     private userSvc: UserService,
@@ -45,5 +47,15 @@ export class ProductPageComponent implements OnInit {
 
   imgSwitch(img: string) {
     this.imgPreview = img;
+  }
+
+  increase() {
+    this.count++;
+  }
+
+  decrease() {
+    if (this.count > 1) {
+      this.count--;
+    }
   }
 }
