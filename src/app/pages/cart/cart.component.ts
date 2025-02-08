@@ -11,6 +11,7 @@ import { iCartItem } from '../../interfaces/i-cart-item';
 export class CartComponent implements OnInit {
   cart!: iCart;
   cartItemArr!: iCartItem[];
+  sum: number = 0;
 
   count: number = 1;
 
@@ -24,7 +25,15 @@ export class CartComponent implements OnInit {
       }
       this.cart = result;
       this.cartItemArr = result.cartItems;
+      this.updateSum();
     });
+  }
+
+  updateSum() {
+    this.sum = this.cartItemArr.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    );
   }
 
   deleteCartItem(idCartItem: number) {
@@ -37,6 +46,7 @@ export class CartComponent implements OnInit {
       }
     );
     this.cartItemArr = this.cartItemArr.filter((item) => item.id != idCartItem);
+    this.updateSum();
   }
 
   editQuantity(idCartItem: number, op: number) {
@@ -57,5 +67,6 @@ export class CartComponent implements OnInit {
         console.error(`Error updating quantity for item ${idCartItem}:`, error);
       }
     );
+    this.updateSum();
   }
 }
