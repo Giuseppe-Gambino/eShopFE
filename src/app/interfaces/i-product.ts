@@ -4,6 +4,10 @@ export interface iProduct {
   id: number;
   name: string;
   description: string;
+  titleSeconda: string;
+  descriptionSeconda: string;
+  titleTerza: string;
+  descriptionTerza: string;
   price: number;
   resellerId: number;
   imageUrls: string[];
