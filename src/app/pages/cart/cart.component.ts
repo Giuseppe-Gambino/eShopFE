@@ -24,15 +24,18 @@ export class CartComponent implements OnInit {
       }
       this.cart = result;
       this.cartItemArr = result.cartItems;
-      console.log(this.cart);
-      console.log(result.cartItems);
-      console.log(result.user);
     });
   }
 
   deleteCartItem(idCartItem: number) {
-    this.cartSvc.removeCartItem(idCartItem).subscribe();
-
+    this.cartSvc.removeCartItem(idCartItem).subscribe(
+      () => {
+        this.cartSvc.updateLength(this.cartItemArr.length);
+      },
+      (error) => {
+        console.error(`Errore nella rimozione ${idCartItem}:`, error);
+      }
+    );
     this.cartItemArr = this.cartItemArr.filter((item) => item.id != idCartItem);
   }
 
@@ -40,8 +43,10 @@ export class CartComponent implements OnInit {
     const item = this.cartItemArr.find((item) => item.id === idCartItem);
     if (item && op == 0 && item.quantity > 1) {
       item.quantity -= 1;
+      this.cartSvc.updateLength(item.quantity);
     } else if (item && op == 1) {
       item.quantity += 1;
+      this.cartSvc.updateLength(item.quantity);
     }
 
     this.cartSvc.editQuantity(idCartItem, op).subscribe(

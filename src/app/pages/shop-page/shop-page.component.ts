@@ -14,6 +14,7 @@ import { CartService } from '../../services/cart.service';
 export class ShopPageComponent implements OnInit {
   product!: iProduct[];
   categoryArr!: iCategory[];
+  length: number = 0;
   minPriceArr: number[] = [50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500];
   maxPriceArr: number[] = [50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500];
 
@@ -35,6 +36,12 @@ export class ShopPageComponent implements OnInit {
   ngOnInit(): void {
     this.onLoad();
     this.loadCategory();
+
+    this.cartSvc.cart$.subscribe((result) => {
+      if (result) {
+        this.length = result;
+      }
+    });
   }
 
   onLoad(): void {
@@ -81,7 +88,14 @@ export class ShopPageComponent implements OnInit {
   }
 
   addToCart(productId: number, event: Event) {
-    this.cartSvc.addProductToCart(productId, 1).subscribe();
+    this.cartSvc.addProductToCart(productId, 1).subscribe({
+      next: () => {
+        this.cartSvc.updateLength(this.length + 1);
+      },
+      error: (err) => {
+        console.error('Errore nell aggiunta al carrello', err);
+      },
+    });
     event.stopPropagation();
   }
 }

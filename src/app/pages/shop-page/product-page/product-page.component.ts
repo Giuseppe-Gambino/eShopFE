@@ -17,6 +17,7 @@ export class ProductPageComponent implements OnInit {
   product!: iProduct;
   imgPreview!: string;
   reseller!: iUser;
+  length: number = 0;
 
   count: number = 1;
 
@@ -45,6 +46,12 @@ export class ProductPageComponent implements OnInit {
         this.reseller = reseller;
         console.log(reseller);
       });
+
+    this.cartSvc.cart$.subscribe((result) => {
+      if (result) {
+        this.length = result;
+      }
+    });
   }
 
   imgSwitch(img: string) {
@@ -62,6 +69,13 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartSvc.addProductToCart(this.product.id, this.count).subscribe();
+    this.cartSvc.addProductToCart(this.product.id, this.count).subscribe({
+      next: () => {
+        this.cartSvc.updateLength(this.length + 1);
+      },
+      error: (err) => {
+        console.error('Errore nell aggiunta al carrello', err);
+      },
+    });
   }
 }

@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { CartService } from '../../services/cart.service';
+import { iCart } from '../../interfaces/i-cart';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,8 @@ export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
 
+  cartItems!: number;
+
   constructor(
     private router: Router,
     private authSvc: AuthService,
@@ -22,6 +25,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
+    });
+
+    this.cartSvc.cart$.subscribe((result) => {
+      if (result) {
+        this.cartItems = result;
+      }
     });
   }
 

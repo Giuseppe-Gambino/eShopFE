@@ -15,7 +15,10 @@ export class AppComponent {
   constructor(private cartService: CartService, private authSvc: AuthService) {
     this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
-      this.cartService.initCart();
     });
+
+    if (this.isLoggedIn) {
+      this.cartService.initCart();
+    }
   }
 }

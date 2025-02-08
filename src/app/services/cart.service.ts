@@ -10,14 +10,14 @@ import { iCart } from '../interfaces/i-cart';
 export class CartService {
   cartUrl: string = environment.cartUrl;
 
-  private cartSubject = new BehaviorSubject<iCart | null>(null);
+  private cartSubject = new BehaviorSubject<number>(0);
   cart$ = this.cartSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   initCart(): void {
     this.http.get<iCart>(this.cartUrl).subscribe((cart) => {
-      this.cartSubject.next(cart);
+      this.cartSubject.next(cart.cartItems.length);
     });
   }
 
@@ -45,5 +45,9 @@ export class CartService {
       .set('productId', productId.toString())
       .set('quantity', quantity.toString());
     return this.http.post(`${this.cartUrl}/add`, {}, { params });
+  }
+
+  updateLength(length: number) {
+    this.cartSubject.next(length);
   }
 }
