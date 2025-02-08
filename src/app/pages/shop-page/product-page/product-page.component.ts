@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { iUser } from '../../../interfaces/i-user';
 import { switchMap } from 'rxjs';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-product-page',
@@ -22,6 +23,7 @@ export class ProductPageComponent implements OnInit {
   constructor(
     private productSvc: ProductsService,
     private userSvc: UserService,
+    private cartSvc: CartService,
     private route: ActivatedRoute
   ) {}
 
@@ -57,5 +59,9 @@ export class ProductPageComponent implements OnInit {
     if (this.count > 1) {
       this.count--;
     }
+  }
+
+  addToCart() {
+    this.cartSvc.addProductToCart(this.product.id, this.count).subscribe();
   }
 }

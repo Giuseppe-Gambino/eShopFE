@@ -4,6 +4,7 @@ import { ProductsService } from '../../services/products.service';
 import { iProduct } from '../../interfaces/i-product';
 import { iCategory } from '../../interfaces/i-category';
 import { CategoryService } from '../../services/category.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-shop-page',
@@ -27,7 +28,8 @@ export class ShopPageComponent implements OnInit {
 
   constructor(
     private prodSvc: ProductsService,
-    private categorySvc: CategoryService
+    private categorySvc: CategoryService,
+    private cartSvc: CartService
   ) {}
 
   ngOnInit(): void {
@@ -76,5 +78,10 @@ export class ShopPageComponent implements OnInit {
     this.categorySvc.getAllCategory().subscribe((result) => {
       this.categoryArr = result;
     });
+  }
+
+  addToCart(productId: number, event: Event) {
+    this.cartSvc.addProductToCart(productId, 1).subscribe();
+    event.stopPropagation();
   }
 }

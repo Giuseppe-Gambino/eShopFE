@@ -104,7 +104,12 @@
             <p class="ms-2 text-base font-semibold">
               {{ item.price | currency : "EUR" }}
             </p>
-            <button class="btn btn-sm btn-primary">Add to cart</button>
+            <button
+              (click)="addToCart(item.id, $event)"
+              class="btn btn-sm btn-primary"
+            >
+              Add to cart
+            </button>
           </div>
         </div>
       </div>

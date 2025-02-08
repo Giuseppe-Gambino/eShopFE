@@ -10,7 +10,7 @@ import { iCartItem } from '../../interfaces/i-cart-item';
 })
 export class CartComponent implements OnInit {
   cart!: iCart;
-  cartItem!: iCartItem[];
+  cartItemArr!: iCartItem[];
 
   count: number = 1;
 
@@ -23,20 +23,34 @@ export class CartComponent implements OnInit {
         return;
       }
       this.cart = result;
-      this.cartItem = result.cartItems;
+      this.cartItemArr = result.cartItems;
       console.log(this.cart);
       console.log(result.cartItems);
       console.log(result.user);
     });
   }
 
-  increase(quantity: number) {
-    quantity++;
+  deleteCartItem(idCartItem: number) {
+    this.cartSvc.removeCartItem(idCartItem).subscribe();
+
+    this.cartItemArr = this.cartItemArr.filter((item) => item.id != idCartItem);
   }
 
-  decrease(quantity: number) {
-    if (quantity > 1) {
-      quantity--;
+  editQuantity(idCartItem: number, op: number) {
+    const item = this.cartItemArr.find((item) => item.id === idCartItem);
+    if (item && op == 0 && item.quantity > 1) {
+      item.quantity -= 1;
+    } else if (item && op == 1) {
+      item.quantity += 1;
     }
+
+    this.cartSvc.editQuantity(idCartItem, op).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.error(`Error updating quantity for item ${idCartItem}:`, error);
+      }
+    );
   }
 }

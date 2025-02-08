@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { iCart } from '../interfaces/i-cart';
 
@@ -25,11 +25,25 @@ export class CartService {
     return this.http.get<iCart>(this.cartUrl);
   }
 
-  getLenght(): number {
-    return this.cartSubject.getValue()?.cartItems.length ?? 0;
+  removeCartItem(idCartItem: number): Observable<any> {
+    return this.http.put(`${this.cartUrl}/removeCartItem/${idCartItem}`, {});
   }
 
-  updateCart(cart: iCart): void {
-    this.cartSubject.next(cart);
+  editQuantity(idCartItem: number, op: number): Observable<string> {
+    return this.http.put<string>(
+      `${this.cartUrl}/editQuantity/${idCartItem}`,
+      {},
+      {
+        responseType: 'text' as 'json',
+        params: { op: op.toString() },
+      }
+    );
+  }
+
+  addProductToCart(productId: number, quantity: number): Observable<any> {
+    let params = new HttpParams()
+      .set('productId', productId.toString())
+      .set('quantity', quantity.toString());
+    return this.http.post(`${this.cartUrl}/add`, {}, { params });
   }
 }
