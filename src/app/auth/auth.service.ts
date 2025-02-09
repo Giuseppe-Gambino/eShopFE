@@ -92,11 +92,6 @@ export class AuthService {
     if (!userJson) return;
 
     const accessData: iAccessData = JSON.parse(userJson);
-    // Controlla se accessData.token esiste e se il token è scaduto
-    if (!accessData.token || this.jwtHelper.isTokenExpired(accessData.token)) {
-      localStorage.removeItem('accessData');
-      return;
-    }
 
     this.authSubject$.next(accessData);
   }
