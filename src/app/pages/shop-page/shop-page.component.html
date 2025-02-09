@@ -98,7 +98,7 @@
           </figure>
         </div>
         <div class="card-body h-1/2">
-          <h2 class="card-title text-base">{{ item.name }}</h2>
+          <h2 class="card-title text-base m-0">{{ item.name }}</h2>
           <p class="truncate">{{ item.description }}</p>
           <div class="card-actions justify-between items-center">
             <p class="ms-2 text-base font-semibold">
@@ -106,7 +106,7 @@
             </p>
             <button
               (click)="addToCart(item.id, $event)"
-              class="btn btn-sm btn-primary"
+              class="btn btn-sm btn-primary text-xs font-bold"
             >
               Add to cart
             </button>

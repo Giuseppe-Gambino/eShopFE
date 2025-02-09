@@ -129,4 +129,16 @@
     --accent-900: #dce7ef;
     --accent-950: #edf3f7;
   }
+
+  html {
+    @apply font-body;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
 }
