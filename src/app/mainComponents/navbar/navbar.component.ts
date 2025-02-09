@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
 
   isLoggedIn: boolean = false;
 
+  badge: boolean = false;
   cartItems!: number;
   avatar: string = 'avatar.png';
 

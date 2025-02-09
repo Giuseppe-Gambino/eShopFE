@@ -6,4 +6,5 @@ export const environment = {
   productPageUrl: 'http://localhost:8080/product/fitraProdotti',
   categoryUrl: 'http://localhost:8080/category',
   cartUrl: 'http://localhost:8080/cart',
+  orderUrl: 'http://localhost:8080/order',
 };

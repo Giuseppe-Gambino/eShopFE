@@ -26,7 +26,7 @@
           <div class="join mt-2">
             <button
               (click)="editQuantity(item.id, 0)"
-              class="btn btn-sm btn-neutral btn-primary join-item text-lg"
+              class="btn btn-sm btn-secondary join-item text-lg"
             >
               -
             </button>
@@ -34,12 +34,12 @@
               type="number"
               placeholder="Type here"
               [value]="item.quantity"
-              class="input input-bordered border-x-0 input-sm pe-0 w-10 join-item"
+              class="input input-bordered border-x-0 border-secondary input-sm pe-0 w-10 join-item"
               readonly
             />
             <button
               (click)="editQuantity(item.id, 1)"
-              class="btn btn-sm btn-neutral btn-primary join-item text-lg"
+              class="btn btn-sm btn-secondary join-item text-lg"
             >
               +
             </button>
@@ -83,9 +83,23 @@
         </div>
         <h3 class="text-xl font-bold">Totale: {{ sum | currency : "EUR" }}</h3>
       </div>
-      <button class="btn btn-primary w-full font-bold text-md">
+      <button
+        [disabled]="!buttonBoo"
+        (click)="checkOut()"
+        class="btn btn-primary w-full font-bold text-md"
+      >
         Procedi all'Ordine!
       </button>
     </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="w-full flex justify-center">
+  <div
+    [ngClass]="['alert', status ? 'alert-success' : 'alert-error']"
+    role="alert"
+    class="absolute top-20 z-30 max-w-fit px-6 mx-5 animate-pulse translate-y-6"
+  >
+    <span class="loading loading-dots loading-lg"></span>
+    <p [innerHTML]="feedbackMessage"></p>
   </div>
 </div>

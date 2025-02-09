@@ -5,6 +5,7 @@ import { iProduct } from '../../interfaces/i-product';
 import { iCategory } from '../../interfaces/i-category';
 import { CategoryService } from '../../services/category.service';
 import { CartService } from '../../services/cart.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-shop-page',
@@ -88,14 +89,26 @@ export class ShopPageComponent implements OnInit {
   }
 
   addToCart(productId: number, event: Event) {
-    this.cartSvc.addProductToCart(productId, 1).subscribe({
-      next: () => {
-        this.cartSvc.updateLength(this.length + 1);
-      },
-      error: (err) => {
-        console.error('Errore nell aggiunta al carrello', err);
-      },
-    });
     event.stopPropagation();
+
+    this.cartSvc
+      .getCart()
+      .pipe(take(1))
+      .subscribe((cart) => {
+        const productAlreadyInCart = cart.cartItems.some(
+          (item) => item.product.id === productId
+        );
+
+        this.cartSvc.addProductToCart(productId, 1).subscribe({
+          next: () => {
+            if (!productAlreadyInCart) {
+              this.cartSvc.updateLength(this.length + 1);
+            }
+          },
+          error: (err) => {
+            console.error("Errore nell'aggiunta al carrello", err);
+          },
+        });
+      });
   }
 }

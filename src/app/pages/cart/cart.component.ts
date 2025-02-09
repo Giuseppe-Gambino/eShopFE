@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { iCart } from '../../interfaces/i-cart';
 import { iCartItem } from '../../interfaces/i-cart-item';
+import { OrderService } from '../../services/order.service';
+import { iStripeResponse } from '../../interfaces/i-stripe-response';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +17,12 @@ export class CartComponent implements OnInit {
 
   count: number = 1;
 
-  constructor(private cartSvc: CartService) {}
+  buttonBoo: boolean = false;
+  isLoading: boolean = false;
+  feedbackMessage: string | null = null;
+  status!: boolean;
+
+  constructor(private cartSvc: CartService, private orderSvc: OrderService) {}
 
   ngOnInit(): void {
     this.cartSvc.getCart().subscribe((result) => {
@@ -26,6 +33,11 @@ export class CartComponent implements OnInit {
       this.cart = result;
       this.cartItemArr = result.cartItems;
       this.updateSum();
+      if (this.cartItemArr.length == 0) {
+        this.buttonBoo = false;
+      } else {
+        this.buttonBoo = true;
+      }
     });
   }
 
@@ -47,16 +59,20 @@ export class CartComponent implements OnInit {
     );
     this.cartItemArr = this.cartItemArr.filter((item) => item.id != idCartItem);
     this.updateSum();
+
+    if (this.cartItemArr.length == 0) {
+      this.buttonBoo = false;
+    } else {
+      this.buttonBoo = true;
+    }
   }
 
   editQuantity(idCartItem: number, op: number) {
     const item = this.cartItemArr.find((item) => item.id === idCartItem);
     if (item && op == 0 && item.quantity > 1) {
       item.quantity -= 1;
-      this.cartSvc.updateLength(item.quantity);
     } else if (item && op == 1) {
       item.quantity += 1;
-      this.cartSvc.updateLength(item.quantity);
     }
 
     this.cartSvc.editQuantity(idCartItem, op).subscribe(
@@ -68,5 +84,33 @@ export class CartComponent implements OnInit {
       }
     );
     this.updateSum();
+  }
+
+  checkOut(): void {
+    this.feedbackMessage = null;
+
+    this.orderSvc.createOrder().subscribe({
+      next: (response: iStripeResponse) => {
+        this.feedbackMessage =
+          'Ti stiamo reindirizzando alla pagina di pagamento! non chiudere la pagina!!';
+        this.status = true;
+        this.isLoading = true;
+        if (response.status === 'SUCCESS') {
+          setTimeout(() => {
+            this.orderSvc.redirectToSession(response.sessionUrl);
+          }, 2000);
+        }
+      },
+      error: (error) => {
+        console.error("Errore nel processo dell'ordine", error);
+        this.feedbackMessage =
+          "Si è verificato un errore nel processo dell'ordine.";
+        this.status = false;
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 2500);
+      },
+    });
   }
 }
