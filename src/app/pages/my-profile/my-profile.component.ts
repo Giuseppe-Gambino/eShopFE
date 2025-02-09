@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { iUser } from '../../interfaces/i-user';
 import { UserService } from '../../services/user.service';
 
@@ -10,13 +11,57 @@ import { UserService } from '../../services/user.service';
 export class MyProfileComponent implements OnInit {
   user!: iUser;
   avatar!: string;
-  constructor(private userSvc: UserService) {}
+  profileForm!: FormGroup;
+
+  constructor(private userSvc: UserService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.reloadUser();
+  }
+
+  reloadUser(): void {
     this.userSvc.getByUser().subscribe((r) => {
       this.user = r;
       this.avatar = this.user.avatar || 'avatar.png';
+      this.initForm();
       console.log(this.user);
     });
+  }
+
+  initForm(): void {
+    this.profileForm = this.fb.group({
+      nome: [this.user.nome, Validators.required],
+      cognome: [this.user.cognome, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+    });
+  }
+
+  onSubmit(): void {
+    if (this.profileForm.valid) {
+      this.userSvc.updateUser(this.profileForm.value).subscribe((response) => {
+        console.log('User aggiornato con successo!', response);
+      });
+    }
+    setTimeout(() => {
+      this.reloadUser();
+    }, 2500);
+  }
+
+  selectedFile: File | null = null;
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  updateAvatar() {
+    if (!this.selectedFile) {
+      return;
+    }
+    this.userSvc.updateAvatar(this.selectedFile).subscribe((response) => {
+      console.log('Avatar aggiornato con successo!', response);
+    });
+    setTimeout(() => {
+      this.reloadUser();
+    }, 2500);
   }
 }

@@ -27,4 +27,14 @@ export class UserService {
       this.avatarSubject.next(result.avatar);
     });
   }
+
+  updateUser(user: iUser): Observable<iUser> {
+    return this.http.patch<iUser>(`${this.userUrl}/user/info`, user);
+  }
+
+  updateAvatar(avatar: File): Observable<iUser> {
+    const formData = new FormData();
+    formData.append('images', avatar);
+    return this.http.patch<iUser>(`${this.userUrl}/user/img`, formData);
+  }
 }
