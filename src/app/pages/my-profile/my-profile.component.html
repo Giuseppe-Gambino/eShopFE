@@ -11,16 +11,31 @@
         </div>
       </div>
       <div class="flex my-3 gap-2 items-center">
-        <p class="text-xs font-semibold whitespace-nowrap">Cambia Avatar</p>
-        <input
-          (change)="onFileSelected($event)"
-          type="file"
-          accept="image/*"
-          class="file-input file-input-sm file-input-bordered file-input-secondary w-full max-w-xs"
-        />
-        <button (click)="updateAvatar()" class="btn btn-sm btn-primary">
-          Salva avatar
-        </button>
+        <div class="dropdown dropdown-left">
+          <div tabindex="0" role="button" class="btn btn-sm m-1 btn-secondary">
+            Cambia Avatar
+          </div>
+          <div
+            tabindex="0"
+            class="dropdown-content card card-compact bg-secondary z-[1] w-72 p-2 shadow"
+          >
+            <div class="card-body">
+              <p class="text-xs font-semibold whitespace-nowrap">
+                Carica un Immaggine
+              </p>
+              <input
+                (change)="onFileSelected($event)"
+                type="file"
+                accept="image/*"
+                class="file-input file-input-sm file-input-bordered w-full max-w-xs"
+              />
+              <button (click)="updateAvatar()" class="btn btn-sm btn-primary">
+                Salva avatar
+              </button>
+            </div>
+          </div>
+        </div>
+
         <button class="btn btn-sm btn-outline">I tuoi Ordini</button>
       </div>
     </div>
