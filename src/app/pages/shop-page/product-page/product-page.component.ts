@@ -19,6 +19,8 @@ export class ProductPageComponent implements OnInit {
   reseller!: iUser;
   length: number = 0;
 
+  storicoPrezzi: any;
+
   count: number = 1;
 
   constructor(
@@ -27,6 +29,8 @@ export class ProductPageComponent implements OnInit {
     private cartSvc: CartService,
     private route: ActivatedRoute
   ) {}
+
+  chartOptions: any;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
@@ -37,6 +41,10 @@ export class ProductPageComponent implements OnInit {
         switchMap((product) => {
           this.product = product;
           this.imgPreview = product.imageUrls[0];
+          this.storicoPrezzi = product.priceHistory;
+          console.log(this.storicoPrezzi);
+
+          this.grafico();
           console.log(product);
 
           return this.userSvc.getById(product.resellerId);
@@ -52,6 +60,27 @@ export class ProductPageComponent implements OnInit {
         this.length = result;
       }
     });
+  }
+
+  grafico() {
+    // Esempio di dati con date: prezzo
+    const priceHistory = this.storicoPrezzi;
+
+    const labels = Object.keys(priceHistory);
+    const data = Object.values(priceHistory);
+
+    this.chartOptions = {
+      tooltip: { trigger: 'axis' },
+      xAxis: { type: 'category', data: labels },
+      yAxis: { type: 'value' },
+      series: [
+        {
+          data,
+          type: 'line',
+          smooth: true,
+        },
+      ],
+    };
   }
 
   imgSwitch(img: string) {
