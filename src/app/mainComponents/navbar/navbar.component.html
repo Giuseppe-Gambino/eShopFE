@@ -1,11 +1,11 @@
 <div
-  class="navbar bg-base-100 sticky top-0 z-40 shadow-lg border border-base-200 rounded-2xl mt-2"
+  class="navbar bg-base-100 sticky top-6 z-40 shadow-lg border border-base-200 rounded-2xl mt-2 flex justify-between"
 >
   <div class="flex-none">
     <a class="btn btn-ghost text-xl">STRIDE</a>
   </div>
   <!-- navbar -->
-  <div class="flex-1 justify-center">
+  <div class="flex-1 justify-center hidden sm:inline-flex">
     <div *ngIf="isLoggedIn" role="tablist" class="tabs tabs-boxed">
       <a
         role="tab"
@@ -43,7 +43,7 @@
 
       <!-- sun icon -->
       <svg
-        class="swap-on h-5 w-5 fill-current"
+        class="swap-on h-5 w-5 fill-current mx-1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -54,7 +54,7 @@
 
       <!-- moon icon -->
       <svg
-        class="swap-off h-5 w-5 fill-current"
+        class="swap-off h-5 w-5 fill-current mx-1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -81,7 +81,9 @@
               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
             />
           </svg>
-          <span class="badge badge-sm indicator-item">{{ cartItems }}</span>
+          <span *ngIf="cartItems > 0" class="badge badge-sm indicator-item">{{
+            cartItems
+          }}</span>
         </div>
       </div>
     </div>
