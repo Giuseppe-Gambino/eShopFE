@@ -7,4 +7,5 @@ export const environment = {
   categoryUrl: 'http://localhost:8080/category',
   cartUrl: 'http://localhost:8080/cart',
   orderUrl: 'http://localhost:8080/order',
+  resellerOrderUrl: 'http://localhost:8080/resellerOrder',
 };

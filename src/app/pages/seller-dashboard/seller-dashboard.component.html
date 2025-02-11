@@ -1,1 +1,135 @@
-<p>seller-dashboard works!</p>
+<section class="container px-5">
+  <h2 class="text-2xl font-semibold mt-3">Orders</h2>
+
+  <!-- stats -->
+  <div
+    *ngIf="stats"
+    class="flex bg-base-300 rounded-md stats-vertical lg:stats-horizontal w-full shadow-md my-4"
+  >
+    <div class="stat py-2 flex align-middle items-center w-full">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        x="0px"
+        y="0px"
+        width="38"
+        height="38"
+        viewBox="0 0 48 48"
+        fill="currentColor"
+      >
+        <path
+          d="M35.5,6h-23C8.916,6,6,8.916,6,12.5v23c0,3.584,2.916,6.5,6.5,6.5h23c3.584,0,6.5-2.916,6.5-6.5v-23	C42,8.916,39.084,6,35.5,6z M15.5,32c-1.381,0-2.5-1.119-2.5-2.5c0-1.381,1.119-2.5,2.5-2.5s2.5,1.119,2.5,2.5	C18,30.881,16.881,32,15.5,32z M15.5,22c-1.381,0-2.5-1.119-2.5-2.5c0-1.381,1.119-2.5,2.5-2.5s2.5,1.119,2.5,2.5	C18,20.881,16.881,22,15.5,22z M24,32c-1.381,0-2.5-1.119-2.5-2.5c0-1.381,1.119-2.5,2.5-2.5s2.5,1.119,2.5,2.5	C26.5,30.881,25.381,32,24,32z M24,22c-1.381,0-2.5-1.119-2.5-2.5c0-1.381,1.119-2.5,2.5-2.5s2.5,1.119,2.5,2.5	C26.5,20.881,25.381,22,24,22z M32.5,22c-1.381,0-2.5-1.119-2.5-2.5c0-1.381,1.119-2.5,2.5-2.5s2.5,1.119,2.5,2.5	C35,20.881,33.881,22,32.5,22z"
+        ></path>
+      </svg>
+      <div class="font-xl font-bold">Today</div>
+    </div>
+
+    <div class="stat py-2">
+      <div class="stat-title">Total order</div>
+      <div class="stat-value text-2xl">{{ stats.totalOrders }}</div>
+    </div>
+
+    <div class="stat py-2">
+      <div class="stat-title">In elaborazione</div>
+      <div class="stat-value text-2xl">{{ stats.inElaborazione }}</div>
+    </div>
+
+    <div class="stat py-2">
+      <div class="stat-title">Spedito</div>
+      <div class="stat-value text-2xl">{{ stats.spedito }}</div>
+    </div>
+
+    <div class="stat py-2">
+      <div class="stat-title">Consegnato</div>
+      <div class="stat-value">{{ stats.consegnato }}</div>
+    </div>
+  </div>
+
+  <!-- input filter -->
+  <div class="flex mt-10 justify-between">
+    <input
+      type="text"
+      placeholder="Cerca qui"
+      class="input input-bordered w-full max-w-xs"
+    />
+  </div>
+
+  <!-- table -->
+  <div class="overflow-x-auto bg-base-300 rounded-lg mt-6 px-3 pt-4 shadow-md">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="bg-secondary">
+          <th class="rounded-s-md">Order</th>
+          <th>Product</th>
+          <th>Date</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th class="rounded-e-md">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr *ngFor="let item of resellerOrderArray">
+          <td class="flex-row whitespace-nowrap">
+            <p class="rounded-lg w-fit p-2 bg-secondary"># {{ item.id }}</p>
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    [src]="item.orderItem?.product?.imageUrls?.[0]"
+                    alt="Avatar Tailwind CSS Component"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{ item.orderItem?.product?.name }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="text-sm">{{ item.createdAt }}</div>
+          </td>
+          <td>{{ item.orderItem?.quantity }} <span>Items</span></td>
+          <td *ngIf="item.orderItem?.quantity && item.orderItem?.price">
+            {{ (item.orderItem?.price ?? 0) * (item.orderItem?.quantity ?? 0) }}
+          </td>
+          <th class="flex justify-between pt-6">
+            <select
+              #statusSelect
+              class="outline-secondary py-0 bg-transparent font-semibold rounded-lg w-36"
+            >
+              <option [value]="item.orderStatus" selected>
+                {{ item.orderStatus | titlecase }}
+              </option>
+              <option
+                [value]="statusItem.toString()"
+                *ngFor="let statusItem of status"
+              >
+                {{ statusItem | titlecase }}
+              </option>
+            </select>
+            <button
+              (click)="editStatus(item.id, statusSelect.value)"
+              class="btn btn-outline btn-primary btn-xs"
+            >
+              Salva
+            </button>
+          </th>
+        </tr>
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>Order</th>
+          <th>Product</th>
+          <th>Date</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>

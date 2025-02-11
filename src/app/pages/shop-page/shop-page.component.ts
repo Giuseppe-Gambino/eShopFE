@@ -38,10 +38,15 @@ export class ShopPageComponent implements OnInit {
     this.onLoad();
     this.loadCategory();
 
-    this.cartSvc.cart$.subscribe((result) => {
-      if (result) {
-        this.length = result;
-      }
+    this.cartSvc.cart$.subscribe({
+      next: (result) => {
+        if (result) {
+          this.length = result;
+        }
+      },
+      error: (err) => {
+        console.error('Errore nel caricamento del carrello', err);
+      },
     });
   }
 
@@ -54,9 +59,14 @@ export class ShopPageComponent implements OnInit {
         this.minPrice,
         this.maxPrice
       )
-      .subscribe((result) => {
-        this.pageable = result;
-        this.product = result.content;
+      .subscribe({
+        next: (result) => {
+          this.pageable = result;
+          this.product = result.content;
+        },
+        error: (err) => {
+          console.error('Errore nel caricamento dei prodotti', err);
+        },
       });
   }
 
