@@ -44,13 +44,53 @@
     </div>
   </div>
 
+  <div role="tablist" class="tabs tabs-lifted">
+    <label class="tab tab-active">
+      <input type="radio" name="tab" class="hidden" checked />
+      Normal
+    </label>
+    <label class="tab">
+      <input type="radio" name="tab" class="hidden" />
+      Normal
+    </label>
+    <label class="tab">
+      <input type="radio" name="tab" class="hidden" />
+      Normal
+    </label>
+  </div>
+
   <!-- input filter -->
-  <div class="flex mt-10 justify-between">
-    <input
-      type="text"
-      placeholder="Cerca qui"
-      class="input input-bordered w-full max-w-xs"
-    />
+  <div class="flex mt-10 justify-between items-end">
+    <div class="flex gap-4">
+      <div>
+        <label>Data Esatta</label>
+        <input
+          [(ngModel)]="date"
+          type="date"
+          class="input input-bordered input-sm w-full max-w-xs"
+        />
+      </div>
+      <div>
+        <label>Data Inizio</label>
+        <input
+          [(ngModel)]="startDate"
+          type="date"
+          class="input input-bordered input-sm w-full max-w-xs"
+          (click)="resetData()"
+        />
+      </div>
+      <div>
+        <label>Data Fine</label>
+        <input
+          [(ngModel)]="endDate"
+          type="date"
+          class="input input-bordered input-sm w-full max-w-xs"
+          (click)="resetData()"
+        />
+      </div>
+    </div>
+
+    <button (click)="onload()" class="btn btn-primary">Cerca</button>
   </div>
 
   <!-- table -->
@@ -89,16 +129,22 @@
             </div>
           </td>
           <td>
-            <div class="text-sm">{{ item.createdAt }}</div>
+            <div class="text-md">{{ item.createdAt }}</div>
           </td>
           <td>{{ item.orderItem?.quantity }} <span>Items</span></td>
-          <td *ngIf="item.orderItem?.quantity && item.orderItem?.price">
-            {{ (item.orderItem?.price ?? 0) * (item.orderItem?.quantity ?? 0) }}
+          <td
+            class="text-lg"
+            *ngIf="item.orderItem?.quantity && item.orderItem?.price"
+          >
+            {{
+              (item.orderItem?.price ?? 0) * (item.orderItem?.quantity ?? 0)
+                | currency : "EUR"
+            }}
           </td>
           <th class="flex justify-between pt-6">
             <select
               #statusSelect
-              class="outline-secondary py-0 bg-transparent font-semibold rounded-lg w-36"
+              class="select select-bordered select-sm text-xs w-36"
             >
               <option [value]="item.orderStatus" selected>
                 {{ item.orderStatus | titlecase }}
@@ -112,7 +158,7 @@
             </select>
             <button
               (click)="editStatus(item.id, statusSelect.value)"
-              class="btn btn-outline btn-primary btn-xs"
+              class="btn btn-outline btn-primary btn-sm"
             >
               Salva
             </button>
@@ -131,5 +177,27 @@
         </tr>
       </tfoot>
     </table>
+    <div class="border-t-2 border-t-secondary px-2 py-3 flex justify-between">
+      <!-- select size -->
+      <div>
+        <label>Items per pagina</label>
+        <select
+          class="select select-bordered select-sm text-xs w-16 ms-3"
+          [(ngModel)]="currentSize"
+        >
+          <option *ngFor="let item of listSize" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+      <!-- button pagination -->
+      <div *ngIf="pageable?.totalPages" class="join flex justify-end">
+        <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
+        <button class="join-item btn btn-sm">
+          Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
+        </button>
+        <button (click)="incrementa()" class="join-item btn btn-sm">»</button>
+      </div>
+    </div>
   </div>
 </section>

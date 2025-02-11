@@ -116,7 +116,7 @@
     </div>
 
     <!-- bottoni pagine -->
-    <div *ngIf="pageable?.totalElements" class="join flex justify-end">
+    <div *ngIf="pageable?.totalPages" class="join flex justify-end">
       <button (click)="decrementa()" class="join-item btn">«</button>
       <button class="join-item btn">
         Page {{ currentPage + 1 }}/{{ pageable.totalPages }}

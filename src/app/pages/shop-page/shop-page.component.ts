@@ -62,7 +62,7 @@ export class ShopPageComponent implements OnInit {
       .subscribe({
         next: (result) => {
           this.pageable = result;
-          this.product = result.content;
+          this.product = result.content as iProduct[];
         },
         error: (err) => {
           console.error('Errore nel caricamento dei prodotti', err);

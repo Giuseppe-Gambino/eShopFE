@@ -3,8 +3,8 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { iResellerOrder } from '../interfaces/i-reseller-order';
-import { IPageResellerOrder } from '../interfaces/i-page-reseller-order';
 import { iStatsResellerOrders } from '../interfaces/i-stats-reseller-orders';
+import { iPageAble } from '../interfaces/i-page-able';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +16,13 @@ export class ResellerOrderService {
 
   getResellerOrders(
     page: number,
+    size: number,
     orderStatus: string,
     date?: string,
     startDate?: string,
     endDate?: string
-  ): Observable<IPageResellerOrder> {
-    let params = new HttpParams().set('page', page).set('size', '12');
+  ): Observable<iPageAble> {
+    let params = new HttpParams().set('page', page).set('size', size);
 
     if (orderStatus) {
       params = params.set('orderStatus', orderStatus);
@@ -36,7 +37,7 @@ export class ResellerOrderService {
       params = params.set('endDate', endDate);
     }
 
-    return this.http.get<IPageResellerOrder>(this.resellerUrl, { params });
+    return this.http.get<iPageAble>(this.resellerUrl, { params });
   }
 
   getStatsResellerOrders(): Observable<iStatsResellerOrders> {
