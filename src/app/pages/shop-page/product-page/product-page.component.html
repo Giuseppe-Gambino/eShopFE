@@ -1,4 +1,4 @@
-<div class="breadcrumbs text-sm mb-3">
+<div class="breadcrumbs text-sm ms-5 mb-3">
   <ul>
     <li><a routerLink="">Home</a></li>
     <li><a routerLink="/shopPage">Catalogo</a></li>
@@ -6,7 +6,7 @@
   </ul>
 </div>
 <!-- page start -->
-<div *ngIf="product" class="grid grid-cols-5 grid-rows-1 gap-4 mb-20">
+<div *ngIf="product" class="grid grid-cols-5 grid-rows-1 gap-4 mb-20 px-5">
   <!-- row 1 -->
   <div
     class="col-span-full md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1"
@@ -21,8 +21,17 @@
         </div>
       </div>
     </div>
-    <!-- storico -->
-    <div echarts [options]="chartOptions" class="w-full h-64"></div>
+    <!-- md storico -->
+    <div class="relative">
+      <div
+        echarts
+        [options]="chartOptions"
+        class="w-full h-64 hidden sm:inline-flex"
+      ></div>
+      <h4 class="absolute top-5 left-7 font-semibold hidden sm:inline-flex">
+        Storico dei prezzi
+      </h4>
+    </div>
   </div>
   <!-- row 2 -->
   <div
@@ -113,6 +122,14 @@
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- sm storico -->
+    <div class="relative">
+      <div echarts [options]="chartOptions" class="w-full h-64 sm:hidden"></div>
+      <h4 class="absolute top-5 left-7 font-semibold sm:hidden">
+        Storico dei prezzi
+      </h4>
     </div>
   </div>
 </div>

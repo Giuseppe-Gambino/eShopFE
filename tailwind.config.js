@@ -21,15 +21,15 @@ module.exports = {
         bold: "700",
       },
     },
-    container: {
-      center: true,
-      padding: "1rem",
-      screens: {
-        sm: "600px",
-        md: "778px",
-        lg: "984px",
-        xl: "1240px",
-      },
+  },
+  container: {
+    center: true,
+    padding: "1rem",
+    screens: {
+      sm: "600px",
+      md: "778px",
+      lg: "984px",
+      xl: "1240px",
     },
   },
   plugins: [
