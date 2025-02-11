@@ -63,19 +63,21 @@ export class ProductPageComponent implements OnInit {
   }
 
   grafico() {
-    // Esempio di dati con date: prezzo
     const priceHistory = this.storicoPrezzi;
 
-    const labels = Object.keys(priceHistory);
-    const data = Object.values(priceHistory);
+    const sortedDates = Object.keys(priceHistory).sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime()
+    );
+
+    const sortedPrices = sortedDates.map((date) => priceHistory[date]);
 
     this.chartOptions = {
       tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: labels },
+      xAxis: { type: 'category', data: sortedDates },
       yAxis: { type: 'value' },
       series: [
         {
-          data,
+          data: sortedPrices,
           type: 'line',
           smooth: true,
         },
