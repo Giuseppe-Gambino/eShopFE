@@ -1,1 +1,105 @@
-<p>manage-products works!</p>
+<section>
+  <div class="breadcrumbs text-sm ms-5 mb-3">
+    <ul>
+      <li><a routerLink="">Home</a></li>
+      <li><a routerLink="/sellerDashboard">Seller Dashboard</a></li>
+      <li>Gestione Prodotti</li>
+    </ul>
+  </div>
+
+  <h1 class="text-2xl font-bold">Gestisci i tuoi prodotti</h1>
+
+  <!-- table -->
+  <div class="overflow-x-auto bg-base-300 rounded-lg mt-3 px-3 pt-4 shadow-md">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="bg-secondary">
+          <th class="rounded-s-md">ID</th>
+          <th>Prodotto</th>
+          <th>Data Creazione</th>
+          <th>Categoria</th>
+          <th>Prezzo</th>
+          <th class="text-center">Imgs</th>
+          <th class="rounded-e-md"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr *ngFor="let item of productArr">
+          <td class="flex-row whitespace-nowrap">
+            <p class="rounded-lg w-fit p-2 bg-secondary"># {{ item.id }}</p>
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    [src]="item.imageUrls[0]"
+                    alt="Avatar Tailwind CSS Component"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{ item.name }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="text-md">{{ item.createdAt }}</div>
+          </td>
+          <td>{{ item.category.name }}</td>
+          <td class="text-lg">
+            {{ item.price | currency : "EUR" }}
+          </td>
+          <td class="text-center">
+            <p>{{ item.imageUrls.length }}</p>
+          </td>
+
+          <td class="flex justify-end 6">
+            <button
+              (click)="modificaProdotto(item.id)"
+              class="btn btn-outline btn-primary btn-sm"
+            >
+              Modifica
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>ID</th>
+          <th>Prodotto</th>
+          <th>Data Creazione</th>
+          <th>Categoria</th>
+          <th>Prezzo</th>
+          <th class="text-center">Imgs</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="border-t-2 border-t-secondary px-2 py-3 flex justify-between">
+      <!-- select size -->
+      <div>
+        <label>Items per pagina</label>
+        <select
+          class="select select-bordered select-sm text-xs w-16 ms-3"
+          [(ngModel)]="currentSize"
+        >
+          <option *ngFor="let item of listSize" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+      <!-- button pagination -->
+      <div *ngIf="pageable?.totalPages" class="join flex justify-end">
+        <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
+        <button class="join-item btn btn-sm">
+          Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
+        </button>
+        <button (click)="incrementa()" class="join-item btn btn-sm">»</button>
+      </div>
+    </div>
+  </div>
+</section>

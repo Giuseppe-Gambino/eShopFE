@@ -24,4 +24,8 @@ export class CategoryService {
       return this.categories$;
     }
   }
+
+  createCategory(category: string): Observable<iCategory> {
+    return this.http.post<iCategory>(this.categoryUrl, category);
+  }
 }

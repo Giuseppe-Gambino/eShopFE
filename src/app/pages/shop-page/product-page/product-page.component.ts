@@ -50,9 +50,17 @@ export class ProductPageComponent implements OnInit {
           return this.userSvc.getById(product.resellerId);
         })
       )
-      .subscribe((reseller) => {
-        this.reseller = reseller;
-        console.log(reseller);
+      .subscribe({
+        next: (reseller) => {
+          this.reseller = reseller;
+          console.log(reseller);
+        },
+        error: (err) => {
+          console.error(
+            'Errore nel recupero del prodotto o del rivenditore',
+            err
+          );
+        },
       });
 
     this.cartSvc.cart$.subscribe((result) => {
