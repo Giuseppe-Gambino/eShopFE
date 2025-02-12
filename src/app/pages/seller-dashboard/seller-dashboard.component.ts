@@ -10,6 +10,13 @@ import { iPageAble } from '../../interfaces/i-page-able';
   styleUrl: './seller-dashboard.component.scss',
 })
 export class SellerDashboardComponent implements OnInit {
+  options = [
+    { label: 'Ricevuti', value: 'ORDINE_RICEVUTO' },
+    { label: 'In elaborazione', value: 'IN_ELABORAZIONE' },
+    { label: 'Spedito', value: 'SPEDITO' },
+    { label: 'Consegnato', value: 'CONSEGNATO' },
+  ];
+
   status: string[] = ['IN_ELABORAZIONE', 'SPEDITO', 'CONSEGNATO'];
   listSize: number[] = [6, 12, 24, 36, 48, 60];
 
@@ -29,10 +36,6 @@ export class SellerDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.onload();
-  }
-
-  resetData() {
-    this.date = '';
   }
 
   onload(): void {
@@ -65,6 +68,29 @@ export class SellerDashboardComponent implements OnInit {
         console.error(`Failed to update order ${id} status:`, error);
       },
     });
+  }
+
+  onOptionChange(value: string): void {
+    this.orderStatus = value;
+    this.onload();
+  }
+
+  resetStatus(): void {
+    this.orderStatus = '';
+    this.onload();
+  }
+
+  resetDataEsatta() {
+    this.date = '';
+  }
+
+  resetData() {
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  isChange(newStatus: string, status: string): boolean {
+    return newStatus !== status;
   }
 
   incrementa() {

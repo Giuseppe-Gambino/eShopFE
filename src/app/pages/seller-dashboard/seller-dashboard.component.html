@@ -44,23 +44,41 @@
     </div>
   </div>
 
-  <div role="tablist" class="tabs tabs-lifted">
-    <label class="tab tab-active">
-      <input type="radio" name="tab" class="hidden" checked />
-      Normal
+  <div class="flex gap-2 shadow-interna ps-5 mt-10">
+    <label class="flex items-center cursor-pointer">
+      <input
+        type="radio"
+        name="customRadio"
+        value=""
+        class="hidden peer"
+        checked
+        (click)="resetStatus()"
+      />
+      <span
+        class="px-4 py-1 border-b-2 text-gray-500 border-gray-700 transition-all peer-checked:border-primary peer-checked:text-primary"
+        >Tutte</span
+      >
     </label>
-    <label class="tab">
-      <input type="radio" name="tab" class="hidden" />
-      Normal
-    </label>
-    <label class="tab">
-      <input type="radio" name="tab" class="hidden" />
-      Normal
+    <label
+      *ngFor="let option of options"
+      class="flex items-center cursor-pointer"
+    >
+      <input
+        type="radio"
+        name="customRadio"
+        [value]="option.value"
+        class="hidden peer"
+        (change)="onOptionChange(option.value)"
+      />
+      <span
+        class="px-4 py-1 border-b-2 text-gray-500 border-gray-700 transition-all peer-checked:border-primary peer-checked:text-primary"
+        >{{ option.label }}</span
+      >
     </label>
   </div>
 
   <!-- input filter -->
-  <div class="flex mt-10 justify-between items-end">
+  <div class="flex mt-7 justify-between items-end">
     <div class="flex gap-4">
       <div>
         <label>Data Esatta</label>
@@ -68,6 +86,7 @@
           [(ngModel)]="date"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
+          (click)="resetData()"
         />
       </div>
       <div>
@@ -76,7 +95,7 @@
           [(ngModel)]="startDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
-          (click)="resetData()"
+          (click)="resetDataEsatta()"
         />
       </div>
       <div>
@@ -85,12 +104,12 @@
           [(ngModel)]="endDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
-          (click)="resetData()"
+          (click)="resetDataEsatta()"
         />
       </div>
     </div>
 
-    <button (click)="onload()" class="btn btn-primary">Cerca</button>
+    <button (click)="onload()" class="btn btn-primary">Filtra</button>
   </div>
 
   <!-- table -->
@@ -99,12 +118,12 @@
       <!-- head -->
       <thead>
         <tr class="bg-secondary">
-          <th class="rounded-s-md">Order</th>
-          <th>Product</th>
-          <th>Date</th>
-          <th>Quantity</th>
-          <th>Total</th>
-          <th class="rounded-e-md">Status</th>
+          <th class="rounded-s-md">N. Ordine</th>
+          <th>Prodotto</th>
+          <th>Data</th>
+          <th>Quantita</th>
+          <th>Totale</th>
+          <th class="rounded-e-md">Stato</th>
         </tr>
       </thead>
       <tbody>
@@ -144,6 +163,7 @@
           <th class="flex justify-between pt-6">
             <select
               #statusSelect
+              (click)="isChange(statusSelect.value, item.orderStatus)"
               class="select select-bordered select-sm text-xs w-36"
             >
               <option [value]="item.orderStatus" selected>
@@ -157,6 +177,7 @@
               </option>
             </select>
             <button
+              [disabled]="!isChange(statusSelect.value, item.orderStatus)"
               (click)="editStatus(item.id, statusSelect.value)"
               class="btn btn-outline btn-primary btn-sm"
             >
@@ -168,12 +189,12 @@
       <!-- foot -->
       <tfoot>
         <tr>
-          <th>Order</th>
-          <th>Product</th>
-          <th>Date</th>
-          <th>Quantity</th>
-          <th>Total</th>
-          <th>Status</th>
+          <th>N. Ordine</th>
+          <th>Prodotto</th>
+          <th>Data</th>
+          <th>Quantita</th>
+          <th>Totale</th>
+          <th>Stato</th>
         </tr>
       </tfoot>
     </table>
