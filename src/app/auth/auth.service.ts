@@ -48,7 +48,7 @@ export class AuthService {
             accessData.token
           ) as Date;
           if (expDate) {
-            this.autoLogout(expDate);
+            // this.autoLogout(expDate);
           } else {
             console.error('La data di scadenza del token non è valida');
             this.logout();
@@ -68,24 +68,28 @@ export class AuthService {
   logout() {
     this.authSubject$.next(null);
     localStorage.removeItem('accessData');
-    setTimeout(() => {
-      this.router.navigate(['/auth/login']);
-    }, 2000);
+    this.tornaLogin();
   }
 
-  autoLogout(expDate: Date) {
-    clearTimeout(this.autoLogoutTimer);
-    const expMs = expDate.getTime() - new Date().getTime();
-
-    if (expMs > 0) {
-      // Controlla se la scadenza è nel futuro
-      this.autoLogoutTimer = setTimeout(() => {
-        this.logout();
-      }, expMs);
-    } else {
-      this.logout(); // Se il token è già scaduto, effettua il logout immediatamente
-    }
+  tornaLogin() {
+    this.router.navigate(['/auth/login']);
   }
+
+  // autoLogout(expDate: Date) {
+  //   clearTimeout(this.autoLogoutTimer);
+  //   const expMs = expDate.getTime() - new Date().getTime();
+
+  //   if (expMs > 0) {
+  //     // Controlla se la scadenza è nel futuro
+  //     this.autoLogoutTimer = setTimeout(() => {
+  //       this.logout();
+  //       this.router.navigate(['/auth/login']);
+  //     }, expMs);
+  //   } else {
+  //     this.router.navigate(['/auth/login']);
+  //     this.logout(); // Se il token è già scaduto, effettua il logout immediatamente
+  //   }
+  // }
 
   restoreUser() {
     const userJson: string | null = localStorage.getItem('accessData');

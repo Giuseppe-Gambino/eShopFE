@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment.development';
 
@@ -17,6 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
+    // Escludiamo la richiesta di login per non appiccicare il token
     if (request.url.includes(environment.loginUrl)) {
       return next.handle(request);
     }
@@ -33,6 +34,14 @@ export class TokenInterceptor implements HttpInterceptor {
       ),
     });
 
-    return next.handle(newRequest);
+    return next.handle(newRequest).pipe(
+      catchError((error) => {
+        // Se riceviamo un 401 dal backend, eseguiamo il logout
+        if (error.status === 401) {
+          this.authSvc.logout();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 }

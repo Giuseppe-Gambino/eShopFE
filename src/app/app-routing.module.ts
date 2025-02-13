@@ -14,8 +14,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
   },
   {
     path: 'cart',
@@ -39,8 +37,6 @@ const routes: Routes = [
       import('./pages/shop-page/shop-page.module').then(
         (m) => m.ShopPageModule
       ),
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
   },
   {
     path: 'adminPage',
