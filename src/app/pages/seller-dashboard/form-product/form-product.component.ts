@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import { iProduct } from '../../../interfaces/i-product';
@@ -24,7 +30,6 @@ export class FormProductComponent implements OnInit {
 
   primaImg!: string;
   secondaImg!: string;
-  imgsArr: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -115,17 +120,78 @@ export class FormProductComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onMultiFileSelected(events: any): void {
-    for (let e of events.target.files) {
+  // Array di stringhe per le preview
+  imgsArr: string[] = [];
+
+  // file dell'input
+  selectedFiles: File[] = [];
+
+  onMultiFileSelected(event: any) {
+    const newFiles: File[] = Array.from(event.target.files);
+    if (
+      this.selectedFiles.length == 4 ||
+      newFiles.length > 4 ||
+      (this.selectedFiles.length == 4 && newFiles.length < 4)
+    ) {
+      alert('Massimo 4 immagini');
+      return;
+    }
+
+    // Aggiunge i nuovi file ai precedenti senza duplicati
+    this.selectedFiles = [...this.selectedFiles, ...newFiles].filter(
+      (file, index, self) =>
+        index ===
+        self.findIndex((f) => f.name === file.name && f.size === file.size)
+    );
+
+    for (let e of event.target.files) {
       const file = e;
       const reader = new FileReader();
 
       reader.onload = () => {
-        this.imgsArr.push(reader.result as string);
-        // this.product.imageUrls.push(reader.result as string);
+        const result = reader.result as string;
+        if (!this.imgsArr.includes(result)) {
+          this.imgsArr.push(result);
+        }
       };
 
       reader.readAsDataURL(file);
+    }
+
+    console.log('File selezionati:', this.selectedFiles);
+  }
+
+  deleteImg(index: number): void {
+    this.imgsArr.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
+
+    this.isEmpty();
+
+    console.log('File selezionati:', this.selectedFiles);
+  }
+
+  isEmpty(): boolean {
+    return this.selectedFiles.length === 0;
+  }
+
+  @ViewChild('scrollableElement') carousel!: ElementRef;
+
+  scrollCarousel(type: number): void {
+    if (this.carousel) {
+      if (type === 0) {
+        (this.carousel.nativeElement as HTMLElement).scrollLeft -= 200;
+      } else {
+        (this.carousel.nativeElement as HTMLElement).scrollLeft += 200;
+      }
+    }
+  }
+
+  scrolla(num: number): void {
+    if (this.carousel) {
+      (this.carousel.nativeElement as HTMLElement).scrollTo({
+        left: num,
+        behavior: 'smooth',
+      });
     }
   }
 }
