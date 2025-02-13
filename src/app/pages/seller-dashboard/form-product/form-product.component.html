@@ -23,60 +23,103 @@
       placeholder="es. Mouse Pulsar X-ultralight è il mouse più leggero al mondo..."
       class="input input-bordered w-full h-20 mb-4"
     ></textarea>
+    <span class="label-text">Dimensioni</span>
+    <input
+      type="text"
+      placeholder="es. Le dimensioni del prodotto sono 30x20x10 cm."
+      class="input input-bordered w-full mb-4"
+    />
+    <span class="label-text">Feature</span>
+    <input
+      type="text"
+      placeholder="es. Il prodotto include funzionalità avanzate come il controll..."
+      class="input input-bordered w-full mb-4"
+    />
+    <span class="label-text">Dettagli</span>
+    <input
+      type="text"
+      placeholder="es. Realizzato con materiali di alta qualità, il prodotto è resistente e durevole."
+      class="input input-bordered w-full mb-4"
+    />
   </div>
+  <!-- card preview -->
 
-  <!-- immagini -->
-  <div
-    class="rounded-lg bg-base-300 p-4 m-3 flex flex-col max-w-[347px] overflow-x-hidden"
-  >
-    <!-- preview -->
+  <!-- contenuto -->
+  <div class="flex flex-wrap gap-5 sm:ms-5">
     <div
-      *ngIf="selectedFiles.length === 0"
-      class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
+      routerLink="/shopPage/product/ item.id "
+      class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
     >
-      <h4>Image Preview</h4>
-    </div>
-    <div #scrollableElement class="flex carousel carousel-center gap-3">
-      <!-- img ngfor -->
-      <div
-        *ngFor="let item of imgsArr; let i = index"
-        id="item{{ i }}"
-        class="bg-secondary max-w-[347px] rounded-lg mb-4 flex items-center justify-center relative carousel-item"
-        style="width: 200px; height: 200px"
-      >
-        <img
-          [src]="item"
-          alt="Image Preview"
-          class="object-cover rounded-box w-full h-full"
-        />
-        <button
-          (click)="deleteImg(i)"
-          class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
-        >
-          X
-        </button>
+      <div class="rounded-t-xl overflow-hidden h-3/5">
+        <figure>
+          <img src="{{ imgsArr[0] }}" alt=" item.name " />
+        </figure>
+      </div>
+      <div class="card-body h-2/5">
+        <h2 class="card-title text-base m-0">item.name</h2>
+        <p class="truncate">item.description</p>
+        <div class="card-actions justify-between items-center">
+          <p *ngIf="product" class="ms-2 text-base font-semibold">
+            {{ product.price | currency : "EUR" }}
+          </p>
+          <a class="btn btn-sm btn-primary text-xs font-bold"> Add to cart </a>
+        </div>
       </div>
     </div>
-    <div class="flex w-full justify-center gap-2 pb-2">
-      <a
-        *ngFor="let item of imgsArr; let i = index"
-        class="btn btn-xs"
-        (click)="scrolla(i * 200)"
-        >{{ i + 1 }}</a
+  </div>
+</div>
+
+<!-- immagini -->
+<div
+  class="rounded-lg bg-base-300 p-4 m-3 flex flex-col max-w-[347px] overflow-x-hidden"
+>
+  <!-- preview -->
+  <div
+    *ngIf="selectedFiles.length === 0"
+    class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
+  >
+    <h4>Image Preview</h4>
+  </div>
+  <div #scrollableElement class="flex carousel carousel-center gap-3">
+    <!-- img ngfor -->
+    <div
+      *ngFor="let item of imgsArr; let i = index"
+      id="item{{ i }}"
+      class="bg-secondary max-w-[347px] rounded-lg mb-4 flex items-center justify-center relative carousel-item"
+      style="width: 200px; height: 200px"
+    >
+      <img
+        [src]="item"
+        alt="Image Preview"
+        class="object-cover rounded-box w-full h-full"
+      />
+      <button
+        (click)="deleteImg(i)"
+        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
       >
+        X
+      </button>
     </div>
-    <!-- input -->
-    <input
-      multiple
-      type="file"
-      class="file-input file-input-sm file-input-bordered file-input-primary max-w-xs"
-      (change)="onMultiFileSelected($event)"
-    />
-    <!-- scroll buttons -->
-    <div class="flex justify-between mt-2">
-      <button class="btn btn-sm" (click)="scrollCarousel(0)">Prev</button>
-      <button class="btn btn-sm" (click)="scrollCarousel(1)">Next</button>
-    </div>
+  </div>
+  <div class="flex w-full justify-center gap-2 pb-2">
+    <a
+      *ngFor="let item of imgsArr; let i = index"
+      class="btn btn-xs"
+      (click)="scrolla(i * 200)"
+      >{{ i + 1 }}</a
+    >
+  </div>
+  <!-- input -->
+  <input
+    multiple
+    type="file"
+    class="file-input file-input-sm file-input-bordered file-input-primary max-w-xs"
+    (change)="onMultiFileSelected($event)"
+  />
+  <!-- scroll buttons -->
+  <div class="flex justify-between mt-2">
+    <button class="btn btn-sm" (click)="scrollCarousel(0)">Prev</button>
+    <button class="btn btn-sm" (click)="scrollCarousel(1)">Next</button>
   </div>
 </div>
 
@@ -167,71 +210,74 @@
   </div>
 </div>
 
-<!-- category -->
-<div class="rounded-lg bg-base-300 w-fit p-4 m-3">
-  <h3 class="text-xl font-semibold">Categoria</h3>
-  <!-- input select -->
-  <label class="form-control w-full max-w-xs mt-1">
-    <div class="label">
-      <span class="label-text">Seleziona categoria</span>
-    </div>
-    <select [(ngModel)]="category" class="select select-bordered">
-      <option value="" selected>Pick one</option>
-      <option value="{{ cat.name }}" *ngFor="let cat of category">
-        {{ cat.name }}
-      </option>
-    </select>
-  </label>
-  <div class="divider">Oppure</div>
-
-  <!-- Open the modal using ID.showModal() method -->
-  <button
-    class="btn btn-sm btn-secondary w-full"
-    onclick="my_modal_1.showModal()"
-  >
-    Crea nuova categoria
-  </button>
-  <dialog id="my_modal_1" class="modal">
-    <div class="modal-box">
-      <div>
-        <h3 class="text-lg font-bold">Aggiungi Categoria</h3>
+<div class="flex">
+  <!-- category -->
+  <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+    <h3 class="text-xl font-semibold">Categoria</h3>
+    <!-- input select -->
+    <label class="form-control w-full max-w-xs mt-1">
+      <div class="label">
+        <span class="label-text">Seleziona categoria</span>
       </div>
+      <select [(ngModel)]="category" class="select select-bordered">
+        <option value="" selected>Pick one</option>
+        <option value="{{ cat.name }}" *ngFor="let cat of category">
+          {{ cat.name }}
+        </option>
+      </select>
+    </label>
+    <div class="divider">Oppure</div>
 
-      <div class="modal-action justify-normal mt-3 w-full">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
-          <button class="btn btn-xs absolute top-0 right-0 m-6">X</button>
-        </form>
-        <!-- form -->
-        <div class="w-full">
-          <p class="pb-2">Inserisci nome categoria</p>
-          <input
-            [(ngModel)]="newCategory"
-            type="text"
-            placeholder="Type here"
-            class="input input-bordered w-full mb-4"
-          />
+    <!-- Open the modal using ID.showModal() method -->
+    <button
+      class="btn btn-sm btn-secondary w-full"
+      onclick="my_modal_1.showModal()"
+    >
+      Crea nuova categoria
+    </button>
+    <dialog id="my_modal_1" class="modal">
+      <div class="modal-box">
+        <div>
+          <h3 class="text-lg font-bold">Aggiungi Categoria</h3>
+        </div>
+
+        <div class="modal-action justify-normal mt-3 w-full">
           <form method="dialog">
-            <button
-              (click)="newCategorySubmit()"
-              class="btn btn-primary btn-sm w-full"
-            >
-              Salva
-            </button>
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn btn-xs absolute top-0 right-0 m-6">X</button>
           </form>
+          <!-- form -->
+          <div class="w-full">
+            <p class="pb-2">Inserisci nome categoria</p>
+            <input
+              [(ngModel)]="newCategory"
+              type="text"
+              placeholder="Type here"
+              class="input input-bordered w-full mb-4"
+            />
+            <form method="dialog">
+              <button
+                (click)="newCategorySubmit()"
+                class="btn btn-primary btn-sm w-full"
+              >
+                Salva
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </dialog>
-</div>
+    </dialog>
+  </div>
 
-<div class="rounded-lg bg-base-300 w-fit p-4 m-3">
-  <h3 class="text-xl font-semibold">Prezzo</h3>
+  <!-- prezzo -->
+  <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+    <h3 class="text-xl font-semibold">Prezzo</h3>
 
-  <span class="label-text">Inserisci prezzo</span>
-  <input
-    type="number"
-    placeholder="es. 94.99"
-    class="input input-bordered w-full mb-4"
-  />
+    <span class="label-text">Inserisci prezzo</span>
+    <input
+      type="number"
+      placeholder="es. 94.99"
+      class="input input-bordered w-full mb-4"
+    />
+  </div>
 </div>

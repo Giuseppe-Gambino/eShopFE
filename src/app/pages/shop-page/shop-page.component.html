@@ -92,12 +92,14 @@
         routerLink="/shopPage/product/{{ item.id }}"
         class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
       >
-        <div class="rounded-t-xl overflow-hidden h-1/2">
-          <figure>
-            <img src="{{ item.imageUrls[0] }}" alt="{{ item.name }}" />
-          </figure>
+        <div class="rounded-t-xl overflow-hidden h-64">
+          <img
+            src="{{ item.imageUrls[0] }}"
+            alt="{{ item.name }}"
+            class="object-cover h-full w-full"
+          />
         </div>
-        <div class="card-body h-1/2">
+        <div class="card-body h-2/5">
           <h2 class="card-title text-base m-0">{{ item.name }}</h2>
           <p class="truncate">{{ item.description }}</p>
           <div class="card-actions justify-between items-center">
