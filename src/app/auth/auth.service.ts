@@ -75,22 +75,6 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
-  // autoLogout(expDate: Date) {
-  //   clearTimeout(this.autoLogoutTimer);
-  //   const expMs = expDate.getTime() - new Date().getTime();
-
-  //   if (expMs > 0) {
-  //     // Controlla se la scadenza è nel futuro
-  //     this.autoLogoutTimer = setTimeout(() => {
-  //       this.logout();
-  //       this.router.navigate(['/auth/login']);
-  //     }, expMs);
-  //   } else {
-  //     this.router.navigate(['/auth/login']);
-  //     this.logout(); // Se il token è già scaduto, effettua il logout immediatamente
-  //   }
-  // }
-
   restoreUser() {
     const userJson: string | null = localStorage.getItem('accessData');
     if (!userJson) return;

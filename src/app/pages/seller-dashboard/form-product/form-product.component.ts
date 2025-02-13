@@ -28,8 +28,10 @@ export class FormProductComponent implements OnInit {
 
   newCategory!: string;
 
-  primaImg!: string;
-  secondaImg!: string;
+  primaImg: string = '';
+  primaImgSelected!: File;
+  secondaImg: string = '';
+  secondaImgSelected!: File;
 
   constructor(
     private fb: FormBuilder,
@@ -106,18 +108,31 @@ export class FormProductComponent implements OnInit {
   }
 
   onFileSelected(event: any, index: number): void {
-    const file = event.target.files[0];
+    const newfile = event.target.files[0];
     const reader = new FileReader();
 
     reader.onload = () => {
       if (index === 1) {
         this.primaImg = reader.result as string;
+        this.primaImgSelected = newfile;
       } else {
         this.secondaImg = reader.result as string;
+        this.secondaImgSelected = newfile;
       }
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(newfile);
+  }
+
+  deleteHeroImg(index: number): void {
+    const newFileEmpty = new File([], '');
+    if (index === 1) {
+      this.primaImg = '';
+      this.primaImgSelected = newFileEmpty;
+    } else {
+      this.secondaImg = '';
+      this.secondaImgSelected = newFileEmpty;
+    }
   }
 
   // Array di stringhe per le preview

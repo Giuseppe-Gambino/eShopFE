@@ -99,10 +99,22 @@
   </div>
   <div class="w-1/3 flex flex-col">
     <div
-      class="flex-grow bg-secondary rounded-lg h-full mb-4 flex items-center justify-center"
+      class="relative flex-grow bg-secondary rounded-lg h-full mb-4 flex items-center justify-center overflow-hidden"
     >
       <h4 *ngIf="!primaImg">Image Preview</h4>
-      <img *ngIf="primaImg" [src]="primaImg" alt="Image Preview" />
+      <img
+        *ngIf="primaImg"
+        [src]="primaImg"
+        alt="Image Preview"
+        class="object-cover h-full"
+      />
+      <button
+        *ngIf="primaImg != ''"
+        (click)="deleteHeroImg(1)"
+        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+      >
+        X
+      </button>
     </div>
     <input
       type="file"
@@ -130,10 +142,22 @@
   </div>
   <div class="w-1/3 flex flex-col">
     <div
-      class="flex-grow bg-secondary rounded-lg h-full mb-4 flex items-center justify-center"
+      class="relative flex-grow bg-secondary rounded-lg h-full mb-4 flex items-center justify-center overflow-hidden"
     >
       <h4 *ngIf="!secondaImg">Image Preview</h4>
-      <img *ngIf="secondaImg" [src]="secondaImg" alt="Image Preview" />
+      <img
+        *ngIf="secondaImg"
+        [src]="secondaImg"
+        alt="Image Preview"
+        class="object-cover h-full"
+      />
+      <button
+        *ngIf="secondaImg != ''"
+        (click)="deleteHeroImg(2)"
+        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+      >
+        X
+      </button>
     </div>
     <input
       type="file"
@@ -199,4 +223,15 @@
       </div>
     </div>
   </dialog>
+</div>
+
+<div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+  <h3 class="text-xl font-semibold">Prezzo</h3>
+
+  <span class="label-text">Inserisci prezzo</span>
+  <input
+    type="number"
+    placeholder="es. 94.99"
+    class="input input-bordered w-full mb-4"
+  />
 </div>
