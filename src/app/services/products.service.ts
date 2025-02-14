@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment.development';
 import { Observable } from 'rxjs';
 import { iProduct } from '../interfaces/i-product';
 import { iPageAble } from '../interfaces/i-page-able';
+import { iProductRequest } from '../interfaces/i-product-request';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,25 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  createProduct(categoryId: number, product: iProduct): Observable<iProduct> {
+  createProduct(
+    categoryId: number,
+    productRequest: iProductRequest
+  ): Observable<iProduct> {
     return this.http.post<iProduct>(
       `${this.productUrl}/${categoryId}`,
-      product
+      productRequest
+    );
+  }
+
+  addImgs(productId: number, images: File[]): Observable<iProduct> {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+
+    return this.http.patch<iProduct>(
+      `${this.productUrl}/${productId}/images`,
+      formData
     );
   }
 

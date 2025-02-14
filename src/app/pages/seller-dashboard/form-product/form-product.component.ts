@@ -13,6 +13,7 @@ import { iUser } from '../../../interfaces/i-user';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../../services/category.service';
 import { iCategory } from '../../../interfaces/i-category';
+import { iProductRequest } from '../../../interfaces/i-product-request';
 
 @Component({
   selector: 'app-form-product',
@@ -21,12 +22,15 @@ import { iCategory } from '../../../interfaces/i-category';
 })
 export class FormProductComponent implements OnInit {
   product!: iProduct;
+  productId!: number;
   user!: iUser;
   category!: iCategory[];
 
+  ProductRequest!: iProductRequest;
+
   productForm!: FormGroup;
 
-  newCategory!: string;
+  newCategoryForm!: FormGroup;
 
   primaImg: string = '';
   primaImgSelected!: File;
@@ -67,14 +71,22 @@ export class FormProductComponent implements OnInit {
       },
     });
 
+    this.newCategoryForm = this.fb.group({
+      category: ['', Validators.required],
+    });
+
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      titleSeconda: ['', Validators.required],
-      descriptionSeconda: ['', Validators.required],
-      titleTerza: ['', Validators.required],
-      descriptionTerza: ['', Validators.required],
-      price: [null, Validators.required],
+      hero: this.fb.group({
+        titleSeconda: ['', Validators.required],
+        descriptionSeconda: ['', Validators.required],
+        titleTerza: ['', Validators.required],
+        descriptionTerza: ['', Validators.required],
+      }),
+      priceG: this.fb.group({
+        price: [null, Validators.required],
+      }),
     });
 
     if (this.product) {
@@ -82,6 +94,55 @@ export class FormProductComponent implements OnInit {
     }
 
     this.getCategory();
+  }
+
+  @ViewChild('categoryID') categoryID!: ElementRef;
+
+  submit() {
+    const idcategory = this.categoryID.nativeElement.value;
+    const formData = this.productForm.value;
+    this.ProductRequest = {
+      name: formData.name,
+      description: formData.description,
+      titleSeconda: formData.hero.titleSeconda,
+      descriptionSeconda: formData.hero.descriptionSeconda,
+      titleTerza: formData.hero.titleTerza,
+      descriptionTerza: formData.hero.descriptionTerza,
+      price: formData.priceG.price,
+    };
+
+    console.log('dto', this.ProductRequest);
+    console.log('id category', idcategory);
+
+    this.productSvc
+      .createProduct(parseInt(idcategory), this.ProductRequest)
+      .subscribe({
+        next: (product) => {
+          this.productId = product.id;
+          this.patchImgs();
+          console.log(product);
+        },
+        error: (err) => {
+          console.error('Errore nel creare il prodotto', err);
+        },
+      });
+  }
+
+  images: File[] = [];
+
+  patchImgs(): void {
+    this.images = this.selectedFiles;
+    this.images.push(this.primaImgSelected);
+    this.images.push(this.secondaImgSelected);
+
+    this.productSvc.addImgs(this.productId, this.images).subscribe({
+      next: (product) => {
+        console.log(product);
+      },
+      error: (err) => {
+        console.error('Errore nel aggiungere le immagini', err);
+      },
+    });
   }
 
   getCategory(): void {
@@ -97,7 +158,8 @@ export class FormProductComponent implements OnInit {
   }
 
   newCategorySubmit(): void {
-    this.categorySvc.createCategory(this.newCategory.toLowerCase()).subscribe({
+    const categoryValue = this.newCategoryForm.get('category')?.value as string;
+    this.categorySvc.createCategory(categoryValue.toLowerCase()).subscribe({
       next: (result) => {
         console.log(result);
         this.category.push(result);
