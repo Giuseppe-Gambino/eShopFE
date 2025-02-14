@@ -5,281 +5,519 @@
     <li *ngIf="product">{{ product.name }}</li>
   </ul>
 </div>
+
 <!-- page start -->
+<div class="flex"></div>
 
-<div class="flex">
-  <!-- info generali -->
-  <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
-    <h3 class="text-xl font-semibold">Informazioni generali</h3>
-    <span class="label-text">Nome prodotto</span>
-    <input
-      type="text"
-      placeholder="es. Mouse Pulsar X-ultralight"
-      class="input input-bordered w-full mb-4"
-    />
-    <span class="label-text">Descrizione prodotto</span>
-    <textarea
-      type="text"
-      placeholder="es. Mouse Pulsar X-ultralight è il mouse più leggero al mondo..."
-      class="input input-bordered w-full h-20 mb-4"
-    ></textarea>
-    <span class="label-text">Dimensioni</span>
-    <input
-      type="text"
-      placeholder="es. Le dimensioni del prodotto sono 30x20x10 cm."
-      class="input input-bordered w-full mb-4"
-    />
-    <span class="label-text">Feature</span>
-    <input
-      type="text"
-      placeholder="es. Il prodotto include funzionalità avanzate come il controll..."
-      class="input input-bordered w-full mb-4"
-    />
-    <span class="label-text">Dettagli</span>
-    <input
-      type="text"
-      placeholder="es. Realizzato con materiali di alta qualità, il prodotto è resistente e durevole."
-      class="input input-bordered w-full mb-4"
-    />
+<div class="grid grid-cols-3 gap-4">
+  <div class="col-span-3 col-start-1">
+    <ul class="steps mb-5 mt-2">
+      <li
+        class="step step-primary"
+        [ngClass]="currentPage === 0 ? 'bg-secondary rounded-lg' : ''"
+      >
+        Info generali
+      </li>
+      <li
+        class="step"
+        [ngClass]="currentPage === 1 ? 'bg-secondary rounded-lg' : ''"
+      >
+        Galleria
+      </li>
+      <li
+        class="step"
+        [ngClass]="currentPage === 2 ? 'bg-secondary rounded-lg' : ''"
+      >
+        Hero/Feature
+      </li>
+      <li
+        class="step"
+        [ngClass]="currentPage === 3 ? 'bg-secondary rounded-lg' : ''"
+      >
+        Info finali/preview
+      </li>
+      <li
+        class="step step-error"
+        data-content="?"
+        [ngClass]="currentPage === 4 ? 'bg-secondary rounded-lg' : ''"
+      >
+        Pubblica
+      </li>
+    </ul>
   </div>
-  <!-- card preview -->
-
-  <!-- contenuto -->
-  <div class="flex flex-wrap gap-5 sm:ms-5">
-    <div
-      routerLink="/shopPage/product/ item.id "
-      class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
-    >
-      <div class="rounded-t-xl overflow-hidden h-3/5">
-        <figure>
-          <img src="{{ imgsArr[0] }}" alt=" item.name " />
-        </figure>
+  <div class="col-span-2 row-span-3 col-start-1 row-start-2">
+    <div class="contenitore bg-base-300 py-4 px-4 rounded-lg">
+      <!-- info generali -->
+      <div
+        [ngClass]="currentPage === 0 ? 'block' : 'hidden'"
+        class="bg-base-300 w-fit p-4 my-3"
+      >
+        <h3 class="text-xl font-semibold">Informazioni generali</h3>
+        <span class="label-text">Nome prodotto</span>
+        <input
+          type="text"
+          placeholder="es. Mouse Pulsar X-ultralight"
+          class="input input-bordered w-full mb-4"
+        />
+        <span class="label-text">Descrizione prodotto</span>
+        <textarea
+          type="text"
+          placeholder="es. Mouse Pulsar X-ultralight è il mouse più leggero al mondo..."
+          class="input input-bordered w-full h-20 mb-4"
+        ></textarea>
+        <span class="label-text">Dimensioni</span>
+        <input
+          type="text"
+          placeholder="es. Le dimensioni del prodotto sono 30x20x10 cm."
+          class="input input-bordered w-full mb-4"
+        />
+        <span class="label-text">Feature</span>
+        <input
+          type="text"
+          placeholder="es. Il prodotto include funzionalità avanzate come il controll..."
+          class="input input-bordered w-full mb-4"
+        />
+        <span class="label-text">Dettagli</span>
+        <input
+          type="text"
+          placeholder="es. Realizzato con materiali di alta qualità, il prodotto è resistente e durevole."
+          class="input input-bordered w-full mb-4"
+        />
       </div>
-      <div class="card-body h-2/5">
-        <h2 class="card-title text-base m-0">item.name</h2>
-        <p class="truncate">item.description</p>
-        <div class="card-actions justify-between items-center">
-          <p *ngIf="product" class="ms-2 text-base font-semibold">
-            {{ product.price | currency : "EUR" }}
-          </p>
-          <a class="btn btn-sm btn-primary text-xs font-bold"> Add to cart </a>
+      <!-- fine info generali -->
+      <!-- start immagini -->
+      <div
+        [ngClass]="currentPage === 1 ? 'block' : 'hidden'"
+        class="rounded-lg bg-base-300 p-4 my-3 flex flex-col w-full min-h-96 overflow-x-hidden"
+      >
+        <!-- preview -->
+        <div
+          *ngIf="selectedFiles.length === 0"
+          class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
+        >
+          <h4>Image Preview</h4>
+        </div>
+        <div #scrollableElement class="flex carousel carousel-center gap-3">
+          <!-- img ngfor -->
+          <div
+            *ngFor="let item of imgsArr; let i = index"
+            id="item{{ i }}"
+            class="bg-secondary w-full h-full rounded-lg mb-4 flex items-center justify-center relative carousel-item"
+            style="width: 300px; height: 300px"
+          >
+            <img
+              [src]="item"
+              alt="Image Preview"
+              class="object-cover rounded-box w-full h-full"
+            />
+            <button
+              (click)="deleteImg(i)"
+              class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+            >
+              X
+            </button>
+          </div>
+        </div>
+        <div class="flex w-full justify-center gap-2 pb-2">
+          <a
+            *ngFor="let item of imgsArr; let i = index"
+            class="btn btn-xs"
+            (click)="scrolla(i * 200)"
+            >{{ i + 1 }}</a
+          >
+        </div>
+        <!-- input -->
+        <input
+          multiple
+          type="file"
+          class="file-input file-input-sm file-input-bordered file-input-primary max-w-xs"
+          (change)="onMultiFileSelected($event)"
+        />
+        <!-- scroll buttons -->
+        <div class="flex justify-between mt-2">
+          <button class="btn btn-sm" (click)="scrollCarousel(0)">Prev</button>
+          <button class="btn btn-sm" (click)="scrollCarousel(1)">Next</button>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- immagini -->
-<div
-  class="rounded-lg bg-base-300 p-4 m-3 flex flex-col w-full min-h-96 overflow-x-hidden"
->
-  <!-- preview -->
-  <div
-    *ngIf="selectedFiles.length === 0"
-    class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
-  >
-    <h4>Image Preview</h4>
-  </div>
-  <div #scrollableElement class="flex carousel carousel-center gap-3">
-    <!-- img ngfor -->
-    <div
-      *ngFor="let item of imgsArr; let i = index"
-      id="item{{ i }}"
-      class="bg-secondary w-full h-full rounded-lg mb-4 flex items-center justify-center relative carousel-item"
-      style="width: 300px; height: 300px"
-    >
-      <img
-        [src]="item"
-        alt="Image Preview"
-        class="object-cover rounded-box w-full h-full"
-      />
-      <button
-        (click)="deleteImg(i)"
-        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
-      >
-        X
-      </button>
-    </div>
-  </div>
-  <div class="flex w-full justify-center gap-2 pb-2">
-    <a
-      *ngFor="let item of imgsArr; let i = index"
-      class="btn btn-xs"
-      (click)="scrolla(i * 200)"
-      >{{ i + 1 }}</a
-    >
-  </div>
-  <!-- input -->
-  <input
-    multiple
-    type="file"
-    class="file-input file-input-sm file-input-bordered file-input-primary max-w-xs"
-    (change)="onMultiFileSelected($event)"
-  />
-  <!-- scroll buttons -->
-  <div class="flex justify-between mt-2">
-    <button class="btn btn-sm" (click)="scrollCarousel(0)">Prev</button>
-    <button class="btn btn-sm" (click)="scrollCarousel(1)">Next</button>
-  </div>
-</div>
-
-<!-- titoli e descrizioni 1-->
-<div class="rounded-lg bg-base-300 w-full p-4 m-3 flex my-5">
-  <div class="w-2/3 pe-4">
-    <h3 class="text-xl font-semibold">Informazioni Prima Slide</h3>
-    <span class="label-text">Titolo hero</span>
-    <input
-      type="text"
-      placeholder="es. Sensore Pulsar XS-1"
-      class="input input-bordered w-full mb-4"
-    />
-    <span class="label-text">Descrizione hero</span>
-    <textarea
-      type="text"
-      placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
-      class="input input-bordered w-full h-20 mb-4"
-    ></textarea>
-  </div>
-  <div class="w-1/3 flex flex-col">
-    <div
-      class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
-    >
-      <h4 *ngIf="!primaImg">Image Preview</h4>
-      <img
-        *ngIf="primaImg"
-        [src]="primaImg"
-        alt="Image Preview"
-        class="object-cover h-full max-h-[314px]"
-      />
-      <button
-        *ngIf="primaImg != ''"
-        (click)="deleteHeroImg(1)"
-        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
-      >
-        X
-      </button>
-    </div>
-    <input
-      type="file"
-      class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
-      (change)="onFileSelected($event, 1)"
-    />
-  </div>
-</div>
-<!-- titoli e descrizioni 2-->
-<div class="rounded-lg bg-base-300 w-full p-4 m-3 my-5 flex">
-  <div class="w-2/3 pe-4">
-    <h3 class="text-xl font-semibold">Informazioni Prima Slide</h3>
-    <span class="label-text">Titolo hero</span>
-    <input
-      type="text"
-      placeholder="es. Sensore Pulsar XS-1"
-      class="input input-bordered w-full mb-4"
-    />
-    <span class="label-text">Descrizione hero</span>
-    <textarea
-      type="text"
-      placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
-      class="input input-bordered w-full h-20 mb-4"
-    ></textarea>
-  </div>
-  <div class="w-1/3 flex flex-col">
-    <div
-      class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
-    >
-      <h4 *ngIf="!secondaImg">Image Preview</h4>
-      <img
-        *ngIf="secondaImg"
-        [src]="secondaImg"
-        alt="Image Preview"
-        class="object-cover h-full max-h-[314px]"
-      />
-      <button
-        *ngIf="secondaImg != ''"
-        (click)="deleteHeroImg(2)"
-        class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
-      >
-        X
-      </button>
-    </div>
-    <input
-      type="file"
-      class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
-      (change)="onFileSelected($event, 2)"
-    />
-  </div>
-</div>
-
-<div class="flex">
-  <!-- category -->
-  <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
-    <h3 class="text-xl font-semibold">Categoria</h3>
-    <!-- input select -->
-    <label class="form-control w-full max-w-xs mt-1">
-      <div class="label">
-        <span class="label-text">Seleziona categoria</span>
-      </div>
-      <select [(ngModel)]="category" class="select select-bordered">
-        <option value="" selected>Pick one</option>
-        <option value="{{ cat.name }}" *ngFor="let cat of category">
-          {{ cat.name }}
-        </option>
-      </select>
-    </label>
-    <div class="divider">Oppure</div>
-
-    <!-- Open the modal using ID.showModal() method -->
-    <button
-      class="btn btn-sm btn-secondary w-full"
-      onclick="my_modal_1.showModal()"
-    >
-      Crea nuova categoria
-    </button>
-    <dialog id="my_modal_1" class="modal">
-      <div class="modal-box">
-        <div>
-          <h3 class="text-lg font-bold">Aggiungi Categoria</h3>
-        </div>
-
-        <div class="modal-action justify-normal mt-3 w-full">
-          <form method="dialog">
-            <!-- if there is a button in form, it will close the modal -->
-            <button class="btn btn-xs absolute top-0 right-0 m-6">X</button>
-          </form>
-          <!-- form -->
-          <div class="w-full">
-            <p class="pb-2">Inserisci nome categoria</p>
+      <!-- fine galleria -->
+      <div [ngClass]="currentPage === 2 ? 'block' : 'hidden'">
+        <!-- titoli e descrizioni 1-->
+        <div class="rounded-lg bg-base-300 w-full p-4 flex my-5">
+          <div class="w-2/3 pe-4">
+            <h3 class="text-xl font-semibold">Informazioni Prima Slide</h3>
+            <span class="label-text">Titolo hero</span>
             <input
-              [(ngModel)]="newCategory"
               type="text"
-              placeholder="Type here"
+              placeholder="es. Sensore Pulsar XS-1"
               class="input input-bordered w-full mb-4"
             />
-            <form method="dialog">
+            <span class="label-text">Descrizione hero</span>
+            <textarea
+              type="text"
+              placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
+              class="input input-bordered w-full h-20 mb-4"
+            ></textarea>
+          </div>
+          <div class="w-1/3 flex flex-col">
+            <div
+              class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
+            >
+              <h4 *ngIf="!primaImg">Image Preview</h4>
+              <img
+                *ngIf="primaImg"
+                [src]="primaImg"
+                alt="Image Preview"
+                class="object-cover h-full max-h-[314px]"
+              />
               <button
-                (click)="newCategorySubmit()"
-                class="btn btn-primary btn-sm w-full"
+                *ngIf="primaImg != ''"
+                (click)="deleteHeroImg(1)"
+                class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
               >
-                Salva
+                X
               </button>
-            </form>
+            </div>
+            <input
+              type="file"
+              class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
+              (change)="onFileSelected($event, 1)"
+            />
+          </div>
+        </div>
+        <hr class="border-secondary border-2" />
+        <!-- titoli e descrizioni 2-->
+        <div class="rounded-lg bg-base-300 w-full p-4 my-5 flex">
+          <div class="w-2/3 pe-4">
+            <h3 class="text-xl font-semibold">Informazioni Seconda Slide</h3>
+            <span class="label-text">Titolo hero</span>
+            <input
+              type="text"
+              placeholder="es. Sensore Pulsar XS-1"
+              class="input input-bordered w-full mb-4"
+            />
+            <span class="label-text">Descrizione hero</span>
+            <textarea
+              type="text"
+              placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
+              class="input input-bordered w-full h-20 mb-4"
+            ></textarea>
+          </div>
+          <div class="w-1/3 flex flex-col">
+            <div
+              class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
+            >
+              <h4 *ngIf="!secondaImg">Image Preview</h4>
+              <img
+                *ngIf="secondaImg"
+                [src]="secondaImg"
+                alt="Image Preview"
+                class="object-cover h-full max-h-[314px]"
+              />
+              <button
+                *ngIf="secondaImg != ''"
+                (click)="deleteHeroImg(2)"
+                class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+              >
+                X
+              </button>
+            </div>
+            <input
+              type="file"
+              class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
+              (change)="onFileSelected($event, 2)"
+            />
           </div>
         </div>
       </div>
-    </dialog>
+      <div [ngClass]="currentPage === 3 ? 'block' : 'hidden'" class="flex">
+        <!-- category -->
+        <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+          <h3 class="text-xl font-semibold">Categoria</h3>
+          <!-- input select -->
+          <label class="form-control w-full max-w-xs mt-1">
+            <div class="label">
+              <span class="label-text">Seleziona categoria</span>
+            </div>
+            <select [(ngModel)]="category" class="select select-bordered">
+              <option value="" selected>Pick one</option>
+              <option value="{{ cat.name }}" *ngFor="let cat of category">
+                {{ cat.name }}
+              </option>
+            </select>
+          </label>
+          <div class="divider">Oppure</div>
+
+          <!-- Open the modal using ID.showModal() method -->
+          <button
+            class="btn btn-sm btn-secondary w-full"
+            onclick="my_modal_1.showModal()"
+          >
+            Crea nuova categoria
+          </button>
+          <dialog id="my_modal_1" class="modal">
+            <div class="modal-box">
+              <div>
+                <h3 class="text-lg font-bold">Aggiungi Categoria</h3>
+              </div>
+
+              <div class="modal-action justify-normal mt-3 w-full">
+                <form method="dialog">
+                  <!-- if there is a button in form, it will close the modal -->
+                  <button class="btn btn-xs absolute top-0 right-0 m-6">
+                    X
+                  </button>
+                </form>
+                <!-- form -->
+                <div class="w-full">
+                  <p class="pb-2">Inserisci nome categoria</p>
+                  <input
+                    [(ngModel)]="newCategory"
+                    type="text"
+                    placeholder="Type here"
+                    class="input input-bordered w-full mb-4"
+                  />
+                  <form method="dialog">
+                    <button
+                      (click)="newCategorySubmit()"
+                      class="btn btn-primary btn-sm w-full"
+                    >
+                      Salva
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </dialog>
+        </div>
+
+        <!-- prezzo -->
+        <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+          <h3 class="text-xl font-semibold">Prezzo</h3>
+
+          <span class="label-text">Inserisci prezzo</span>
+          <input
+            type="number"
+            placeholder="es. 94.99"
+            class="input input-bordered w-full mb-4"
+          />
+        </div>
+      </div>
+      <!-- inizio preview -->
+      <div
+        [ngClass]="currentPage === 4 ? 'block' : 'hidden'"
+        class="bg-base-300 w-fit p-2 m-3 max-h-[500px] overflow-y-auto"
+      >
+        <h3 class="text-xl font-semibold">Preview</h3>
+
+        <!-- page start -->
+        <div
+          *ngIf="product"
+          class="grid grid-cols-5 grid-rows-1 gap-4 mb-15 px-5"
+        >
+          <!-- row 1 -->
+          <div
+            class="col-span-full md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1"
+          >
+            <div class="rounded-xl overflow-hidden">
+              <div>
+                <img
+                  src="{{ product.imageUrls[0] }}"
+                  class="rounded-t-xl overflow-hidden"
+                />
+              </div>
+              <div class="flex gap-3">
+                <div
+                  *ngFor="let img of product.imageUrls"
+                  class="cursor-pointer"
+                >
+                  <img src="{{ img }}" class="h-16 mt-2" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row 2 -->
+          <div
+            class="p-2 md:row-span-3 md:col-start-4 col-span-full md:col-span-2 md:row-start-1"
+          >
+            <div>
+              <h4 class="text-gray-600 font-extrabold -mb-2 font-body">
+                STRIDE
+              </h4>
+              <h2 class="text-3xl font-semibold font-heading">u mouse</h2>
+
+              <h4 class="text-gray-600 mb-3 font-body -mt-2">
+                <span class="font-bold text-sm text-gray-600 font-body"
+                  >CATEGORIA:</span
+                >
+                mouse
+              </h4>
+            </div>
+
+            <div class="my-2">
+              <label class="font-bold font-heading">Descrizione:</label>
+              <p class="font-body">product.description</p>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="my-4">
+                <h2 class="text-3xl font-semibold">12.99 €</h2>
+              </div>
+
+              <div
+                class="flex items-center border border-gray-300 rounded-lg p-1 w-24"
+              >
+                <button
+                  class="px-2 py-1 text-gray-600 font-bold hover:text-white"
+                >
+                  −
+                </button>
+                <span class="px-3 text-lg"> 1 </span>
+                <button
+                  class="px-2 py-1 text-gray-600 font-bold hover:text-white"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary rounded-sm w-full mt-2">
+              Add to cart
+            </button>
+
+            <!-- info tec -->
+            <div class="my-8">
+              <div
+                tabindex="0"
+                class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+              >
+                <div class="collapse-title text-lg font-medium">Dimensioni</div>
+                <div class="collapse-content">
+                  <p>Le dimensioni del prodotto sono 30x20x10 cm.</p>
+                </div>
+              </div>
+              <div
+                tabindex="0"
+                class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+              >
+                <div class="collapse-title text-lg font-medium">Feature</div>
+                <div class="collapse-content">
+                  <p>
+                    Il prodotto include funzionalità avanzate come il controllo
+                    tramite software e la connettività Wireless.
+                  </p>
+                </div>
+              </div>
+              <div
+                tabindex="0"
+                class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+              >
+                <div class="collapse-title text-lg font-medium">Dettagli</div>
+                <div class="collapse-content">
+                  <p>
+                    Realizzato con materiali di alta qualità, il prodotto è
+                    resistente e durevole.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="product">
+          <div
+            class="grid grid-cols-12 w-full mb-10 sm:rounded-xl sm:overflow-hidden sm:shadow-lg bg-base-300"
+          >
+            <!-- Column -->
+            <div
+              class="col-span-12 md:col-span-6 flex flex-col justify-center items-center"
+            >
+              <div class="w-5/6 py-16 md:p-0">
+                <h1 class="text-3xl font-bold mb-3">
+                  {{ product.titleSeconda }}
+                </h1>
+                <p class="text-md md:text-md md:text-lg font-semibold">
+                  {{ product.descriptionSeconda }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Column -->
+            <div class="col-span-12 md:col-span-6">
+              <div>
+                <img
+                  src="{{ product.imageUrls[product.imageUrls.length - 2] }}"
+                  class="overflow-hidden"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-12 w-full mb-5 sm:rounded-xl sm:overflow-hidden sm:shadow-lg bg-base-300"
+          >
+            <!-- Column -->
+            <div class="col-span-12 md:col-span-6">
+              <div>
+                <img
+                  src="{{ product.imageUrls[product.imageUrls.length - 1] }}"
+                  class="overflow-hidden"
+                />
+              </div>
+            </div>
+
+            <!-- Column -->
+            <div
+              class="col-span-12 md:col-span-6 order-first md:order-none flex flex-col justify-center items-center"
+            >
+              <div class="w-5/6 py-16 md:p-0">
+                <h1 class="text-3xl font-bold mb-3">
+                  {{ product.titleTerza }}
+                </h1>
+                <p class="text-md md:text-sm md:text-lg font-semibold">
+                  {{ product.descriptionTerza }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- button save -->
+      </div>
+      <button class="btn btn-primary px-7">Salva</button>
+    </div>
+
+    <!-- fine -->
+    <div class="flex justify-between mt-5">
+      <button (click)="decrementa()" class="btn btn-secondary">Indietro</button>
+      <button (click)="incrementa()" class="btn btn-secondary">Continua</button>
+    </div>
   </div>
 
-  <!-- prezzo -->
-  <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
-    <h3 class="text-xl font-semibold">Prezzo</h3>
-
-    <span class="label-text">Inserisci prezzo</span>
-    <input
-      type="number"
-      placeholder="es. 94.99"
-      class="input input-bordered w-full mb-4"
-    />
+  <!-- row 2 -->
+  <div class="row-span-3 col-start-3 row-start-2 justify-self-center">
+    <!-- card preview -->
+    <div class="flex flex-wrap gap-5 sm:ms-5 sticky top-24">
+      <div
+        routerLink="/shopPage/product/ item.id "
+        class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
+      >
+        <div class="rounded-t-xl overflow-hidden h-3/5">
+          <figure>
+            <img src="{{ imgsArr[0] }}" alt=" item.name " />
+          </figure>
+        </div>
+        <div class="card-body h-2/5">
+          <h2 class="card-title text-base m-0">item.name</h2>
+          <p class="truncate">item.description</p>
+          <div class="card-actions justify-between items-center">
+            <p *ngIf="product" class="ms-2 text-base font-semibold">
+              {{ product.price | currency : "EUR" }}
+            </p>
+            <a class="btn btn-sm btn-primary text-xs font-bold">
+              Add to cart
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <button class="btn btn-primary self-end ms-auto">Salva</button>
 </div>

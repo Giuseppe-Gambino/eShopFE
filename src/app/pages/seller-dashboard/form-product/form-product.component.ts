@@ -33,6 +33,8 @@ export class FormProductComponent implements OnInit {
   secondaImg: string = '';
   secondaImgSelected!: File;
 
+  currentPage: number = 0;
+
   constructor(
     private fb: FormBuilder,
     private productSvc: ProductsService,
@@ -208,5 +210,16 @@ export class FormProductComponent implements OnInit {
         behavior: 'smooth',
       });
     }
+  }
+
+  incrementa(): void {
+    this.currentPage++;
+  }
+
+  decrementa(): void {
+    if (this.currentPage === 0) {
+      return;
+    }
+    this.currentPage--;
   }
 }
