@@ -55,6 +55,7 @@ export class FormProductComponent implements OnInit {
       next: (product) => {
         this.product = product;
         console.log(this.product);
+        this.formCreate();
       },
       error: (err) => {
         console.error('Errore nel recupero del prodotto', err);
@@ -75,6 +76,10 @@ export class FormProductComponent implements OnInit {
       category: ['', Validators.required],
     });
 
+    this.getCategory();
+  }
+
+  formCreate() {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -91,9 +96,8 @@ export class FormProductComponent implements OnInit {
 
     if (this.product) {
       this.productForm.patchValue(this.product);
+      console.log(this.productForm.value);
     }
-
-    this.getCategory();
   }
 
   @ViewChild('categoryID') categoryID!: ElementRef;
