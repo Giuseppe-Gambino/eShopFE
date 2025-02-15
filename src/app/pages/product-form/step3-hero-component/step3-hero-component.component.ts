@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ProductFormService } from '../../../services/product-form.service';
 
@@ -7,7 +7,7 @@ import { ProductFormService } from '../../../services/product-form.service';
   templateUrl: './step3-hero-component.component.html',
   styleUrl: './step3-hero-component.component.scss',
 })
-export class Step3HeroComponent {
+export class Step3HeroComponent implements OnInit {
   heroForm: FormGroup;
   primaImg: string = '';
   primaImgSelected!: File;
@@ -21,6 +21,16 @@ export class Step3HeroComponent {
 
   constructor(private formService: ProductFormService) {
     this.heroForm = this.formService.productForm.get('hero') as FormGroup;
+  }
+
+  @Input() primaImgFromProduct!: string;
+  @Input() secondaImgFromProduct!: string;
+
+  ngOnInit(): void {
+    if (this.primaImgFromProduct) {
+      this.primaImg = this.primaImgFromProduct;
+      this.secondaImg = this.secondaImgFromProduct;
+    }
   }
 
   onFileSelected(event: any, index: number): void {

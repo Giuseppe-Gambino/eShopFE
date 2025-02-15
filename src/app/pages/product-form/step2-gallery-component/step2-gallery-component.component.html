@@ -1,11 +1,10 @@
 <!-- start immagini -->
 <div
   [formGroup]="galleryForm"
-  class="rounded-lg bg-base-300 p-4 my-3 flex flex-col w-full min-h-96 overflow-x-hidden"
+  class="rounded-lg bg-base-300 p-4 flex flex-col w-full min-h-96 overflow-x-hidden"
 >
   <!-- preview -->
   <div
-    *ngIf="selectedFiles.length === 0"
     class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
   >
     <h3>Galleria Immagini</h3>
@@ -16,7 +15,7 @@
       *ngFor="let item of imgsArr; let i = index"
       id="item{{ i }}"
       class="bg-secondary w-full h-full rounded-lg mb-4 flex items-center justify-center relative carousel-item"
-      style="width: 300px; height: 300px"
+      style="width: 370px; height: 370px"
     >
       <img
         [src]="item"
@@ -35,7 +34,7 @@
     <a
       *ngFor="let item of imgsArr; let i = index"
       class="btn btn-xs"
-      (click)="scrolla(i * 200)"
+      (click)="scrolla(i * 300)"
       >{{ i + 1 }}</a
     >
   </div>
@@ -43,12 +42,16 @@
   <input
     multiple
     type="file"
-    class="file-input file-input-sm file-input-bordered file-input-primary max-w-xs"
+    class="file-input file-input-sm file-input-bordered file-input-primary w-full"
     (change)="onMultiFileSelected($event)"
   />
   <!-- scroll buttons -->
-  <div class="flex justify-between mt-2">
-    <button class="btn btn-sm" (click)="scrollCarousel(0)">Prev</button>
-    <button class="btn btn-sm" (click)="scrollCarousel(1)">Next</button>
+  <div class="flex justify-between mt-4">
+    <button class="btn btn-sm btn-outline" (click)="scrollCarousel(0)">
+      Prev
+    </button>
+    <button class="btn btn-sm btn-outline" (click)="scrollCarousel(1)">
+      Next
+    </button>
   </div>
 </div>

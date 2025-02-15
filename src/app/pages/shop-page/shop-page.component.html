@@ -90,7 +90,7 @@
       <div
         *ngFor="let item of product"
         routerLink="/shopPage/product/{{ item.id }}"
-        class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
+        class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer hover:shadow-xl hover:shadow-base-300 hover:scale-105 ease-in-out duration-300"
       >
         <div class="rounded-t-xl overflow-hidden h-64">
           <img
@@ -100,15 +100,17 @@
           />
         </div>
         <div class="card-body h-2/5">
-          <h2 class="card-title text-base m-0">{{ item.name }}</h2>
-          <p class="truncate">{{ item.description }}</p>
+          <div>
+            <h2 class="font-semibold text-base mb-0">{{ item.name }}</h2>
+            <p class="truncate pt-1">{{ item.description }}</p>
+          </div>
           <div class="card-actions justify-between items-center">
             <p class="ms-2 text-base font-semibold">
               {{ item.price | currency : "EUR" }}
             </p>
             <button
               (click)="addToCart(item.id, $event)"
-              class="btn btn-sm btn-primary text-xs font-bold"
+              class="btn btn-sm btn-primary text-xs font-bold hover:scale-110"
             >
               Add to cart
             </button>

@@ -2,6 +2,8 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +15,7 @@ import { ProductFormService } from '../../../services/product-form.service';
   templateUrl: './step2-gallery-component.component.html',
   styleUrl: './step2-gallery-component.component.scss',
 })
-export class Step2GalleryComponent {
+export class Step2GalleryComponent implements OnInit {
   galleryForm: FormGroup;
   imgsArr: string[] = [];
   selectedFiles: File[] = [];
@@ -22,6 +24,14 @@ export class Step2GalleryComponent {
 
   constructor(private formService: ProductFormService) {
     this.galleryForm = this.formService.productForm.get('gallery') as FormGroup;
+  }
+
+  @Input() imgsFromProduct!: string[];
+
+  ngOnInit(): void {
+    if (this.imgsFromProduct) {
+      this.imgsArr = this.imgsFromProduct;
+    }
   }
 
   onMultiFileSelected(event: any) {

@@ -37,6 +37,13 @@ export class ProductsService {
     );
   }
 
+  updateProductInfo(
+    id: number,
+    productDTO: iProductRequest
+  ): Observable<iProduct> {
+    return this.http.put<iProduct>(`${this.productUrl}/${id}`, productDTO);
+  }
+
   getAll(): Observable<iProduct[]> {
     return this.http.get<iProduct[]>(this.productUrl);
   }
@@ -68,10 +75,6 @@ export class ProductsService {
 
   getProductById(id: number): Observable<iProduct> {
     return this.http.get<iProduct>(`${this.productUrl}/${id}`);
-  }
-
-  updateProduct(product: iProduct): Observable<iProduct> {
-    return this.http.put<iProduct>(`${this.productUrl}/${product.id}`, product);
   }
 
   deleteProduct(id: number): Observable<void> {

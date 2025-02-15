@@ -51,10 +51,17 @@
             *ngSwitchCase="0"
           ></app-step1-general-info-component>
           <app-step2-gallery-component
+            [imgsFromProduct]="product.imageUrls"
             (imagesSelected)="onGalleryImagesSelected($event)"
             *ngSwitchCase="1"
           ></app-step2-gallery-component>
           <app-step3-hero-component
+            [primaImgFromProduct]="
+              product.imageUrls[product.imageUrls.length - 2]
+            "
+            [secondaImgFromProduct]="
+              product.imageUrls[product.imageUrls.length - 1]
+            "
             (heroImagesSelected)="onHeroImagesSelected($event)"
             *ngSwitchCase="2"
           ></app-step3-hero-component>
@@ -84,11 +91,18 @@
         Continua
       </button>
       <button
-        *ngIf="currentStep === steps.length - 1"
+        *ngIf="currentStep === steps.length - 1 && !productId"
         (click)="submitForm()"
         class="btn btn-secondary"
       >
         Salva
+      </button>
+      <button
+        *ngIf="currentStep === steps.length - 1 && productId"
+        (click)="submitEditForm()"
+        class="btn btn-secondary"
+      >
+        Salva Modifiche
       </button>
     </div>
   </div>
@@ -96,24 +110,29 @@
     <!-- card preview -->
     <div class="flex flex-wrap gap-5 sm:ms-5 sticky top-24">
       <div
-        routerLink="/shopPage/product/ item.id "
+        *ngIf="product"
         class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
       >
         <div class="rounded-t-xl overflow-hidden h-3/5">
           <figure>
-            <img src="" alt=" item.name " />
+            <img src="{{ product.imageUrls[0] }}" alt=" item.name " />
           </figure>
         </div>
         <div class="card-body h-2/5">
-          <h2 class="card-title text-base m-0">productForm.value.name</h2>
-          <p class="truncate">item.description</p>
+          <div>
+            <h2 class="font-semibold text-base mb-0">{{ product.name }}</h2>
+            <p class="truncate pt-1">{{ product.description }}</p>
+          </div>
           <div class="card-actions justify-between items-center">
             <p class="ms-2 text-base font-semibold">
-              product.price | currency : "EUR"
+              {{ product.price | currency : "EUR" }}
             </p>
-            <a class="btn btn-sm btn-primary text-xs font-bold">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary text-xs font-bold hover:scale-110"
+            >
               Add to cart
-            </a>
+            </button>
           </div>
         </div>
       </div>

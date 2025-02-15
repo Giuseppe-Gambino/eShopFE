@@ -7,7 +7,12 @@
     </ul>
   </div>
 
-  <h1 class="text-2xl font-bold">Gestisci i tuoi prodotti</h1>
+  <div class="flex justify-between items-center mb-3">
+    <h1 class="text-2xl font-bold">Gestisci i tuoi prodotti</h1>
+    <button routerLink="/productForm" class="btn btn-sm btn-primary">
+      Aggiungi Nuovo Prodotto
+    </button>
+  </div>
 
   <!-- table -->
   <div class="overflow-x-auto bg-base-300 rounded-lg mt-3 px-3 pt-4 shadow-md">
@@ -56,10 +61,10 @@
             <p>{{ item.imageUrls.length }}</p>
           </td>
 
-          <td class="flex justify-end 6">
+          <td class="flex justify-center">
             <button
               (click)="modificaProdotto(item.id)"
-              class="btn btn-outline btn-primary btn-sm"
+              class="btn btn-secondary"
             >
               Modifica
             </button>
