@@ -13,6 +13,11 @@ import { FormProductComponent } from './form-product/form-product.component';
     ManageProductsComponent,
     FormProductComponent,
   ],
-  imports: [CommonModule, SellerDashboardRoutingModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    SellerDashboardRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class SellerDashboardModule {}
