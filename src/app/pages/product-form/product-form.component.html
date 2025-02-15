@@ -1,0 +1,122 @@
+<div class="breadcrumbs text-sm ms-5 mb-3">
+  <ul>
+    <li><a routerLink="">Home</a></li>
+    <li><a routerLink="/shopPage">Dashboard</a></li>
+    <li>Form Creazione/Modifica</li>
+  </ul>
+</div>
+
+<div class="grid grid-cols-3 gap-4">
+  <div class="col-span-3 col-start-1">
+    <ul class="steps mb-5 mt-2">
+      <li
+        class="step step-primary"
+        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 0 }"
+      >
+        Info generali
+      </li>
+      <li
+        class="step"
+        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 1 }"
+      >
+        Galleria
+      </li>
+      <li
+        class="step"
+        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 2 }"
+      >
+        Hero/Feature
+      </li>
+      <li
+        class="step"
+        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 3 }"
+      >
+        Prezzo/Categoria
+      </li>
+      <li
+        class="step step-error"
+        data-content="?"
+        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 4 }"
+      >
+        Pubblica
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-span-2 row-span-3 col-start-1 row-start-2">
+    <div class="form-container bg-base-300 py-4 px-4 rounded-lg">
+      <form [formGroup]="formService.productForm">
+        <ng-container [ngSwitch]="currentStep">
+          <app-step1-general-info-component
+            *ngSwitchCase="0"
+          ></app-step1-general-info-component>
+          <app-step2-gallery-component
+            (imagesSelected)="onGalleryImagesSelected($event)"
+            *ngSwitchCase="1"
+          ></app-step2-gallery-component>
+          <app-step3-hero-component
+            (heroImagesSelected)="onHeroImagesSelected($event)"
+            *ngSwitchCase="2"
+          ></app-step3-hero-component>
+          <app-step4-price-category-component
+            *ngSwitchCase="3"
+          ></app-step4-price-category-component>
+          <app-product-preview-component
+            *ngSwitchCase="4"
+          ></app-product-preview-component>
+        </ng-container>
+      </form>
+    </div>
+
+    <div class="flex justify-between mt-5">
+      <button
+        (click)="prevStep()"
+        [disabled]="currentStep === 0"
+        class="btn btn-secondary"
+      >
+        Indietro
+      </button>
+      <button
+        *ngIf="currentStep < steps.length - 1"
+        (click)="nextStep()"
+        class="btn btn-secondary"
+      >
+        Continua
+      </button>
+      <button
+        *ngIf="currentStep === steps.length - 1"
+        (click)="submitForm()"
+        class="btn btn-secondary"
+      >
+        Salva
+      </button>
+    </div>
+  </div>
+  <div class="row-span-3 col-start-3 row-start-2 justify-self-center">
+    <!-- card preview -->
+    <div class="flex flex-wrap gap-5 sm:ms-5 sticky top-24">
+      <div
+        routerLink="/shopPage/product/ item.id "
+        class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
+      >
+        <div class="rounded-t-xl overflow-hidden h-3/5">
+          <figure>
+            <img src="" alt=" item.name " />
+          </figure>
+        </div>
+        <div class="card-body h-2/5">
+          <h2 class="card-title text-base m-0">productForm.value.name</h2>
+          <p class="truncate">item.description</p>
+          <div class="card-actions justify-between items-center">
+            <p class="ms-2 text-base font-semibold">
+              product.price | currency : "EUR"
+            </p>
+            <a class="btn btn-sm btn-primary text-xs font-bold">
+              Add to cart
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

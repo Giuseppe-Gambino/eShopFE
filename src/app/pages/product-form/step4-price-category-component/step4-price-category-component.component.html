@@ -1,0 +1,78 @@
+<div [formGroup]="priceCategoryForm">
+  <div class="rounded-lg bg-base-300 w-fit p-4 m-3" class="flex">
+    <!-- category -->
+    <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+      <h3 class="text-xl font-semibold">Categoria</h3>
+      <!-- input select -->
+      <label class="form-control w-full max-w-xs mt-1">
+        <div class="label">
+          <span class="label-text">Seleziona categoria</span>
+        </div>
+        <select
+          #categorySelect
+          formControlName="categoryId"
+          class="select select-bordered"
+        >
+          <option value="" selected>Pick one</option>
+          <option [value]="cat.id" *ngFor="let cat of categories">
+            {{ cat.name }}
+          </option>
+        </select>
+      </label>
+      <div class="divider">Oppure</div>
+
+      <!-- Open the modal using ID.showModal() method -->
+      <button
+        class="btn btn-sm btn-secondary w-full"
+        onclick="my_modal_1.showModal()"
+      >
+        Crea nuova categoria
+      </button>
+      <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+          <div>
+            <h3 class="text-lg font-bold">Aggiungi Categoria</h3>
+          </div>
+
+          <div class="modal-action justify-normal mt-3 w-full">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-xs absolute top-0 right-0 m-6">X</button>
+            </form>
+            <!-- form -->
+            <div [formGroup]="newCategoryForm" class="w-full">
+              <p class="pb-2">Inserisci nome categoria</p>
+              <input
+                formControlName="category"
+                type="text"
+                placeholder="Type here"
+                class="input input-bordered w-full mb-4"
+              />
+              <form method="dialog">
+                <button
+                  (click)="newCategorySubmit()"
+                  class="btn btn-primary btn-sm w-full"
+                >
+                  Salva
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <!-- prezzo -->
+    <div class="rounded-lg bg-base-300 w-fit p-4 m-3">
+      <h3 class="text-xl font-semibold">Prezzo</h3>
+
+      <span class="label-text">Inserisci prezzo</span>
+      <input
+        type="number"
+        formControlName="price"
+        placeholder="es. 94.99"
+        class="input input-bordered w-full mb-4"
+      />
+    </div>
+  </div>
+</div>

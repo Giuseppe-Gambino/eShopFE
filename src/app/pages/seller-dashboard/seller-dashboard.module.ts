@@ -5,14 +5,9 @@ import { SellerDashboardRoutingModule } from './seller-dashboard-routing.module'
 import { SellerDashboardComponent } from './seller-dashboard.component';
 import { ManageProductsComponent } from './manage-products/manage-products.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormProductComponent } from './form-product/form-product.component';
 
 @NgModule({
-  declarations: [
-    SellerDashboardComponent,
-    ManageProductsComponent,
-    FormProductComponent,
-  ],
+  declarations: [SellerDashboardComponent, ManageProductsComponent],
   imports: [
     CommonModule,
     SellerDashboardRoutingModule,

@@ -58,6 +58,6 @@ export class ManageProductsComponent implements OnInit {
   }
 
   modificaProdotto(id: number) {
-    this.router.navigate([`sellerDashboard/formProduct/${id}`]);
+    this.router.navigate([`productForm/${id}`]);
   }
 }

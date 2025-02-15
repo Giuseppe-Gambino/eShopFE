@@ -1,0 +1,34 @@
+<div [formGroup]="generalForm" class="w-fit p-4 my-3">
+  <h3 class="text-xl font-semibold">Informazioni Generali</h3>
+  <span class="label-text">Nome prodotto</span>
+  <input
+    type="text"
+    formControlName="name"
+    class="input input-bordered w-full mb-4"
+    placeholder="Inserisci il nome del prodotto"
+  />
+  <span class="label-text">Descrizione prodotto</span>
+  <textarea
+    formControlName="description"
+    placeholder="Inserisci la descrizione del prodotto"
+    class="input input-bordered w-full h-20 mb-4"
+  ></textarea>
+  <span class="label-text">Dimensioni</span>
+  <input
+    type="text"
+    placeholder="es. Le dimensioni del prodotto sono 30x20x10 cm."
+    class="input input-bordered w-full mb-4"
+  />
+  <span class="label-text">Feature</span>
+  <input
+    type="text"
+    placeholder="es. Il prodotto include funzionalità avanzate come il controll..."
+    class="input input-bordered w-full mb-4"
+  />
+  <span class="label-text">Dettagli</span>
+  <input
+    type="text"
+    placeholder="es. Realizzato con materiali di alta qualità, il prodotto è resistente e durevole."
+    class="input input-bordered w-full mb-4"
+  />
+</div>

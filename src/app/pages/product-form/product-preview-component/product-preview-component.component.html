@@ -1,0 +1,69 @@
+<div class="preview-container">
+  <h3>Anteprima Prodotto</h3>
+  <div class="preview-section">
+    <h4>Informazioni Generali</h4>
+    <p>
+      <strong>Nome:</strong>
+      {{ formService.productForm.get("general.name")?.value }}
+    </p>
+    <p>
+      <strong>Descrizione:</strong>
+      {{ formService.productForm.get("general.description")?.value }}
+    </p>
+  </div>
+  <div class="preview-section">
+    <h4>Hero / Feature</h4>
+    <p>
+      <strong>Titolo Hero 1:</strong>
+      {{ formService.productForm.get("hero.titleSeconda")?.value }}
+    </p>
+    <p>
+      <strong>Descrizione Hero 1:</strong>
+      {{ formService.productForm.get("hero.descriptionSeconda")?.value }}
+    </p>
+    <p>
+      <strong>Titolo Hero 2:</strong>
+      {{ formService.productForm.get("hero.titleTerza")?.value }}
+    </p>
+    <p>
+      <strong>Descrizione Hero 2:</strong>
+      {{ formService.productForm.get("hero.descriptionTerza")?.value }}
+    </p>
+  </div>
+  <div class="preview-section">
+    <h4>Prezzo e Categoria</h4>
+    <p>
+      <strong>Prezzo:</strong>
+      {{ formService.productForm.get("priceCategory.price")?.value }}
+    </p>
+    <p>
+      <strong>ID Categoria:</strong>
+      {{ formService.productForm.get("priceCategory.categoryId")?.value }}
+    </p>
+  </div>
+  <div class="preview-section">
+    <h4>Galleria Immagini</h4>
+    <div
+      class="gallery-preview"
+      *ngIf="formService.productForm.get('gallery.imgsArr')?.value.length > 0"
+    >
+      <div
+        *ngFor="
+          let img of formService.productForm.get('gallery.imgsArr')?.value;
+          let i = index
+        "
+      >
+        <img
+          [src]="img"
+          alt="Anteprima immagine {{ i + 1 }}"
+          style="
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 5px;
+          "
+        />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div [formGroup]="heroForm">
+  <h3>Hero / Feature</h3>
+  <div class="slide">
+    <!-- titoli e descrizioni 1-->
+    <div class="rounded-lg bg-base-300 w-full p-4 flex my-5">
+      <div class="w-2/3 pe-4">
+        <h3 class="text-xl font-semibold">Informazioni Prima Slide</h3>
+        <span class="label-text">Titolo hero</span>
+        <input
+          type="text"
+          placeholder="es. Sensore Pulsar XS-1"
+          class="input input-bordered w-full mb-4"
+          formControlName="titleSeconda"
+        />
+        <span class="label-text">Descrizione hero</span>
+        <textarea
+          type="text"
+          placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
+          class="input input-bordered w-full h-20 mb-4"
+          formControlName="descriptionSeconda"
+        ></textarea>
+      </div>
+      <div class="w-1/3 flex flex-col">
+        <div
+          class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
+        >
+          <h4 *ngIf="!primaImg">Image Preview</h4>
+          <img
+            *ngIf="primaImg"
+            [src]="primaImg"
+            alt="Image Preview"
+            class="object-cover h-full max-h-[314px]"
+          />
+          <button
+            *ngIf="primaImg != ''"
+            (click)="deleteHeroImg(1)"
+            class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+          >
+            X
+          </button>
+        </div>
+        <input
+          type="file"
+          class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
+          (change)="onFileSelected($event, 1)"
+        />
+      </div>
+    </div>
+  </div>
+  <hr class="border-secondary border-2" />
+  <div class="slide">
+    <!-- titoli e descrizioni 2-->
+    <div class="rounded-lg bg-base-300 w-full p-4 my-5 flex">
+      <div class="w-2/3 pe-4">
+        <h3 class="text-xl font-semibold">Informazioni Seconda Slide</h3>
+        <span class="label-text">Titolo hero</span>
+        <input
+          type="text"
+          placeholder="es. Sensore Pulsar XS-1"
+          class="input input-bordered w-full mb-4"
+          formControlName="titleTerza"
+        />
+        <span class="label-text">Descrizione hero</span>
+        <textarea
+          type="text"
+          placeholder="es.Il sensore XS-1, esclusivo di Pulsar, vanta un'impressionante risoluzione di 32.000 dpi, una velocità di tracciamento di 750 IPS e un'accelerazione..."
+          class="input input-bordered w-full h-20 mb-4"
+          formControlName="descriptionTerza"
+        ></textarea>
+      </div>
+      <div class="w-1/3 flex flex-col">
+        <div
+          class="relative flex-grow bg-secondary rounded-lg h-full max-h-[314px] mb-4 flex items-center justify-center overflow-hidden"
+        >
+          <h4 *ngIf="!secondaImg">Image Preview</h4>
+          <img
+            *ngIf="secondaImg"
+            [src]="secondaImg"
+            alt="Image Preview"
+            class="object-cover h-full max-h-[314px]"
+          />
+          <button
+            *ngIf="secondaImg != ''"
+            (click)="deleteHeroImg(2)"
+            class="btn btn-xs btn-secondary absolute top-0 right-0 m-3"
+          >
+            X
+          </button>
+        </div>
+        <input
+          type="file"
+          class="file-input file-input-sm file-input-bordered file-input-primary w-full max-w-xs"
+          (change)="onFileSelected($event, 2)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
