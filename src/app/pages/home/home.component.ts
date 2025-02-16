@@ -46,6 +46,18 @@ export class HomeComponent implements AfterViewInit, OnInit {
               this.renderer.addClass(p, 'ps-5');
             }
           }
+          if (c.nativeElement.getAttribute('data-role') === 'monitor') {
+            if (p) {
+              this.renderer.removeClass(p, 'p-0');
+              this.renderer.addClass(p, 'ps-5');
+            }
+          }
+          if (c.nativeElement.getAttribute('data-role') === 'microfono') {
+            if (p) {
+              this.renderer.removeClass(p, 'p-0');
+              this.renderer.addClass(p, 'ps-[50px]');
+            }
+          }
         });
         this.renderer.addClass(card.nativeElement, 'flex-[2]');
         const p = card.nativeElement.querySelector('p');
@@ -58,6 +70,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
           }
           if (card.nativeElement.getAttribute('data-role') === 'tastiere') {
             this.renderer.removeClass(p, 'ps-5');
+            this.renderer.addClass(p, 'p-0');
+          }
+          if (card.nativeElement.getAttribute('data-role') === 'monitor') {
+            this.renderer.removeClass(p, 'ps-5');
+            this.renderer.addClass(p, 'p-0');
+          }
+          if (card.nativeElement.getAttribute('data-role') === 'microfono') {
+            this.renderer.removeClass(p, 'ps-[50px]');
             this.renderer.addClass(p, 'p-0');
           }
         }

@@ -17,3 +17,10 @@
     padding: 0;
   }
 }
+.card-grayscale:hover ~ * {
+  filter: grayscale(100%);
+}
+
+.list .card-grayscale:has(~ *:hover) {
+  filter: grayscale(100%);
+}
