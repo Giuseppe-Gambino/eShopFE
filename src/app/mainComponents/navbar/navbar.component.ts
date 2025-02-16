@@ -29,16 +29,20 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
-    });
-
-    this.userSvc.avatar$.subscribe((r) => {
-      this.avatar = r || 'avatar.png';
+      this.rtefreshAvatar();
     });
 
     this.cartSvc.cart$.subscribe((result) => {
       if (result) {
         this.cartItems = result;
       }
+    });
+  }
+
+  rtefreshAvatar() {
+    this.userSvc.getAvatar();
+    this.userSvc.avatar$.subscribe((r) => {
+      this.avatar = r || 'avatar.png';
     });
   }
 
