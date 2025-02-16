@@ -31,6 +31,8 @@ export class ProductFormService {
         descriptionSeconda: ['', Validators.required],
         titleTerza: ['', Validators.required],
         descriptionTerza: ['', Validators.required],
+        imgFile: [[]],
+        imgString: [[]],
       }),
       priceCategory: this.fb.group({
         price: [null, Validators.required],
@@ -45,11 +47,17 @@ export class ProductFormService {
         name: product.name,
         description: product.description,
       },
+
+      gallery: {
+        imgsArr: product.imageUrls,
+      },
+
       hero: {
         titleSeconda: product.titleSeconda,
         descriptionSeconda: product.descriptionSeconda,
         titleTerza: product.titleTerza,
         descriptionTerza: product.descriptionTerza,
+        imgString: product.imageUrls.slice(-2, product.imageUrls.length),
       },
       priceCategory: {
         price: product.price,
@@ -62,6 +70,9 @@ export class ProductFormService {
     return this.productForm.value;
   }
 
+  clearForm() {
+    this.productForm.reset();
+  }
   createProduct(
     categoryId: number,
     productRequest: iProductRequest

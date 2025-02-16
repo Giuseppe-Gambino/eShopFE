@@ -1,6 +1,6 @@
+import { ProductFormService } from './../../services/product-form.service';
 import { Component, OnInit } from '@angular/core';
 import { iProductRequest } from '../../interfaces/i-product-request';
-import { ProductFormService } from '../../services/product-form.service';
 import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute } from '@angular/router';
 import { iProduct } from '../../interfaces/i-product';
@@ -35,6 +35,7 @@ export class ProductFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.formService.clearForm();
     this.formPreview = this.formService.productForm;
     console.log('Form:', this.formPreview.value);
 
@@ -47,9 +48,6 @@ export class ProductFormComponent implements OnInit {
     this.productSvc.getProductById(parseInt(id)).subscribe({
       next: (product) => {
         this.product = product;
-        this.productImgsArr = product.imageUrls;
-        this.primaImg = this.productImgsArr[product.imageUrls.length - 2];
-        this.secondaImg = this.productImgsArr[product.imageUrls.length - 1];
         this.formService.patchProduct(product);
         this.productId = product.id;
       },
@@ -66,7 +64,7 @@ export class ProductFormComponent implements OnInit {
       imageUrls:
         this.productImgsArr && this.productImgsArr.length
           ? this.productImgsArr
-          : ['assets/placeholder-image.png'],
+          : ['https://placedog.net/500'],
       name: formValue.general?.name || '',
       description: formValue.general?.description || '',
       price: formValue.priceCategory?.price || 0,
@@ -83,16 +81,6 @@ export class ProductFormComponent implements OnInit {
     if (this.currentStep > 0) {
       this.currentStep--;
     }
-  }
-
-  // per recuperare le immagini selezionate
-  onGalleryImagesSelected(files: File[]): void {
-    this.selectedFiles = files;
-  }
-
-  onHeroImagesSelected(event: { prima: File; seconda: File }): void {
-    this.primaImgSelected = event.prima;
-    this.secondaImgSelected = event.seconda;
   }
 
   submitForm() {
@@ -122,14 +110,19 @@ export class ProductFormComponent implements OnInit {
   }
 
   patchImgs(productId: number): void {
+    const formValue = this.formService.getFormValue();
+    const galleryImages: File[] = formValue.gallery.selectedFiles;
+    const heroImages: File[] = formValue.hero.imgFile;
+
     const images: File[] = [];
-    images.push(...this.selectedFiles);
-    if (this.primaImgSelected) {
-      images.push(this.primaImgSelected);
+
+    if (galleryImages && heroImages && heroImages.length >= 2) {
+      galleryImages.push(heroImages[0], heroImages[1]);
     }
-    if (this.secondaImgSelected) {
-      images.push(this.secondaImgSelected);
-    }
+
+    images.push(...galleryImages);
+
+    console.log('Immagini da caricare:', images);
 
     this.productSvc.addImgs(productId, images).subscribe({
       next: (response) => {

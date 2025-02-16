@@ -9,35 +9,19 @@
 <div class="grid grid-cols-3 gap-4">
   <div class="col-span-3 col-start-1">
     <ul class="steps mb-5 mt-2">
-      <li
-        class="step step-primary"
-        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 0 }"
-      >
+      <li class="step" [ngClass]="{ 'step-primary': currentStep >= 0 }">
         Info generali
       </li>
-      <li
-        class="step"
-        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 1 }"
-      >
+      <li class="step" [ngClass]="{ 'step-primary': currentStep >= 1 }">
         Galleria
       </li>
-      <li
-        class="step"
-        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 2 }"
-      >
+      <li class="step" [ngClass]="{ 'step-primary': currentStep >= 2 }">
         Hero/Feature
       </li>
-      <li
-        class="step"
-        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 3 }"
-      >
+      <li class="step" [ngClass]="{ 'step-primary': currentStep >= 3 }">
         Prezzo/Categoria
       </li>
-      <li
-        class="step step-error"
-        data-content="?"
-        [ngClass]="{ 'bg-secondary rounded-lg': currentStep === 4 }"
-      >
+      <li class="step" [ngClass]="{ 'step-primary': currentStep >= 4 }">
         Pubblica
       </li>
     </ul>
@@ -52,13 +36,11 @@
           ></app-step1-general-info-component>
           <app-step2-gallery-component
             [imgsFromProduct]="productImgsArr"
-            (imagesSelected)="onGalleryImagesSelected($event)"
             *ngSwitchCase="1"
           ></app-step2-gallery-component>
           <app-step3-hero-component
             [primaImgFromProduct]="primaImg"
             [secondaImgFromProduct]="secondaImg"
-            (heroImagesSelected)="onHeroImagesSelected($event)"
             *ngSwitchCase="2"
           ></app-step3-hero-component>
           <app-step4-price-category-component
@@ -89,14 +71,14 @@
       <button
         *ngIf="currentStep === steps - 1 && !productId"
         (click)="submitForm()"
-        class="btn btn-secondary"
+        class="btn btn-primary"
       >
         Salva
       </button>
       <button
         *ngIf="currentStep === steps - 1 && productId"
         (click)="submitEditForm()"
-        class="btn btn-secondary"
+        class="btn btn-primary"
       >
         Salva Modifiche
       </button>

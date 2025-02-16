@@ -1,68 +1,175 @@
 <div class="preview-container">
-  <h3>Anteprima Prodotto</h3>
-  <div class="preview-section">
-    <h4>Informazioni Generali</h4>
-    <p>
-      <strong>Nome:</strong>
-      {{ formService.productForm.get("general.name")?.value }}
-    </p>
-    <p>
-      <strong>Descrizione:</strong>
-      {{ formService.productForm.get("general.description")?.value }}
-    </p>
-  </div>
-  <div class="preview-section">
-    <h4>Hero / Feature</h4>
-    <p>
-      <strong>Titolo Hero 1:</strong>
-      {{ formService.productForm.get("hero.titleSeconda")?.value }}
-    </p>
-    <p>
-      <strong>Descrizione Hero 1:</strong>
-      {{ formService.productForm.get("hero.descriptionSeconda")?.value }}
-    </p>
-    <p>
-      <strong>Titolo Hero 2:</strong>
-      {{ formService.productForm.get("hero.titleTerza")?.value }}
-    </p>
-    <p>
-      <strong>Descrizione Hero 2:</strong>
-      {{ formService.productForm.get("hero.descriptionTerza")?.value }}
-    </p>
-  </div>
-  <div class="preview-section">
-    <h4>Prezzo e Categoria</h4>
-    <p>
-      <strong>Prezzo:</strong>
-      {{ formService.productForm.get("priceCategory.price")?.value }}
-    </p>
-    <p>
-      <strong>ID Categoria:</strong>
-      {{ formService.productForm.get("priceCategory.categoryId")?.value }}
-    </p>
-  </div>
-  <div class="preview-section">
-    <h4>Galleria Immagini</h4>
-    <div
-      class="gallery-preview"
-      *ngIf="formService.productForm.get('gallery.imgsArr')?.value.length > 0"
-    >
+  <h3 class="text-xl font-semibold">Anteprima Prodotto</h3>
+  <div class="bg-base-300 w-fit p-2 m-3 max-h-[500px] overflow-y-auto">
+    <!-- page start -->
+    <div class="grid grid-cols-5 grid-rows-1 gap-4 mb-15 px-5">
+      <!-- row 1 -->
       <div
-        *ngFor="
-          let img of formService.productForm.get('gallery.imgsArr')?.value;
-          let i = index
-        "
+        class="col-span-full md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-1"
       >
-        <img
-          [src]="img"
-          alt="Anteprima immagine {{ i + 1 }}"
-          style="
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            margin-right: 5px;
-          "
-        />
+        <div class="rounded-xl overflow-hidden">
+          <div>
+            <img
+              [src]="formService.productForm.get('gallery.imgsArr')?.value[0]"
+              class="rounded-t-xl overflow-hidden"
+            />
+          </div>
+          <div class="flex gap-3">
+            <div
+              *ngFor="
+                let img of formService.productForm.get('gallery.imgsArr')?.value
+              "
+              class="cursor-pointer"
+            >
+              <img src="{{ img }}" class="h-16 mt-2" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- row 2 -->
+      <div
+        class="p-2 md:row-span-3 md:col-start-4 col-span-full md:col-span-2 md:row-start-1"
+      >
+        <div>
+          <h4 class="text-gray-600 font-extrabold -mb-2 font-body">STRIDE</h4>
+          <h2 class="text-3xl font-semibold font-heading">
+            {{ formService.productForm.get("general.name")?.value }}
+          </h2>
+
+          <h4 class="text-gray-600 mb-3 font-body -mt-2">
+            <span class="font-bold text-sm text-gray-600 font-body"
+              >CATEGORIA:</span
+            >
+            ...
+          </h4>
+        </div>
+
+        <div class="my-2">
+          <label class="font-bold font-heading">Descrizione:</label>
+          <p class="font-body">
+            {{ formService.productForm.get("general.description")?.value }}
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="my-4">
+            <h2 class="text-3xl font-semibold">
+              {{ formService.productForm.get("priceCategory.price")?.value }}
+            </h2>
+          </div>
+
+          <div
+            class="flex items-center border border-gray-300 rounded-lg p-1 w-24"
+          >
+            <button class="px-2 py-1 text-gray-600 font-bold hover:text-white">
+              −
+            </button>
+            <span class="px-3 text-lg"> 1 </span>
+            <button class="px-2 py-1 text-gray-600 font-bold hover:text-white">
+              +
+            </button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary rounded-sm w-full mt-2">
+          Add to cart
+        </button>
+
+        <!-- info tec -->
+        <div class="my-8">
+          <div
+            tabindex="0"
+            class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+          >
+            <div class="collapse-title text-lg font-medium">Dimensioni</div>
+            <div class="collapse-content">
+              <p>Le dimensioni del prodotto sono 30x20x10 cm.</p>
+            </div>
+          </div>
+          <div
+            tabindex="0"
+            class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+          >
+            <div class="collapse-title text-lg font-medium">Feature</div>
+            <div class="collapse-content">
+              <p>
+                Il prodotto include funzionalità avanzate come il controllo
+                tramite software e la connettività Wireless.
+              </p>
+            </div>
+          </div>
+          <div
+            tabindex="0"
+            class="collapse collapse-plus border-b-[2px] border-secondary rounded-none"
+          >
+            <div class="collapse-title text-lg font-medium">Dettagli</div>
+            <div class="collapse-content">
+              <p>
+                Realizzato con materiali di alta qualità, il prodotto è
+                resistente e durevole.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="grid grid-cols-12 w-full mb-10 sm:rounded-xl sm:overflow-hidden sm:shadow-lg bg-base-300"
+      >
+        <!-- Column -->
+        <div
+          class="col-span-12 md:col-span-6 flex flex-col justify-center items-center bg-[#1b2030]"
+        >
+          <div class="w-5/6 py-16 md:p-0">
+            <h1 class="text-3xl font-bold mb-3">
+              {{ formService.productForm.get("hero.titleSeconda")?.value }}
+            </h1>
+            <p class="text-md md:text-md md:text-lg font-semibold">
+              {{
+                formService.productForm.get("hero.descriptionSeconda")?.value
+              }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Column -->
+        <div class="col-span-12 md:col-span-6">
+          <div>
+            <img
+              [src]="formService.productForm.get('hero.imgString')?.value[0]"
+              class="overflow-hidden"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-12 w-full mb-5 sm:rounded-xl sm:overflow-hidden sm:shadow-lg bg-base-300"
+      >
+        <!-- Column -->
+        <div class="col-span-12 md:col-span-6">
+          <div>
+            <img
+              [src]="formService.productForm.get('hero.imgString')?.value[1]"
+              class="overflow-hidden"
+            />
+          </div>
+        </div>
+
+        <!-- Column -->
+        <div
+          class="col-span-12 md:col-span-6 order-first md:order-none flex flex-col justify-center items-center bg-[#1b2030]"
+        >
+          <div class="w-5/6 py-16 md:p-0">
+            <h1 class="text-3xl font-bold mb-3">
+              {{ formService.productForm.get("hero.titleTerza")?.value }}
+            </h1>
+            <p class="text-md md:text-sm md:text-lg font-semibold">
+              {{ formService.productForm.get("hero.descriptionTerza")?.value }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

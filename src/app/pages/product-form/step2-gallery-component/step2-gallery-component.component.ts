@@ -20,8 +20,6 @@ export class Step2GalleryComponent implements OnInit {
   imgsArr: string[] = [];
   selectedFiles: File[] = [];
 
-  @Output() imagesSelected = new EventEmitter<File[]>();
-
   constructor(private formService: ProductFormService) {
     this.galleryForm = this.formService.productForm.get('gallery') as FormGroup;
   }
@@ -56,7 +54,6 @@ export class Step2GalleryComponent implements OnInit {
           selectedFiles: this.selectedFiles,
           imgsArr: this.imgsArr,
         });
-        this.imagesSelected.emit(this.selectedFiles);
       };
       reader.readAsDataURL(file);
     });
@@ -73,7 +70,7 @@ export class Step2GalleryComponent implements OnInit {
       selectedFiles: this.selectedFiles,
       imgsArr: this.imgsArr,
     });
-    this.imagesSelected.emit(this.selectedFiles);
+    // this.imagesSelected.emit(this.selectedFiles);
 
     this.previewRefresh();
 

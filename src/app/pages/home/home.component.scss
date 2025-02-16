@@ -1,0 +1,19 @@
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-animation:hover {
+  p {
+    animation: fadeInOut 450ms ease-in-out;
+    padding: 0;
+  }
+}

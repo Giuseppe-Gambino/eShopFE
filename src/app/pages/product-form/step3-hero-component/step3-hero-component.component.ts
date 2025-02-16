@@ -14,11 +14,6 @@ export class Step3HeroComponent implements OnInit {
   secondaImg: string = '';
   secondaImgSelected!: File;
 
-  @Output() heroImagesSelected = new EventEmitter<{
-    prima: File;
-    seconda: File;
-  }>();
-
   constructor(private formService: ProductFormService) {
     this.heroForm = this.formService.productForm.get('hero') as FormGroup;
   }
@@ -45,9 +40,9 @@ export class Step3HeroComponent implements OnInit {
         this.secondaImgSelected = file;
       }
 
-      this.heroImagesSelected.emit({
-        prima: this.primaImgSelected,
-        seconda: this.secondaImgSelected,
+      this.heroForm.patchValue({
+        imgFile: [this.primaImgSelected, this.secondaImgSelected],
+        imgString: [this.primaImg, this.secondaImg],
       });
     };
     reader.readAsDataURL(file);
@@ -61,9 +56,9 @@ export class Step3HeroComponent implements OnInit {
       this.secondaImg = '';
       this.secondaImgSelected = new File([], '');
     }
-    this.heroImagesSelected.emit({
-      prima: this.primaImgSelected,
-      seconda: this.secondaImgSelected,
+    this.heroForm.patchValue({
+      imgFile: [this.primaImgSelected, this.secondaImgSelected],
+      imgString: [this.primaImg, this.secondaImg],
     });
   }
 }
