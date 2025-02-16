@@ -5,11 +5,16 @@
 >
   <!-- preview -->
   <div
+    *ngIf="previewRefresh()"
     class="flex-grow bg-secondary rounded-lg mb-4 flex items-center justify-center"
   >
     <h3>Galleria Immagini</h3>
   </div>
-  <div #scrollableElement class="flex carousel carousel-center gap-3">
+  <div
+    *ngIf="imgsArr"
+    #scrollableElement
+    class="flex carousel carousel-center gap-3"
+  >
     <!-- img ngfor -->
     <div
       *ngFor="let item of imgsArr; let i = index"

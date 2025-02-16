@@ -23,11 +23,11 @@ export class Step3HeroComponent implements OnInit {
     this.heroForm = this.formService.productForm.get('hero') as FormGroup;
   }
 
-  @Input() primaImgFromProduct!: string;
-  @Input() secondaImgFromProduct!: string;
+  @Input() primaImgFromProduct!: string | undefined;
+  @Input() secondaImgFromProduct!: string | undefined;
 
   ngOnInit(): void {
-    if (this.primaImgFromProduct) {
+    if (this.primaImgFromProduct && this.secondaImgFromProduct) {
       this.primaImg = this.primaImgFromProduct;
       this.secondaImg = this.secondaImgFromProduct;
     }

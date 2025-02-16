@@ -1,7 +1,7 @@
 <div class="breadcrumbs text-sm ms-5 mb-3">
   <ul>
     <li><a routerLink="">Home</a></li>
-    <li><a routerLink="/shopPage">Dashboard</a></li>
+    <li><a routerLink="/sellerDashboard">Dashboard</a></li>
     <li>Form Creazione/Modifica</li>
   </ul>
 </div>
@@ -51,17 +51,13 @@
             *ngSwitchCase="0"
           ></app-step1-general-info-component>
           <app-step2-gallery-component
-            [imgsFromProduct]="product.imageUrls"
+            [imgsFromProduct]="productImgsArr"
             (imagesSelected)="onGalleryImagesSelected($event)"
             *ngSwitchCase="1"
           ></app-step2-gallery-component>
           <app-step3-hero-component
-            [primaImgFromProduct]="
-              product.imageUrls[product.imageUrls.length - 2]
-            "
-            [secondaImgFromProduct]="
-              product.imageUrls[product.imageUrls.length - 1]
-            "
+            [primaImgFromProduct]="primaImg"
+            [secondaImgFromProduct]="secondaImg"
             (heroImagesSelected)="onHeroImagesSelected($event)"
             *ngSwitchCase="2"
           ></app-step3-hero-component>
@@ -84,21 +80,21 @@
         Indietro
       </button>
       <button
-        *ngIf="currentStep < steps.length - 1"
+        *ngIf="currentStep < steps - 1"
         (click)="nextStep()"
         class="btn btn-secondary"
       >
         Continua
       </button>
       <button
-        *ngIf="currentStep === steps.length - 1 && !productId"
+        *ngIf="currentStep === steps - 1 && !productId"
         (click)="submitForm()"
         class="btn btn-secondary"
       >
         Salva
       </button>
       <button
-        *ngIf="currentStep === steps.length - 1 && productId"
+        *ngIf="currentStep === steps - 1 && productId"
         (click)="submitEditForm()"
         class="btn btn-secondary"
       >
@@ -110,22 +106,22 @@
     <!-- card preview -->
     <div class="flex flex-wrap gap-5 sm:ms-5 sticky top-24">
       <div
-        *ngIf="product"
+        *ngIf="PreviewData"
         class="card card-compact bg-base-100 w-64 h-72 shadow-xl cursor-pointer"
       >
         <div class="rounded-t-xl overflow-hidden h-3/5">
           <figure>
-            <img src="{{ product.imageUrls[0] }}" alt=" item.name " />
+            <img [src]="PreviewData.imageUrls[0]" [alt]="PreviewData.name" />
           </figure>
         </div>
         <div class="card-body h-2/5">
           <div>
-            <h2 class="font-semibold text-base mb-0">{{ product.name }}</h2>
-            <p class="truncate pt-1">{{ product.description }}</p>
+            <h2 class="font-semibold text-base mb-0">{{ PreviewData.name }}</h2>
+            <p class="truncate pt-1">{{ PreviewData.description }}</p>
           </div>
           <div class="card-actions justify-between items-center">
             <p class="ms-2 text-base font-semibold">
-              {{ product.price | currency : "EUR" }}
+              {{ PreviewData.price | currency : "EUR" }}
             </p>
             <button
               type="button"

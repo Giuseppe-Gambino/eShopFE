@@ -26,12 +26,20 @@ export class Step2GalleryComponent implements OnInit {
     this.galleryForm = this.formService.productForm.get('gallery') as FormGroup;
   }
 
-  @Input() imgsFromProduct!: string[];
+  @Input() imgsFromProduct!: string[] | undefined;
 
   ngOnInit(): void {
     if (this.imgsFromProduct) {
       this.imgsArr = this.imgsFromProduct;
     }
+    this.previewRefresh();
+  }
+
+  previewRefresh(): boolean {
+    if (this.imgsArr.length === 0) {
+      return true;
+    }
+    return false;
   }
 
   onMultiFileSelected(event: any) {
@@ -53,6 +61,8 @@ export class Step2GalleryComponent implements OnInit {
       reader.readAsDataURL(file);
     });
 
+    this.previewRefresh();
+
     console.log('File selezionati:', this.selectedFiles);
   }
 
@@ -64,6 +74,8 @@ export class Step2GalleryComponent implements OnInit {
       imgsArr: this.imgsArr,
     });
     this.imagesSelected.emit(this.selectedFiles);
+
+    this.previewRefresh();
 
     console.log('File selezionati:', this.selectedFiles);
   }
