@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { iProduct } from '../interfaces/i-product';
 import { iPageAble } from '../interfaces/i-page-able';
 import { iProductRequest } from '../interfaces/i-product-request';
@@ -12,6 +12,9 @@ import { iProductRequest } from '../interfaces/i-product-request';
 export class ProductsService {
   private productUrl = environment.productUrl;
   private productPageUrl = environment.productPageUrl;
+
+  categorySub = new Subject<string>();
+  category$ = this.categorySub.asObservable();
 
   constructor(private http: HttpClient) {}
 

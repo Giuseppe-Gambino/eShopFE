@@ -35,6 +35,10 @@ export class ShopPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.prodSvc.category$.subscribe((res) => {
+      this.category = res;
+    });
+
     this.onLoad();
     this.loadCategory();
 

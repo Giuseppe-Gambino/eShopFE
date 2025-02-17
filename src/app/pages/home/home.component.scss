@@ -42,14 +42,27 @@
 //   }
 // }
 
-.hero-before::before {
+// .hero-before::before {
+//   content: "";
+//   position: absolute;
+//   left: -600px;
+//   top: 70px;
+//   transform: rotate(40deg);
+//   background-color: #0064ac;
+//   z-index: -1;
+//   width: 1500px;
+//   height: 1500px;
+// }
+
+.hero-cat::before {
   content: "";
   position: absolute;
-  left: -600px;
-  top: 70px;
-  transform: rotate(40deg);
+  left: 100px;
+  top: -050px;
+  transform: rotate(0deg);
   background-color: #0064ac;
   z-index: -1;
-  width: 1200px;
-  height: 1200px;
+  width: 800px;
+  height: 250px;
+  filter: blur(150px);
 }

@@ -7,6 +7,8 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +18,20 @@ import {
 export class HomeComponent implements AfterViewInit, OnInit {
   @ViewChildren('card') cards!: QueryList<ElementRef>;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private renderer: Renderer2,
+    private router: Router,
+    private produvtSvc: ProductsService
+  ) {}
+
+  category!: string;
 
   ngOnInit(): void {}
+
+  goToCatalog(category: string): void {
+    this.produvtSvc.categorySub.next(category);
+    this.router.navigate(['/shopPage']);
+  }
 
   ngAfterViewInit(): void {
     if (!this.cards) {
