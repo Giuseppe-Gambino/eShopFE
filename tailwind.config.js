@@ -13,6 +13,7 @@ module.exports = {
         "5xl": "4.210rem",
       },
       fontFamily: {
+        anton: ["Anton", "sans-serif"],
         heading: "Inter",
         body: "Inter",
       },
