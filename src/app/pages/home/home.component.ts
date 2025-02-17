@@ -55,7 +55,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
           if (c.nativeElement.getAttribute('data-role') === 'microfono') {
             if (p) {
               this.renderer.removeClass(p, 'p-0');
-              this.renderer.addClass(p, 'ps-[50px]');
+              this.renderer.addClass(p, 'ps-[45px]');
             }
           }
         });
@@ -77,7 +77,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
             this.renderer.addClass(p, 'p-0');
           }
           if (card.nativeElement.getAttribute('data-role') === 'microfono') {
-            this.renderer.removeClass(p, 'ps-[50px]');
+            this.renderer.removeClass(p, 'ps-[45px]');
             this.renderer.addClass(p, 'p-0');
           }
         }
