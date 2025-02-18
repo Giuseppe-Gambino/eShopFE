@@ -1,8 +1,9 @@
 import { iProduct } from './i-product';
 import { iResellerOrder } from './i-reseller-order';
+import { iTicket } from './i-ticket';
 
 export interface iPageAble {
-  content: iProduct[] | iResellerOrder[];
+  content: iProduct[] | iResellerOrder[] | iTicket[];
   pageable: Pageable;
   last: boolean;
   totalElements: number;

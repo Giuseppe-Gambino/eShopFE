@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { CartService } from '../../services/cart.service';
 import { iCart } from '../../interfaces/i-cart';
 import { UserService } from '../../services/user.service';
+import { iUser, Role } from '../../interfaces/i-user';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,9 @@ export class NavbarComponent implements OnInit {
   logOutBoo: boolean = false;
 
   isLoggedIn: boolean = false;
+
+  isSeller: boolean = false;
+  isAdmin: boolean = false;
 
   badge: boolean = false;
   cartItems!: number;
@@ -27,9 +31,28 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authSvc.user$.subscribe({
+      next: (user) => {
+        if (!user) return;
+        if (
+          user.roles.includes(Role.ROLE_ADMIN) ||
+          user.roles.includes(Role.ROLE_SELLER)
+        ) {
+          this.isSeller = true;
+        }
+        if (user.roles.includes(Role.ROLE_ADMIN)) {
+          this.isAdmin = true;
+        }
+        console.log(user);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+
     this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
-      this.rtefreshAvatar();
+      this.refreshAvatar();
     });
 
     this.cartSvc.cart$.subscribe((result) => {
@@ -39,7 +62,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  rtefreshAvatar() {
+  refreshAvatar() {
+    if (!this.isLoggedIn) return;
     this.userSvc.getAvatar();
     this.userSvc.avatar$.subscribe((r) => {
       this.avatar = r || 'avatar.png';
@@ -47,6 +71,8 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
+    this.isSeller = false;
+    this.isAdmin = false;
     this.authSvc.logout();
     this.logOutBoo = true;
     setTimeout(() => {

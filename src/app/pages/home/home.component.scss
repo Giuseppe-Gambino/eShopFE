@@ -25,35 +25,6 @@
   filter: grayscale(100%);
 }
 
-// .hero-before {
-//   &::after {
-//     content: "";
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     background-image: url("https://images.pexels.com/photos/28428582/pexels-photo-28428582/free-photo-of-sfera-3d-astratta-con-design-a-conchiglia-perforata.jpeg");
-//     background-size: cover;
-//     background-repeat: no-repeat;
-//     background-position: center;
-//     z-index: -2;
-//     height: 60vh;
-//   }
-// }
-
-// .hero-before::before {
-//   content: "";
-//   position: absolute;
-//   left: -600px;
-//   top: 70px;
-//   transform: rotate(40deg);
-//   background-color: #0064ac;
-//   z-index: -1;
-//   width: 1500px;
-//   height: 1500px;
-// }
-
 .hero-cat::before {
   content: "";
   position: absolute;
@@ -65,4 +36,18 @@
   width: 800px;
   height: 250px;
   filter: blur(150px);
+}
+
+@media screen and (max-width: 980px) {
+  .hero-cat::before {
+    width: 400px;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hero-cat::before {
+    width: 200px;
+    height: 500px;
+  }
 }

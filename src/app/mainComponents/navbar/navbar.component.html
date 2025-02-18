@@ -23,13 +23,15 @@
         >Products</a
       >
       <a
+        *ngIf="isAdmin"
         role="tab"
-        routerLink="/ss"
+        routerLink="/adminDashboard"
         routerLinkActive="tab-active font-semibold"
         class="tab mx-1"
-        >About Us</a
+        >Gestisci</a
       >
       <a
+        *ngIf="isSeller"
         role="tab"
         routerLink="/sellerDashboard"
         routerLinkActive="tab-active font-semibold"

@@ -6,6 +6,7 @@ import { iCategory } from '../../interfaces/i-category';
 import { CategoryService } from '../../services/category.service';
 import { CartService } from '../../services/cart.service';
 import { take } from 'rxjs';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-shop-page',
@@ -31,15 +32,17 @@ export class ShopPageComponent implements OnInit {
   constructor(
     private prodSvc: ProductsService,
     private categorySvc: CategoryService,
-    private cartSvc: CartService
+    private cartSvc: CartService,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
     this.prodSvc.category$.subscribe((res) => {
       this.category = res;
+      console.log(this.category);
     });
-
     this.onLoad();
+
     this.loadCategory();
 
     this.cartSvc.cart$.subscribe({
@@ -81,6 +84,7 @@ export class ShopPageComponent implements OnInit {
     ) {
       this.currentPage++;
       this.onLoad();
+      this.viewportScroller.scrollToPosition([0, 0]);
     }
   }
 
@@ -88,6 +92,7 @@ export class ShopPageComponent implements OnInit {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.onLoad();
+      this.viewportScroller.scrollToPosition([0, 0]);
     }
   }
 

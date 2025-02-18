@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuestGuard } from './auth/guards/guest.guard';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { RoleGuard } from './auth/guards/role.guard.spec';
+import { RoleAdmin } from './auth/guards/role-admin.guard';
 
 const routes: Routes = [
   {
@@ -53,8 +55,8 @@ const routes: Routes = [
       import('./pages/seller-dashboard/seller-dashboard.module').then(
         (m) => m.SellerDashboardModule
       ),
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    canActivateChild: [AuthGuard, RoleGuard],
   },
   {
     path: 'productForm',
@@ -69,6 +71,15 @@ const routes: Routes = [
       import('./pages/product-form/product-form.module').then(
         (m) => m.ProductFormModule
       ),
+  },
+  {
+    path: 'adminDashboard',
+    loadChildren: () =>
+      import('./pages/admin-dashboard/admin-dashboard.module').then(
+        (m) => m.AdminDashboardModule
+      ),
+    canActivate: [AuthGuard, RoleAdmin],
+    canActivateChild: [AuthGuard, RoleAdmin],
   },
 ];
 

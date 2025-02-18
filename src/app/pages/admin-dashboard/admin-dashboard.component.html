@@ -1,6 +1,6 @@
 <section class="container px-5">
   <div class="flex justify-between items-baseline mt-8">
-    <h2 class="text-2xl font-semibold mt-3">Orders</h2>
+    <h2 class="text-2xl font-semibold mt-3">Ticket</h2>
     <div>
       <button
         routerLink="/productForm"
@@ -40,25 +40,23 @@
     </div>
 
     <div class="stat py-2">
-      <div class="stat-title">Total order</div>
-      <div class="stat-value text-2xl">
-        {{ stats.totalOrders }}
-      </div>
+      <div class="stat-title">Total Ticket</div>
+      <div class="stat-value text-2xl">{{ stats.totalTickets }}</div>
     </div>
 
     <div class="stat py-2">
-      <div class="stat-title">In elaborazione</div>
-      <div class="stat-value text-2xl">{{ stats.inElaborazione }}</div>
+      <div class="stat-title">In esecuzione</div>
+      <div class="stat-value text-2xl">{{ stats.inEsecuzione }}</div>
     </div>
 
     <div class="stat py-2">
-      <div class="stat-title">Spedito</div>
-      <div class="stat-value text-2xl">{{ stats.spedito }}</div>
+      <div class="stat-title">Completati</div>
+      <div class="stat-value text-2xl">{{ stats.completati }}</div>
     </div>
 
     <div class="stat py-2">
-      <div class="stat-title">Consegnato</div>
-      <div class="stat-value">{{ stats.consegnato }}</div>
+      <div class="stat-title">Cancellati</div>
+      <div class="stat-value">{{ stats.cancellati }}</div>
     </div>
   </div>
 
@@ -70,7 +68,6 @@
         value=""
         class="hidden peer"
         checked
-        (click)="resetStatus()"
       />
       <span
         class="px-4 py-1 border-b-2 text-gray-500 border-gray-700 transition-all peer-checked:border-primary peer-checked:text-primary"
@@ -101,33 +98,27 @@
       <div>
         <label>Data Esatta</label>
         <input
-          [(ngModel)]="date"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
-          (click)="resetData()"
         />
       </div>
       <div>
         <label>Data Inizio</label>
         <input
-          [(ngModel)]="startDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
-          (click)="resetDataEsatta()"
         />
       </div>
       <div>
         <label>Data Fine</label>
         <input
-          [(ngModel)]="endDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
-          (click)="resetDataEsatta()"
         />
       </div>
     </div>
 
-    <button (click)="onload()" class="btn btn-primary">Filtra</button>
+    <button class="btn btn-primary">Filtra</button>
   </div>
 
   <!-- table -->
@@ -136,87 +127,71 @@
       <!-- head -->
       <thead>
         <tr class="bg-secondary">
-          <th class="rounded-s-md">N. Ordine</th>
-          <th>Prodotto</th>
+          <th class="rounded-s-md">N.Ticket</th>
+          <th>Utente</th>
           <th>Data</th>
-          <th>Quantita</th>
-          <th>Totale</th>
+          <th>Oggetto</th>
+          <th>Descrizione</th>
           <th class="rounded-e-md">Stato</th>
         </tr>
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr *ngFor="let item of resellerOrderArray">
-          <td class="flex-row whitespace-nowrap">
+        <tr *ngFor="let item of tickets">
+          <td class="flex-row whitespace-nowrap w-5">
             <p class="rounded-lg w-fit p-2 bg-secondary"># {{ item.id }}</p>
           </td>
           <td>
             <div class="flex items-center gap-3">
               <div class="avatar">
                 <div class="mask mask-squircle h-12 w-12">
-                  <img
-                    [src]="item.orderItem?.product?.imageUrls?.[0]"
-                    alt="Avatar Tailwind CSS Component"
-                  />
+                  <img [src]="item.appUser.avatar || 'avatar.png'" />
                 </div>
               </div>
               <div>
-                <div class="font-bold">{{ item.orderItem?.product?.name }}</div>
+                <div class="font-bold">
+                  {{ item.appUser.username }}
+                </div>
               </div>
             </div>
           </td>
           <td>
             <div class="text-md">{{ item.createdAt }}</div>
           </td>
-          <td>{{ item.orderItem?.quantity }} <span>Items</span></td>
-          <td
-            class="text-lg"
-            *ngIf="item.orderItem?.quantity && item.orderItem?.price"
-          >
-            {{
-              (item.orderItem?.price ?? 0) * (item.orderItem?.quantity ?? 0)
-                | currency : "EUR"
-            }}
+          <td>{{ item.object }}</td>
+          <td class="text-md max-w-60 truncate">
+            {{ item.description }}
           </td>
           <th class="flex justify-between pt-6">
             <select
               #statusSelect
-              (click)="isChange(statusSelect.value, item.orderStatus)"
               class="select select-bordered select-sm text-xs w-36"
             >
-              <option [value]="item.orderStatus" selected>
-                {{ item.orderStatus | titlecase }}
-              </option>
-              <option
-                [value]="statusItem.toString()"
-                *ngFor="let statusItem of status"
-              >
-                {{ statusItem | titlecase }}
+              <option selected>{{ item.status | titlecase }}</option>
+              <option *ngFor="let stat of status" [value]="stat">
+                {{ stat | titlecase }}
               </option>
             </select>
-            <button
-              [disabled]="!isChange(statusSelect.value, item.orderStatus)"
-              (click)="editStatus(item.id, statusSelect.value)"
-              class="btn btn-outline btn-primary btn-sm"
-            >
-              Salva
-            </button>
+            <button class="btn btn-outline btn-primary btn-sm">Salva</button>
           </th>
         </tr>
       </tbody>
       <!-- foot -->
       <tfoot>
         <tr>
-          <th>N. Ordine</th>
-          <th>Prodotto</th>
+          <th>N. Ticket</th>
+          <th>Utente</th>
           <th>Data</th>
-          <th>Quantita</th>
-          <th>Totale</th>
+          <th>Oggetto</th>
+          <th>Descrizione</th>
           <th>Stato</th>
         </tr>
       </tfoot>
     </table>
-    <div class="border-t-2 border-t-secondary px-2 py-3 flex justify-between">
+    <div
+      *ngIf="pageable"
+      class="border-t-2 border-t-secondary px-2 py-3 flex justify-between"
+    >
       <!-- select size -->
       <div>
         <label>Items per pagina</label>
@@ -230,12 +205,12 @@
         </select>
       </div>
       <!-- button pagination -->
-      <div *ngIf="pageable.totalPages" class="join flex justify-end">
-        <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
+      <div class="join flex justify-end">
+        <button class="join-item btn btn-sm">«</button>
         <button class="join-item btn btn-sm">
-          Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
+          Page {{ currentPage + 1 }} / {{ pageable.totalPages }}
         </button>
-        <button (click)="incrementa()" class="join-item btn btn-sm">»</button>
+        <button class="join-item btn btn-sm">»</button>
       </div>
     </div>
   </div>

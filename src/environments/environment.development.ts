@@ -8,4 +8,8 @@ export const environment = {
   cartUrl: 'http://localhost:8080/cart',
   orderUrl: 'http://localhost:8080/order',
   resellerOrderUrl: 'http://localhost:8080/resellerOrder',
+  ticketUrl: 'http://localhost:8080/Ticket',
+  findTicketUrl: 'http://localhost:8080/Ticket/findByUsername',
+  editTicketUrl: 'http://localhost:8080/Ticket/status',
+  statsTicketUrl: 'http://localhost:8080/Ticket/stats',
 };
