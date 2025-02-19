@@ -135,8 +135,12 @@
             class="flex space-x-2 w-2/3 bg-base-100 p-4 rounded-lg border border-gray-800"
           >
             <div class="badge badge-primary badge-outline">User</div>
-            <div class="badge badge-info badge-outline">Seller</div>
-            <div class="badge badge-error badge-outline">Admin</div>
+            <div *ngIf="isSeller" class="badge badge-info badge-outline">
+              Seller
+            </div>
+            <div *ngIf="isAdmin" class="badge badge-error badge-outline">
+              Admin
+            </div>
           </div>
         </div>
       </div>

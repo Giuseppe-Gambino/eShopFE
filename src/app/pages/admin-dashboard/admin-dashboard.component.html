@@ -1,20 +1,7 @@
 <section class="container px-5">
   <div class="flex justify-between items-baseline mt-8">
-    <h2 class="text-2xl font-semibold mt-3">Ticket</h2>
-    <div>
-      <button
-        routerLink="/productForm"
-        class="btn btn-sm btn-outline hover:btn-primary me-4"
-      >
-        Aggiungi Nuovo Prodotto
-      </button>
-      <button
-        routerLink="/sellerDashboard/manageProduct"
-        class="btn btn-primary btn-sm"
-      >
-        Gestisci prodotti
-      </button>
-    </div>
+    <h2 class="text-2xl font-semibold mt-3 over">Ticket</h2>
+    <div></div>
   </div>
 
   <!-- stats -->
@@ -68,6 +55,7 @@
         value=""
         class="hidden peer"
         checked
+        (click)="resetStatus()"
       />
       <span
         class="px-4 py-1 border-b-2 text-gray-500 border-gray-700 transition-all peer-checked:border-primary peer-checked:text-primary"
@@ -98,6 +86,8 @@
       <div>
         <label>Data Esatta</label>
         <input
+          (click)="resetData()"
+          [(ngModel)]="date"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -105,6 +95,8 @@
       <div>
         <label>Data Inizio</label>
         <input
+          (click)="resetDataEsatta()"
+          [(ngModel)]="startDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
         />
@@ -112,13 +104,15 @@
       <div>
         <label>Data Fine</label>
         <input
+          (click)="resetDataEsatta()"
+          [(ngModel)]="endDate"
           type="date"
           class="input input-bordered input-sm w-full max-w-xs"
         />
       </div>
     </div>
 
-    <button class="btn btn-primary">Filtra</button>
+    <button (click)="onload()" class="btn btn-primary">Filtra</button>
   </div>
 
   <!-- table -->
@@ -162,8 +156,9 @@
           <td class="text-md max-w-60 truncate">
             {{ item.description }}
           </td>
-          <th class="flex justify-between pt-6">
+          <th class="flex justify-between items-center pt-6">
             <select
+              (click)="isChange(statusSelect.value, item.status)"
               #statusSelect
               class="select select-bordered select-sm text-xs w-36"
             >
@@ -172,7 +167,75 @@
                 {{ stat | titlecase }}
               </option>
             </select>
-            <button class="btn btn-outline btn-primary btn-sm">Salva</button>
+            <div class="cursor-pointer" (click)="modal.showModal()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                x="0px"
+                y="0px"
+                width="24"
+                height="24"
+                viewBox="0,0,256,256"
+              >
+                <g
+                  fill="#202431"
+                  fill-rule="nonzero"
+                  stroke="none"
+                  stroke-width="1"
+                  stroke-linecap="butt"
+                  stroke-linejoin="miter"
+                  stroke-miterlimit="10"
+                  stroke-dasharray=""
+                  stroke-dashoffset="0"
+                  font-family="none"
+                  font-weight="none"
+                  font-size="none"
+                  text-anchor="none"
+                  style="mix-blend-mode: normal"
+                >
+                  <path
+                    d="M44.4416,250.88c-21.71672,0 -39.3216,-17.60488 -39.3216,-39.3216v-167.1168c0,-21.71672 17.60488,-39.3216 39.3216,-39.3216h167.1168c21.71672,0 39.3216,17.60488 39.3216,39.3216v167.1168c0,21.71672 -17.60488,39.3216 -39.3216,39.3216z"
+                  ></path>
+                </g>
+                <g
+                  fill="#ffffff"
+                  fill-rule="nonzero"
+                  stroke="none"
+                  stroke-width="1"
+                  stroke-linecap="butt"
+                  stroke-linejoin="miter"
+                  stroke-miterlimit="10"
+                  stroke-dasharray=""
+                  stroke-dashoffset="0"
+                  font-family="none"
+                  font-weight="none"
+                  font-size="none"
+                  text-anchor="none"
+                  style="mix-blend-mode: normal"
+                >
+                  <g transform="scale(10.66667,10.66667)">
+                    <path
+                      d="M5,3c-1.09306,0 -2,0.90694 -2,2v14c0,1.09306 0.90694,2 2,2h14c1.09306,0 2,-0.90694 2,-2v-7h-2v7h-14v-14h7v-2zM14,3v2h3.58594l-9.29297,9.29297l1.41406,1.41406l9.29297,-9.29297v3.58594h2v-7z"
+                    ></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <dialog #modal class="modal">
+              <div class="modal-box">
+                <h3 class="text-lg font-bold">{{ item.object }}</h3>
+                <p class="py-4">{{ item.description }}</p>
+              </div>
+              <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+            <button
+              [disabled]="!isChange(statusSelect.value, item.status)"
+              (click)="editStatus(item.id, statusSelect.value)"
+              class="btn btn-outline btn-primary btn-sm"
+            >
+              Salva
+            </button>
           </th>
         </tr>
       </tbody>
@@ -205,13 +268,14 @@
         </select>
       </div>
       <!-- button pagination -->
-      <div class="join flex justify-end">
-        <button class="join-item btn btn-sm">«</button>
+      <div *ngIf="pageable" class="join flex justify-end">
+        <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
         <button class="join-item btn btn-sm">
-          Page {{ currentPage + 1 }} / {{ pageable.totalPages }}
+          Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
         </button>
-        <button class="join-item btn btn-sm">»</button>
+        <button (click)="incrementa()" class="join-item btn btn-sm">»</button>
       </div>
     </div>
   </div>
+  <!-- Open the modal using ID.showModal() method -->
 </section>

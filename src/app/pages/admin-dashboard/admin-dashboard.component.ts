@@ -11,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class AdminDashboardComponent implements OnInit {
   options = [
     { label: 'Ricevuti', value: 'RICEVUTO' },
-    { label: 'In esecuzione', value: 'IN_ESECUZION' },
+    { label: 'In esecuzione', value: 'IN_ESECUZIONE' },
     { label: 'Completati', value: 'COMPLETATO' },
     { label: 'Cancellati', value: 'CANCELLATO' },
   ];
@@ -22,8 +22,12 @@ export class AdminDashboardComponent implements OnInit {
   tickets: iTicket[] = [];
   stats!: iTicketSummaryDTO;
 
-  status: string[] = ['RICEVUTO', 'IN_ESECUZION', 'COMPLETATO', 'CANCELLATO'];
+  status: string[] = ['RICEVUTO', 'IN_ESECUZIONE', 'COMPLETATO', 'CANCELLATO'];
   listSize: number[] = [6, 12, 24, 36, 48, 60];
+
+  date?: string;
+  startDate?: string;
+  endDate?: string;
 
   statusTicket!: string;
 
@@ -40,7 +44,14 @@ export class AdminDashboardComponent implements OnInit {
 
   onload(): void {
     this.ticketSvc
-      .getPromotionRequests(this.currentPage, this.currentPage)
+      .getTicket(
+        this.currentPage,
+        this.currentSize,
+        this.statusTicket,
+        this.date,
+        this.startDate,
+        this.endDate
+      )
       .subscribe((res) => {
         console.log(res);
         this.tickets = res.content as iTicket[];
@@ -48,8 +59,54 @@ export class AdminDashboardComponent implements OnInit {
       });
   }
 
+  editStatus(id: number, status: string): void {
+    this.ticketSvc.editTicket(id, status).subscribe({
+      next: () => {
+        this.onload();
+      },
+      error: (error) => {
+        console.error(`Failed to update ${id} ticket:`, error);
+      },
+    });
+  }
+
+  isChange(newStatus: string, status: string): boolean {
+    return newStatus !== status;
+  }
+
   onOptionChange(value: string): void {
     this.statusTicket = value;
     this.onload();
+  }
+
+  resetStatus(): void {
+    this.statusTicket = '';
+    this.onload();
+  }
+
+  resetDataEsatta() {
+    this.date = '';
+  }
+
+  resetData() {
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  incrementa() {
+    if (
+      this.currentPage < this.pageable?.totalPages &&
+      this.currentPage + 1 != this.pageable?.totalPages
+    ) {
+      this.currentPage++;
+      this.onload();
+    }
+  }
+
+  decrementa() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.onload();
+    }
   }
 }

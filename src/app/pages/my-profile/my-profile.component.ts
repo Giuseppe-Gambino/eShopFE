@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { iUser } from '../../interfaces/i-user';
+import { iUser, Role } from '../../interfaces/i-user';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -13,6 +13,9 @@ export class MyProfileComponent implements OnInit {
   avatar!: string;
   profileForm!: FormGroup;
 
+  isSeller: boolean = false;
+  isAdmin: boolean = false;
+
   constructor(private userSvc: UserService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -21,6 +24,16 @@ export class MyProfileComponent implements OnInit {
 
   reloadUser(): void {
     this.userSvc.getByUser().subscribe((r) => {
+      if (!r) return;
+      if (
+        r.roles.includes(Role.ROLE_ADMIN) ||
+        r.roles.includes(Role.ROLE_SELLER)
+      ) {
+        this.isSeller = true;
+      }
+      if (r.roles.includes(Role.ROLE_ADMIN)) {
+        this.isAdmin = true;
+      }
       this.user = r;
       this.avatar = this.user.avatar || 'avatar.png';
       this.initForm();

@@ -12,4 +12,5 @@ export const environment = {
   findTicketUrl: 'http://localhost:8080/Ticket/findByUsername',
   editTicketUrl: 'http://localhost:8080/Ticket/status',
   statsTicketUrl: 'http://localhost:8080/Ticket/stats',
+  ticketFilterUrl: 'http://localhost:8080/Ticket/filtered',
 };

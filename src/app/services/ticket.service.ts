@@ -13,6 +13,7 @@ export class TicketService {
   findTicketUrl: string = environment.findTicketUrl;
   editTicketUrl: string = environment.editTicketUrl;
   statsTicketUrl: string = environment.statsTicketUrl;
+  ticketFilterUrl: string = environment.ticketFilterUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -20,25 +21,53 @@ export class TicketService {
     return this.http.get<iTicketSummaryDTO>(this.statsTicketUrl);
   }
 
-  getPromotionRequests(page: number, size: number): Observable<iPageAble> {
+  getTicket(
+    page: number,
+    size: number,
+    status: string,
+    date?: string,
+    startDate?: string,
+    endDate?: string
+  ): Observable<iPageAble> {
     let params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<iPageAble>(this.ticketUrl, { params });
+
+    if (status) {
+      params = params.set('status', status);
+    }
+    if (date) {
+      params = params.set('date', date);
+    }
+    if (startDate) {
+      params = params.set('startDate', startDate);
+    }
+    if (endDate) {
+      params = params.set('endDate', endDate);
+    }
+
+    return this.http.get<iPageAble>(this.ticketFilterUrl, { params });
   }
 
-  findPromotionRequest(username: string): Observable<iTicket> {
+  findTicket(username: string): Observable<iTicket> {
     let params = new HttpParams().set('username', username);
     return this.http.get<iTicket>(this.findTicketUrl, { params });
   }
 
-  editPromotionRequest(id: number, status: string): Observable<iTicket> {
-    return this.http.put<iTicket>(`${this.editTicketUrl}/${id}`, { status });
+  editTicket(id: number, status: string): Observable<iTicket> {
+    let params = new HttpParams().set('statusTicket', status);
+    console.log(params);
+
+    return this.http.put<iTicket>(
+      `${this.editTicketUrl}/${id}`,
+      {},
+      { params }
+    );
   }
 
-  createRequest(requestDTO: iTicketDTO): Observable<iTicket> {
-    return this.http.post<iTicket>(this.ticketUrl, { requestDTO });
+  createTicket(TicketDTO: iTicketDTO): Observable<iTicket> {
+    return this.http.post<iTicket>(this.ticketUrl, { TicketDTO });
   }
 
-  deleteRequest(id: number): Observable<iTicket> {
+  deleteTicket(id: number): Observable<iTicket> {
     return this.http.delete<iTicket>(`${this.ticketUrl}/${id}`);
   }
 }

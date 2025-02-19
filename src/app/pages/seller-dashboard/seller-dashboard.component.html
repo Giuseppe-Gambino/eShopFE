@@ -230,7 +230,7 @@
         </select>
       </div>
       <!-- button pagination -->
-      <div *ngIf="pageable.totalPages" class="join flex justify-end">
+      <div *ngIf="pageable" class="join flex justify-end">
         <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
         <button class="join-item btn btn-sm">
           Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
