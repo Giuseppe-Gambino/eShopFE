@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { iUser } from '../interfaces/i-user';
+import { iPageAble } from '../interfaces/i-page-able';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   userUrl: string = environment.userUrl;
+  allUserUrl: string = environment.allUserUrl;
+  editRolesUrl: string = environment.editRolesUrl;
+
   private avatarSubject = new BehaviorSubject<string | undefined>(undefined);
   avatar$ = this.avatarSubject.asObservable();
 
@@ -36,5 +40,23 @@ export class UserService {
     const formData = new FormData();
     formData.append('images', avatar);
     return this.http.patch<iUser>(`${this.userUrl}/user/img`, formData);
+  }
+
+  getAllUsers(page: number, size: number): Observable<iPageAble> {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<iPageAble>(this.allUserUrl, { params });
+  }
+
+  editRuoli(
+    userId: number,
+    rolesToAdd: string[],
+    rolesToRemove: string[]
+  ): Observable<iUser> {
+    const rolesDTO = {
+      idUser: userId,
+      rolesToAdd: rolesToAdd,
+      rolesToRemove: rolesToRemove,
+    };
+    return this.http.post<iUser>(this.editRolesUrl, rolesDTO);
   }
 }

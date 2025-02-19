@@ -55,12 +55,12 @@ module.exports = {
       },
       {
         themewhite: {
-          primary: "#007AFF", // Blu Apple-style
-          secondary: "#F0F3F7", // Grigio chiaro elegante
-          accent: "#FF3B30", // Rosso acceso
-          neutral: "#FFFFFF", // Bianco puro
-          "base-100": "#F9FAFB", // Bianco sporco per sfondi
-          info: "#5AC8FA", // Azzurro chiaro
+          primary: "#864AF9", // Blu Apple-style
+          secondary: "#383486", // Grigio chiaro elegante
+          accent: "#ffE9B1", // Rosso acceso
+          neutral: "#332941", // Bianco puro
+          "base-100": "#f2f2f2", // Bianco sporco per sfondi
+          info: "#ffE9B1", // Azzurro chiaro
           success: "#34C759", // Verde acceso
           warning: "#FF9500", // Arancione Apple-style
           error: "#FF3B30", // Rosso Apple-style

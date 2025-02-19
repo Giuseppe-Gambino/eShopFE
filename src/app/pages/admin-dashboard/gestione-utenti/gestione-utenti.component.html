@@ -1,0 +1,156 @@
+<section>
+  <div class="breadcrumbs text-sm ms-5 mb-3">
+    <ul>
+      <li><a routerLink="">Home</a></li>
+      <li><a routerLink="/adminDashboard">Admin Dashboard</a></li>
+      <li>Gestione Clienti</li>
+    </ul>
+  </div>
+  <div class="flex justify-between items-center mb-3">
+    <h1 class="text-2xl font-bold">Gestione Ruoli Dei Utenti</h1>
+  </div>
+
+  <!-- table -->
+  <div class="overflow-x-auto bg-base-300 rounded-lg mt-3 px-3 pt-4 shadow-md">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr class="bg-secondary">
+          <th class="rounded-s-md">ID</th>
+          <th>Utente</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Ruoli</th>
+          <th class="rounded-e-md"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr *ngFor="let item of userArr">
+          <td class="flex-row whitespace-nowrap">
+            <p class="rounded-lg w-fit p-2 bg-secondary"># {{ item.id }}</p>
+          </td>
+          <td>
+            <div class="flex items-center gap-3">
+              <div class="avatar">
+                <div class="mask mask-squircle h-12 w-12">
+                  <img
+                    [src]="item.avatar"
+                    alt="Avatar Tailwind CSS Component"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="font-bold">{{ item.nome }} {{ item.cognome }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="text-md">{{ item.username }}</div>
+          </td>
+          <td>{{ item.email }}</td>
+          <td class="text-sm">
+            <div>
+              <label
+                *ngFor="let ruolo of roles"
+                class="cursor-pointer inline-flex items-center mr-3"
+              >
+                <div *ngIf="ruolo !== 'ROLE_USER'">
+                  <div
+                    type="button"
+                    class="btn btn-sm btn-secondary rounded-full cursor-default"
+                    [ngClass]="
+                      item.roles.includes(ruolo)
+                        ? 'btn-secondary'
+                        : 'btn-outline'
+                    "
+                  >
+                    {{ ruolo.slice(5) | titlecase }}
+                  </div>
+                </div>
+              </label>
+            </div>
+          </td>
+
+          <td class="flex justify-center">
+            <button
+              (click)="modal.showModal()"
+              class="btn btn-primary btn-outline"
+            >
+              Modifica
+            </button>
+            <dialog #modal class="modal">
+              <div class="modal-box flex flex-col p-4">
+                <h3 class="text-lg font-bold">
+                  Username: <span class="font-normal">{{ item.username }}</span>
+                </h3>
+                <div class="py-4">
+                  <label
+                    *ngFor="let ruolo of roles"
+                    class="cursor-pointer inline-flex items-center mr-3"
+                  >
+                    <div *ngIf="ruolo !== 'ROLE_USER'">
+                      <input
+                        type="checkbox"
+                        class="checkbox checkbox-sm checkbox-primary"
+                        [checked]="item.roles.includes(ruolo)"
+                        [value]="ruolo"
+                        (change)="toggleRole($event)"
+                      />
+                      <span class="ml-1 text-md">{{
+                        ruolo.slice(5) | titlecase
+                      }}</span>
+                    </div>
+                  </label>
+                </div>
+                <button
+                  (click)="editRuoli(item.id)"
+                  class="btn btn-primary btn-sm"
+                >
+                  Salva
+                </button>
+              </div>
+              <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+              </form>
+            </dialog>
+          </td>
+        </tr>
+      </tbody>
+      <!-- foot -->
+      <tfoot>
+        <tr>
+          <th>ID</th>
+          <th>Utente</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Ruoli</th>
+          <th></th>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="border-t-2 border-t-secondary px-2 py-3 flex justify-between">
+      <!-- select size -->
+      <div>
+        <label>Items per pagina</label>
+        <select
+          (change)="changeSize()"
+          class="select select-bordered select-sm text-xs w-16 ms-3"
+          [(ngModel)]="currentSize"
+        >
+          <option *ngFor="let item of listSize" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+      <!-- button pagination -->
+      <div *ngIf="pageable?.totalPages" class="join flex justify-end">
+        <button (click)="decrementa()" class="join-item btn btn-sm">«</button>
+        <button class="join-item btn btn-sm">
+          Page {{ currentPage + 1 }}/{{ pageable.totalPages }}
+        </button>
+        <button (click)="incrementa()" class="join-item btn btn-sm">»</button>
+      </div>
+    </div>
+  </div>
+</section>

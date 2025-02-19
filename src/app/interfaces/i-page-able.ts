@@ -1,9 +1,10 @@
 import { iProduct } from './i-product';
 import { iResellerOrder } from './i-reseller-order';
 import { iTicket } from './i-ticket';
+import { iUser } from './i-user';
 
 export interface iPageAble {
-  content: iProduct[] | iResellerOrder[] | iTicket[];
+  content: iProduct[] | iResellerOrder[] | iTicket[] | iUser[];
   pageable: Pageable;
   last: boolean;
   totalElements: number;

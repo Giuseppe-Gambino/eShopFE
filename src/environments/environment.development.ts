@@ -2,6 +2,8 @@ export const environment = {
   registerUrl: 'http://localhost:8080/auth/register',
   loginUrl: 'http://localhost:8080/auth/login',
   userUrl: 'http://localhost:8080/auth',
+  allUserUrl: 'http://localhost:8080/auth/findPageAllUsers',
+  editRolesUrl: 'http://localhost:8080/auth/updateRoles',
   productUrl: 'http://localhost:8080/product',
   productPageUrl: 'http://localhost:8080/product/fitraProdotti',
   categoryUrl: 'http://localhost:8080/category',

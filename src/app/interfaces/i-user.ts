@@ -14,3 +14,9 @@ export enum Role {
   ROLE_ADMIN = 'ROLE_ADMIN',
   ROLE_SELLER = 'ROLE_SELLER',
 }
+
+export interface iRoleUpdateDTO {
+  idUser: number;
+  rolesToAdd: Role[];
+  rolesToRemove: Role[];
+}

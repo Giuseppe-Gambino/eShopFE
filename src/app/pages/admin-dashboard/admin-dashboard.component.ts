@@ -35,7 +35,10 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.onload();
+    this.statsLoad();
+  }
 
+  statsLoad() {
     this.ticketSvc.getStats().subscribe((res) => {
       if (!res) return;
       this.stats = res;
@@ -63,6 +66,7 @@ export class AdminDashboardComponent implements OnInit {
     this.ticketSvc.editTicket(id, status).subscribe({
       next: () => {
         this.onload();
+        this.statsLoad();
       },
       error: (error) => {
         console.error(`Failed to update ${id} ticket:`, error);
@@ -71,7 +75,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   isChange(newStatus: string, status: string): boolean {
-    return newStatus !== status;
+    return newStatus.toLowerCase() !== status.toLowerCase();
   }
 
   onOptionChange(value: string): void {
