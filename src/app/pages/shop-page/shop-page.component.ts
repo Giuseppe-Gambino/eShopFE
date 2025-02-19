@@ -1,5 +1,11 @@
 import { iPageAble, Pageable } from './../../interfaces/i-page-able';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { ProductsService } from '../../services/products.service';
 import { iProduct } from '../../interfaces/i-product';
 import { iCategory } from '../../interfaces/i-category';
@@ -13,7 +19,7 @@ import { ViewportScroller } from '@angular/common';
   templateUrl: './shop-page.component.html',
   styleUrl: './shop-page.component.scss',
 })
-export class ShopPageComponent implements OnInit {
+export class ShopPageComponent implements OnInit, OnDestroy {
   product!: iProduct[];
   categoryArr!: iCategory[];
   length: number = 0;
@@ -35,12 +41,16 @@ export class ShopPageComponent implements OnInit {
     private cartSvc: CartService,
     private viewportScroller: ViewportScroller
   ) {}
+  ngOnDestroy(): void {
+    this.prodSvc.categorySub.next('');
+  }
 
   ngOnInit(): void {
     this.prodSvc.category$.subscribe((res) => {
       this.category = res;
       console.log(this.category);
     });
+
     this.onLoad();
 
     this.loadCategory();
