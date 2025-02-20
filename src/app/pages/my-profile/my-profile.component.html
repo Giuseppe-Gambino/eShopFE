@@ -144,10 +144,59 @@
           </div>
         </div>
       </div>
-      <div class="border-t border-gray-800 pt-4 flex justify-end gap-4">
-        <button type="button" class="btn btn-outline">Richiedi Ruolo</button>
-        <button type="submit" class="btn btn-primary">Salva</button>
-      </div>
     </form>
+    <div class="border-t border-gray-800 pt-4 flex justify-end gap-4">
+      <button
+        onclick="my_modal_2.showModal()"
+        type="button"
+        class="btn btn-outline"
+      >
+        Apri un ticket
+      </button>
+      <!-- Open the modal using ID.showModal() method -->
+      <dialog id="my_modal_2" class="modal">
+        <div [formGroup]="formTicket" class="modal-box">
+          <h3 class="text-lg font-bold">Crea un ticket</h3>
+          <div>
+            <div class="label">
+              <span class="label-text">oggetto del ticket</span>
+            </div>
+            <input
+              formControlName="object"
+              type="text"
+              class="input input-bordered w-full"
+              placeholder="Oggetto"
+            />
+          </div>
+          <div>
+            <div class="label">
+              <span class="label-text">Descrizione</span>
+            </div>
+            <input
+              formControlName="description"
+              type="text"
+              class="input input-bordered w-full"
+              placeholder="Descrizione"
+            />
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button
+              method="dialog"
+              class="modal-backdrop"
+              (click)="createTicket()"
+              class="btn btn-primary btn-sm w-full mt-6"
+            >
+              Invia
+            </button>
+          </form>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+      <button (click)="onSubmit()" type="submit" class="btn btn-primary">
+        Salva
+      </button>
+    </div>
   </div>
 </div>

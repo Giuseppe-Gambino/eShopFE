@@ -64,7 +64,7 @@ export class TicketService {
   }
 
   createTicket(TicketDTO: iTicketDTO): Observable<iTicket> {
-    return this.http.post<iTicket>(this.ticketUrl, { TicketDTO });
+    return this.http.post<iTicket>(this.ticketUrl, TicketDTO);
   }
 
   deleteTicket(id: number): Observable<iTicket> {

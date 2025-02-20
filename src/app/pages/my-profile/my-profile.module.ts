@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MyProfileRoutingModule } from './my-profile-routing.module';
 import { MyProfileComponent } from './my-profile.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [MyProfileComponent, OrderHistoryComponent],

@@ -55,18 +55,18 @@ module.exports = {
       },
       {
         themewhite: {
-          primary: "#864AF9", // Blu Apple-style
-          secondary: "#383486", // Grigio chiaro elegante
-          accent: "#ffE9B1", // Rosso acceso
-          neutral: "#332941", // Bianco puro
-          "base-100": "#f2f2f2", // Bianco sporco per sfondi
-          info: "#ffE9B1", // Azzurro chiaro
-          success: "#34C759", // Verde acceso
-          warning: "#FF9500", // Arancione Apple-style
-          error: "#FF3B30", // Rosso Apple-style
+          primary: "#171A26",
+          secondary: "#E0E4F1",
+          accent: "#007BFF",
+          neutral: "#F5F7FA",
+          "base-100": "#FFFFFF",
+          info: "#3B82F6",
+          success: "#22C55E",
+          warning: "#FACC15",
+          error: "#EF4444",
         },
       },
     ],
-    darkTheme: "darktheme", // Tema predefinito in modalità scura
+    darkTheme: "darktheme",
   },
 };

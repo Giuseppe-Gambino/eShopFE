@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { iUser, Role } from '../../interfaces/i-user';
 import { UserService } from '../../services/user.service';
+import { TicketService } from '../../services/ticket.service';
+import { iTicketDTO } from '../../interfaces/i-ticket';
 
 @Component({
   selector: 'app-my-profile',
@@ -13,13 +15,24 @@ export class MyProfileComponent implements OnInit {
   avatar!: string;
   profileForm!: FormGroup;
 
+  formTicket!: FormGroup;
+
   isSeller: boolean = false;
   isAdmin: boolean = false;
 
-  constructor(private userSvc: UserService, private fb: FormBuilder) {}
+  constructor(
+    private userSvc: UserService,
+    private fb: FormBuilder,
+    private ticketSvc: TicketService
+  ) {}
 
   ngOnInit(): void {
     this.reloadUser();
+
+    this.formTicket = this.fb.group({
+      object: ['', Validators.required],
+      description: ['', Validators.required],
+    });
   }
 
   reloadUser(): void {
@@ -76,5 +89,22 @@ export class MyProfileComponent implements OnInit {
     setTimeout(() => {
       this.reloadUser();
     }, 2500);
+  }
+
+  createTicket() {
+    console.log(this.formTicket.value);
+
+    const ticketDTO: iTicketDTO = {
+      object: this.formTicket.value.object,
+      description: this.formTicket.value.description,
+    };
+    this.ticketSvc.createTicket(ticketDTO).subscribe({
+      next: (res: any) => {
+        console.log('Ticket creato con successo!');
+      },
+      error: (err: any) => {
+        console.error('Errore nella creazione del ticket', err);
+      },
+    });
   }
 }

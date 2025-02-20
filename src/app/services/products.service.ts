@@ -58,7 +58,7 @@ export class ProductsService {
     minPrice?: number,
     maxPrice?: number
   ): Observable<iPageAble> {
-    let params = new HttpParams().set('page', page).set('size', '5');
+    let params = new HttpParams().set('page', page).set('size', '12');
 
     if (name) {
       params = params.set('name', name);
