@@ -117,3 +117,17 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="popUp" class="w-full flex justify-center">
+  <div
+    [ngClass]="['alert', status ? 'alert-success' : 'alert-error']"
+    role="alert"
+    class="absolute top-20 z-30 max-w-fit px-6 mx-5 translate-y-6"
+  >
+    <span class="loading loading-dots loading-lg"></span>
+    <div class="flex flex-col">
+      <p class="text-xl">{{ feedbackMessage }}</p>
+      <p class="text-sm">Non Uscire Dalla Pagina!</p>
+    </div>
+  </div>
+</div>

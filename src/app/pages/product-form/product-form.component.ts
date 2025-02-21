@@ -5,6 +5,7 @@ import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute } from '@angular/router';
 import { iProduct } from '../../interfaces/i-product';
 import { FormGroup } from '@angular/forms';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-product-form',
@@ -31,7 +32,8 @@ export class ProductFormComponent implements OnInit {
   constructor(
     public formService: ProductFormService,
     private productSvc: ProductsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,9 @@ export class ProductFormComponent implements OnInit {
         this.product = product;
         this.formService.patchProduct(product);
         this.productId = product.id;
+        this.productImgsArr = product.imageUrls;
+        this.primaImg = product.imageUrls[product.imageUrls.length - 2];
+        this.secondaImg = product.imageUrls[product.imageUrls.length - 1];
       },
       error: (err) => console.error('Errore nel recupero del prodotto:', err),
     });
@@ -74,12 +79,14 @@ export class ProductFormComponent implements OnInit {
   nextStep() {
     if (this.currentStep < this.steps - 1) {
       this.currentStep++;
+      this.viewportScroller.scrollToPosition([0, 0]);
     }
   }
 
   prevStep() {
     if (this.currentStep > 0) {
       this.currentStep--;
+      this.viewportScroller.scrollToPosition([0, 0]);
     }
   }
 
@@ -100,10 +107,14 @@ export class ProductFormComponent implements OnInit {
     this.productSvc.createProduct(parseInt(categoryId), dto).subscribe({
       next: (product) => {
         console.log('Prodotto creato:', product);
-        this.patchImgs(product.id);
-        //   caricamento immagini
+        this.feedback(true, 'Entita prodotto creato con successo!');
+        if (formValue.gallery.selectedFiles.length) {
+          this.patchImgs(product.id);
+          //   caricamento immagini/
+        }
       },
       error: (err) => {
+        this.feedback(false, 'Errore nella creazione del prodotto...');
         console.error('Errore nella creazione del prodotto:', err);
       },
     });
@@ -126,9 +137,14 @@ export class ProductFormComponent implements OnInit {
 
     this.productSvc.addImgs(productId, images).subscribe({
       next: (response) => {
+        setTimeout(() => {
+          this.feedback(true, 'Immagini caricate con successo!');
+        }, 1000);
+
         console.log('Immagini caricate:', response);
       },
       error: (err) => {
+        this.feedback(false, 'Errore nel caricamento delle immagini...');
         console.error("Errore nell'upload delle immagini:", err);
       },
     });
@@ -149,11 +165,29 @@ export class ProductFormComponent implements OnInit {
 
     this.productSvc.updateProductInfo(this.productId, dto).subscribe({
       next: (product) => {
+        this.feedback(true, 'Prodotto aggiornato con successo!');
         console.log('Prodotto aggiornato:', product);
       },
       error: (err) => {
+        this.feedback(false, 'Errore nell aggiornamento del prodotto...');
         console.error('Errore nell aggiornamento del prodotto:', err);
       },
     });
+  }
+
+  popUp: boolean = false;
+
+  status: boolean = true;
+  feedbackMessage: string = 'wdwaddw';
+
+  feedback(newStatus: boolean, newMessage: string) {
+    this.popUp = true;
+    this.status = newStatus;
+    this.feedbackMessage = newMessage;
+
+    setTimeout(() => {
+      this.popUp = false;
+      this.feedbackMessage = '';
+    }, 2500);
   }
 }

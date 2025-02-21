@@ -64,6 +64,7 @@ export class ProductFormService {
         categoryId: product.category?.id,
       },
     });
+    console.log('Form patched:', this.productForm.value);
   }
 
   getFormValue() {
