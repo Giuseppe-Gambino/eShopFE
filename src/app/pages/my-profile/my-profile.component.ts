@@ -99,10 +99,10 @@ export class MyProfileComponent implements OnInit {
       description: this.formTicket.value.description,
     };
     this.ticketSvc.createTicket(ticketDTO).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         console.log('Ticket creato con successo!');
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Errore nella creazione del ticket', err);
       },
     });
