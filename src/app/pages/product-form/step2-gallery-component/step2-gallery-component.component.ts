@@ -60,7 +60,7 @@ export class Step2GalleryComponent implements OnInit {
 
     this.previewRefresh();
 
-    console.log('File selezionati:', this.selectedFiles);
+    // console.log('File selezionati:', this.selectedFiles);
   }
 
   deleteImg(index: number) {
@@ -74,7 +74,7 @@ export class Step2GalleryComponent implements OnInit {
 
     this.previewRefresh();
 
-    console.log('File selezionati:', this.selectedFiles);
+    // console.log('File selezionati:', this.selectedFiles);
   }
 
   @ViewChild('scrollableElement') carousel!: ElementRef;

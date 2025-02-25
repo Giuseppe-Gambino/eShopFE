@@ -56,7 +56,6 @@ export class AdminDashboardComponent implements OnInit {
         this.endDate
       )
       .subscribe((res) => {
-        console.log(res);
         this.tickets = res.content as iTicket[];
         this.pageable = res;
       });

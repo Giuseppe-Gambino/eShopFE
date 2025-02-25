@@ -42,10 +42,8 @@ export class ProductPageComponent implements OnInit {
           this.product = product;
           this.imgPreview = product.imageUrls[0];
           this.storicoPrezzi = product.priceHistory;
-          console.log(this.storicoPrezzi);
 
           this.grafico();
-          console.log(product);
 
           return this.userSvc.getById(product.resellerId);
         })
@@ -53,7 +51,7 @@ export class ProductPageComponent implements OnInit {
       .subscribe({
         next: (reseller) => {
           this.reseller = reseller;
-          console.log(reseller);
+          // console.log(reseller);
         },
         error: (err) => {
           console.error(

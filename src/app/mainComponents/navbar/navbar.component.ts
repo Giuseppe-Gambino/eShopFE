@@ -43,7 +43,6 @@ export class NavbarComponent implements OnInit {
         if (user.roles.includes(Role.ROLE_ADMIN)) {
           this.isAdmin = true;
         }
-        console.log(user);
       },
       error: (err) => {
         console.log(err);

@@ -48,7 +48,6 @@ export class ResellerOrderService {
     let params = new HttpParams()
       .set('id', id.toString())
       .set('status', status);
-    console.log(params);
 
     return this.http.put<iResellerOrder>(
       `${this.resellerUrl}/updateStatus`,

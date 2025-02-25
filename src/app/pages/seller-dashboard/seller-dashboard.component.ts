@@ -51,7 +51,6 @@ export class SellerDashboardComponent implements OnInit {
       .subscribe((res) => {
         this.resellerOrderArray = res.content as iResellerOrder[];
         this.pageable = res;
-        console.log(res.content);
       });
 
     this.resellerSvc.getStatsResellerOrders().subscribe((res) => {

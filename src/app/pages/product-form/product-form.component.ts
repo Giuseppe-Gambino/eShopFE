@@ -40,7 +40,6 @@ export class ProductFormComponent implements OnInit {
   ngOnInit(): void {
     this.formService.clearForm();
     this.formPreview = this.formService.productForm;
-    console.log('Form:', this.formPreview.value);
 
     this.idIsPresent();
   }
@@ -136,8 +135,6 @@ export class ProductFormComponent implements OnInit {
     }
 
     images.push(...galleryImages);
-
-    console.log('Immagini da caricare:', images);
 
     this.productSvc.addImgs(productId, images).subscribe({
       next: (response) => {

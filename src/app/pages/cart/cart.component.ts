@@ -77,7 +77,7 @@ export class CartComponent implements OnInit {
 
     this.cartSvc.editQuantity(idCartItem, op).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
       },
       (error) => {
         console.error(`Error updating quantity for item ${idCartItem}:`, error);

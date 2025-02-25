@@ -31,7 +31,6 @@ export class GestioneUtentiComponent implements OnInit {
       next: (res) => {
         this.userArr = res.content as iUser[];
         this.pageable = res;
-        console.log(this.userArr);
       },
       error: (err) => {
         console.log(err);
@@ -49,7 +48,6 @@ export class GestioneUtentiComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.onload();
-          console.log(res);
         },
         error: (err) => {
           console.log(err);

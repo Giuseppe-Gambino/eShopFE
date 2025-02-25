@@ -48,7 +48,6 @@ export class ShopPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.prodSvc.category$.subscribe((res) => {
       this.category = res;
-      console.log(this.category);
     });
 
     this.onLoad();

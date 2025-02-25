@@ -54,7 +54,6 @@ export class TicketService {
 
   editTicket(id: number, status: string): Observable<iTicket> {
     let params = new HttpParams().set('statusTicket', status);
-    console.log(params);
 
     return this.http.put<iTicket>(
       `${this.editTicketUrl}/${id}`,

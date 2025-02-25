@@ -50,7 +50,6 @@ export class MyProfileComponent implements OnInit {
       this.user = r;
       this.avatar = this.user.avatar || 'avatar.png';
       this.initForm();
-      console.log(this.user);
     });
   }
 
@@ -65,7 +64,7 @@ export class MyProfileComponent implements OnInit {
   onSubmit(): void {
     if (this.profileForm.valid) {
       this.userSvc.updateUser(this.profileForm.value).subscribe((response) => {
-        console.log('User aggiornato con successo!', response);
+        // console.log('User aggiornato con successo!', response);
       });
     }
     setTimeout(() => {
@@ -84,7 +83,7 @@ export class MyProfileComponent implements OnInit {
       return;
     }
     this.userSvc.updateAvatar(this.selectedFile).subscribe((response) => {
-      console.log('Avatar aggiornato con successo!', response);
+      // console.log('Avatar aggiornato con successo!', response);
     });
     setTimeout(() => {
       this.reloadUser();
@@ -92,15 +91,13 @@ export class MyProfileComponent implements OnInit {
   }
 
   createTicket() {
-    console.log(this.formTicket.value);
-
     const ticketDTO: iTicketDTO = {
       object: this.formTicket.value.object,
       description: this.formTicket.value.description,
     };
     this.ticketSvc.createTicket(ticketDTO).subscribe({
       next: (res) => {
-        console.log('Ticket creato con successo!');
+        // console.log('Ticket creato con successo!');
       },
       error: (err) => {
         console.error('Errore nella creazione del ticket', err);
