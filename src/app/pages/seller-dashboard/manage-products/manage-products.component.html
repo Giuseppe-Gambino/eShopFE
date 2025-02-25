@@ -61,7 +61,37 @@
             <p>{{ item.imageUrls.length }}</p>
           </td>
 
-          <td class="flex justify-center">
+          <td class="flex justify-center items-center gap-5">
+            <div>
+              <button
+                (click)="modal.showModal()"
+                class="btn btn-warning btn-sm"
+              >
+                X
+              </button>
+
+              <dialog #modal class="modal">
+                <div class="modal-box">
+                  <h3 class="text-lg font-bold">Hello!</h3>
+                  <p class="py-4 text-lg">
+                    Sei sicuro di voler eliminare il prodotto?
+                  </p>
+                  <div class="modal-action">
+                    <form method="dialog">
+                      <button
+                        (click)="deleteProduct(item.id)"
+                        class="btn btn-warning"
+                      >
+                        Elimina
+                      </button>
+                    </form>
+                    <form method="dialog">
+                      <button class="btn">Annulla</button>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+            </div>
             <button
               (click)="modificaProdotto(item.id)"
               class="btn btn-secondary"

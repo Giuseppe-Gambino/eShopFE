@@ -101,7 +101,7 @@
         >
           <div class="collapse-title text-lg font-medium">Dimensioni</div>
           <div class="collapse-content">
-            <p>Le dimensioni del prodotto sono 30x20x10 cm.</p>
+            <p>{{ product.dimensioni }}</p>
           </div>
         </div>
         <div
@@ -111,8 +111,7 @@
           <div class="collapse-title text-lg font-medium">Feature</div>
           <div class="collapse-content">
             <p>
-              Il prodotto include funzionalità avanzate come il controllo
-              tramite software e la connettività Wireless.
+              {{ product.feature }}
             </p>
           </div>
         </div>
@@ -123,8 +122,7 @@
           <div class="collapse-title text-lg font-medium">Dettagli</div>
           <div class="collapse-content">
             <p>
-              Realizzato con materiali di alta qualità, il prodotto è resistente
-              e durevole.
+              {{ product.dettagli }}
             </p>
           </div>
         </div>
@@ -161,7 +159,7 @@
       <div>
         <img
           src="{{ product.imageUrls[product.imageUrls.length - 2] }}"
-          class="overflow-hidden"
+          class="overflow-hidden w-full"
         />
       </div>
     </div>
@@ -175,7 +173,7 @@
       <div>
         <img
           src="{{ product.imageUrls[product.imageUrls.length - 1] }}"
-          class="overflow-hidden"
+          class="overflow-hidden w-full"
         />
       </div>
     </div>

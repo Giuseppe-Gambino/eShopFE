@@ -19,6 +19,9 @@ export class ProductFormService {
       general: this.fb.group({
         name: ['', Validators.required],
         description: ['', Validators.required],
+        dimensioni: ['', Validators.required],
+        feature: ['', Validators.required],
+        dettagli: ['', Validators.required],
       }),
 
       gallery: this.fb.group({
@@ -46,6 +49,9 @@ export class ProductFormService {
       general: {
         name: product.name,
         description: product.description,
+        dimensioni: product.dimensioni,
+        feature: product.feature,
+        dettagli: product.dettagli,
       },
 
       gallery: {

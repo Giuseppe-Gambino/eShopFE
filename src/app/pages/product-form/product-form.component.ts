@@ -2,7 +2,7 @@ import { ProductFormService } from './../../services/product-form.service';
 import { Component, OnInit } from '@angular/core';
 import { iProductRequest } from '../../interfaces/i-product-request';
 import { ProductsService } from '../../services/products.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { iProduct } from '../../interfaces/i-product';
 import { FormGroup } from '@angular/forms';
 import { ViewportScroller } from '@angular/common';
@@ -33,7 +33,8 @@ export class ProductFormComponent implements OnInit {
     public formService: ProductFormService,
     private productSvc: ProductsService,
     private route: ActivatedRoute,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -101,6 +102,9 @@ export class ProductFormComponent implements OnInit {
       titleTerza: formValue.hero.titleTerza,
       descriptionTerza: formValue.hero.descriptionTerza,
       price: formValue.priceCategory.price,
+      dimensioni: formValue.general.dimensioni,
+      feature: formValue.general.feature,
+      dettagli: formValue.general.dettagli,
     };
 
     const categoryId = formValue.priceCategory.categoryId;
@@ -140,7 +144,7 @@ export class ProductFormComponent implements OnInit {
         setTimeout(() => {
           this.feedback(true, 'Immagini caricate con successo!');
         }, 1000);
-
+        this.backToDashboard();
         console.log('Immagini caricate:', response);
       },
       error: (err) => {
@@ -161,11 +165,15 @@ export class ProductFormComponent implements OnInit {
       titleTerza: formValue.hero.titleTerza,
       descriptionTerza: formValue.hero.descriptionTerza,
       price: formValue.priceCategory.price,
+      dimensioni: formValue.general.dimensioni,
+      feature: formValue.general.feature,
+      dettagli: formValue.general.dettagli,
     };
 
     this.productSvc.updateProductInfo(this.productId, dto).subscribe({
       next: (product) => {
         this.feedback(true, 'Prodotto aggiornato con successo!');
+        this.backToDashboard();
         console.log('Prodotto aggiornato:', product);
       },
       error: (err) => {
@@ -188,6 +196,12 @@ export class ProductFormComponent implements OnInit {
     setTimeout(() => {
       this.popUp = false;
       this.feedbackMessage = '';
+    }, 2500);
+  }
+
+  backToDashboard() {
+    setTimeout(() => {
+      this.router.navigate(['/sellerDashboard/manageProduct']);
     }, 2500);
   }
 }

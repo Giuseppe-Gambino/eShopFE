@@ -4,6 +4,9 @@ export interface iProduct {
   id: number;
   name: string;
   description: string;
+  dimensioni: string;
+  feature: string;
+  dettagli: string;
   titleSeconda: string;
   descriptionSeconda: string;
   titleTerza: string;

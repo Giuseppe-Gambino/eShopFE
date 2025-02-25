@@ -60,4 +60,15 @@ export class ManageProductsComponent implements OnInit {
   modificaProdotto(id: number) {
     this.router.navigate([`productForm/${id}`]);
   }
+
+  deleteProduct(id: number) {
+    this.productSvc.deleteProduct(id).subscribe({
+      next: (res) => {
+        this.onload();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }
