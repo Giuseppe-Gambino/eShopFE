@@ -13,9 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './auth/token.interceptor';
 import { NavbarComponent } from './mainComponents/navbar/navbar.component';
 import { FooterComponent } from './mainComponents/footer/footer.component';
+import { AlertComponent } from './mainComponents/alert/alert.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, FooterComponent],
+  declarations: [AppComponent, NavbarComponent, FooterComponent, AlertComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

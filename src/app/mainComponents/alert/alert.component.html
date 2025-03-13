@@ -1,0 +1,22 @@
+<div
+  role="alert"
+  *ngIf="show"
+  class="alert text-base-200 absolute top-4 z-40 container alert-success"
+  ngClass="{{ statusColor }}"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="h-6 w-6 shrink-0 stroke-current"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      [attr.d]="iconSelect"
+    ></path>
+  </svg>
+
+  <span>{{ message }}</span>
+</div>
