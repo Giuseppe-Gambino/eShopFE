@@ -1,0 +1,53 @@
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and debug files
+*.log
+debug/
+
+# Version control
+.git/
+.gitignore
+
+# Environment and secrets
+.env*
+*.pem
+*.key
+*.crt
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Documentation
+*.md
+README*
+
+# Docker files
+Dockerfile*
+docker-compose*
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Angular cache
+.angular/cache/
+
+# Exclude specific files
+.editorconfig
+
+# Include source files
+!src/
+!public/

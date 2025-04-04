@@ -1,0 +1,14 @@
+services:
+  e-shop-fe:
+    build:
+      context: .
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    init: true
+    depends_on: []
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
