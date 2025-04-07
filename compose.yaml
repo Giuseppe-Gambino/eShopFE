@@ -1,5 +1,6 @@
 services:
-  e-shop-fe:
+  eshopfe:
+    image: eshopfe
     build:
       context: .
     ports:
