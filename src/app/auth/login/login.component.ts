@@ -39,8 +39,10 @@ export class LoginComponent implements OnInit {
       const formData: iLoginRequest = this.form.value;
       this.authSvc.login(formData).subscribe(
         (data) => {
-          this.router.navigate(['/']);
-          alert('Login effettuato correttamente');
+          location.reload();
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
           this.cartSvc.initCart();
         },
         (error) => {
